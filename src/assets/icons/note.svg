@@ -1,0 +1,16 @@
+<svg id="Sounds" xmlns="http://www.w3.org/2000/svg" width="26" height="25.718" viewBox="0 0 26 25.718">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #b5b2b1;
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <rect id="Rounded_Rectangle_8" data-name="Rounded Rectangle 8" class="cls-1" x="12.719" y="0.437" width="2" height="22" rx="1" ry="1"/>
+  <path class="cls-2" d="M43.33,173.572c2.392-1.381,5.226-.949,6.33.964s0.061,4.583-2.33,5.964-5.226.949-6.33-.964S40.939,174.953,43.33,173.572Z" transform="translate(-36.281 -155.563)"/>
+  <path class="cls-2" d="M51,156c0,6.063,7,7.358,7,12s-0.634,4.975-1,5,0.383-4.028-2-6a44.368,44.368,0,0,0-4-3v-8Z" transform="translate(-36.281 -155.563)"/>
+</svg>

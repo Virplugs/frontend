@@ -1,0 +1,40 @@
+[
+    {
+        "id": "cpp",
+        "label": "C++ Class",
+        "default_basename": "ExampleClass",
+        "basename_label": "Class Name",
+        "description": "An empty C++ class (.cpp) with a companion header (.hpp) file.",
+        "template": [
+            {
+                "filename": "{basename_lc}.hpp",
+                "template": "#pragma once\n\nclass {basename} {\n\tpublic:\n\t{basename}();\n}\n"
+            },
+            {
+                "filename": "{basename_lc}.cpp",
+                "template": "#include \"{basename_lc}.hpp\"\n\n{basename}::{basename}() {\n\t\n}\n"
+
+            }
+        ]
+    },
+    {
+        "id": "hpp",
+        "label": "C++ Header File",
+        "default_basename": "class.hpp",
+        "description": "A header for an empty class definition",
+        "template": "#pragma once\n\n"
+    },
+    {
+        "id": "js",
+        "label": "JavaScript Source File",
+        "default_basename": "module.js",
+        "description": "A blank JavaScript module"
+    },
+    {
+        "id": "route",
+        "label": "Routing Scheme",
+        "default_basename": "flow.route",
+        "description": "A blank routing scheme",
+        "template": "{\"id\":\"virplugs-route@1.0.0\",\"nodes\":{}}"
+    }
+]

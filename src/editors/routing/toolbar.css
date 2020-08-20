@@ -1,0 +1,114 @@
+.toolbar {
+	height: 32px;
+	display: flex;
+	padding: 2px;
+	z-index: 10;
+	flex-basis: 32px;
+	position: fixed;
+	margin: 4px;
+	width: calc(100% - 8px);
+	border-bottom: none;
+	box-sizing: border-box;
+	background: #2d2a2f;
+	box-shadow: 0 0 13px 10px #181619;
+	cursor: default;
+	user-select: none;
+}
+
+.toolbar * {
+	cursor: default;
+	user-select: none;
+}
+
+.toolbar .button svg {
+	width: 20px;
+	height: 20px;
+}
+
+.toolbar.right {
+	margin-left: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.toolbar .button {
+	margin: 0 2px;
+	height: 28px;
+	display: flex;
+	flex: 0 0;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+	padding: 0 4px;
+}
+
+.toolbar .button.disabled svg {
+	opacity: 0.5;
+}
+
+.toolbar .button:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.toolbar .button:active {
+	background: rgba(255, 255, 255, 0.15);
+}
+
+.toolbar .button.disabled:hover,
+.toolbar .button.disabled:active {
+	background: none;
+}
+
+.toolbar .button span {
+	margin-left: 6px;
+	line-height: 28px;
+}
+
+.toolbar .button:active svg,
+.toolbar .button:active i,
+.toolbar .button:active span {
+	position: relative;
+	top: 1px;
+}
+
+.toolbar .button.disabled:active svg,
+.toolbar .button:active i,
+.toolbar .button.disabled:active span {
+	position: relative;
+	top: 0;
+}
+
+.toolbar .separator {
+	display: inline-block;
+	width: 1px;
+	height: 22px;
+	background: rgba(255, 255, 255, 0.15);
+	margin: 0 10px;
+	position: relative;
+	top: 3px;
+}
+
+.toolbar select option {
+	background-color: white;
+	color: black;
+}
+
+.toolbar select {
+	margin: 0 4px;
+	border: none;
+	background: rgba(0, 0, 0, 0.6);
+	color: white;
+	padding: 0 4px;
+	position: relative;
+	height: 28px;
+}
+
+.toolbar select:focus,
+.toolbar select option:hover {
+	outline: none;
+}
+
+.toolbar .space {
+	flex: 3;
+}
