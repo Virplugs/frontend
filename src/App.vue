@@ -40,9 +40,11 @@
 
 <script>
 
-const path = nodeRequire('path');
-const remote = nodeRequire('electron').remote;
+const path = __non_webpack_require__('path');
+const remote = __non_webpack_require__('electron').remote;
 const { dialog } = remote;
+
+import * as ae from '@/audioengine.js';
 
 const process = remote.require('process');
 
@@ -55,6 +57,9 @@ import VirplugsHeaderSectionItem from "@/components/header/HeaderSectionItem.vue
 
 import VirplugsDialogWindow from "@/components/DialogWindow.vue";
 import Preferences from "@/dialogs/preferences/Preferences.vue";
+
+import * as preferences from '@/preferences.js';
+
 export default {
 	name: "App",
 	components: {
@@ -69,7 +74,16 @@ export default {
 
 	},
 	data: function () {
-		var tabs = [];
+		var tabs = [
+			{
+				component: VirplugsProject,
+				props: {
+					title: "Project 1",
+					key: "Project 1",
+					msg: "project 1"
+				}
+			}
+		];
 		return {
 			platform: process.platform,
 			currentTab: tabs[0],
@@ -78,40 +92,58 @@ export default {
 		};
 	},
 	mounted: function () {
+		ae.init();
+
+		let deviceNameIn, deviceNameOut;
+		switch (preferences.get('audio_api')) {
+			case 'asio':
+				deviceNameIn = preferences.get('audio_asio_device');
+				deviceNameOut = preferences.get('audio_asio_device');
+				break;
+			case 'wasapi':
+				deviceNameIn = preferences.get('audio_wasapi_inputdevice');
+				deviceNameOut = preferences.get('audio_wasapi_outputdevice');
+				break;
+			case 'ds':
+				deviceNameIn = preferences.get('audio_ds_inputdevice');
+				deviceNameOut = preferences.get('audio_ds_outputdevice');
+				break;
+			default:
+				return;
+		}
+
+		let api = preferences.get('audio_api');
+		let sampleRate = preferences.get('audio_samplerate');
+		let bufferSize = preferences.get('audio_buffersize');
+
+		ae.start(api, deviceNameIn, deviceNameOut, sampleRate, bufferSize);
+
 		this.$nextTick(function () {
 			setTimeout(() => {
 				console.log("Virplugs ready");
 				window.win.show();
-				const ipc = nodeRequire('electron').ipcRenderer;
+				const ipc = __non_webpack_require__('electron').ipcRenderer;
 				ipc.send('ready');
 				window.win.focus();
 			}, 500);
 		});
 
 		this.tabs.push({
-					component: VirplugsProject,
-					props: {
-						title: "Project 1",
-						key: "Project 1",
-						msg: "project 1"
-					}
-				});
-				this.tabs.push({
-					component: VirplugsProject,
-					props: {
-						title: "Project 2",
-						key: "Project 2",
-						msg: "project 2"
-					}
-				});
-				this.tabs.push({
-					component: VirplugsProject,
-					props: {
-						title: "Project 3",
-						key: "Project 3",
-						msg: "project 3"
-					}
-				});
+			component: VirplugsProject,
+			props: {
+				title: "Project 2",
+				key: "Project 2",
+				msg: "project 2"
+			}
+		});
+		this.tabs.push({
+			component: VirplugsProject,
+			props: {
+				title: "Project 3",
+				key: "Project 3",
+				msg: "project 3"
+			}
+		});
 	},
 	updated() {
 	},

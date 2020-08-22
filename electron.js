@@ -50,8 +50,10 @@ function createWindow () {
 		webPreferences: {
 			webSecurity: false,
 			nodeIntegration: true,
+			nodeIntegrationInWorker: true,
 			enableRemoteModule: true,
-			nativeWindowOpen: true
+			nativeWindowOpen: true,
+			sandbox: false
 		}
 	});
 

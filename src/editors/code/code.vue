@@ -3,7 +3,7 @@
 </template>
 
 <script>
-const fs = nodeRequire('fs');
+const fs = __non_webpack_require__('fs');
 import * as monaco from 'monaco-editor';
 import { palette } from '@/styles.js';
 

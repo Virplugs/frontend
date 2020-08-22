@@ -21,7 +21,7 @@
 			</div>
 
 			<div class="page">
-				<VNode :node="currentSlot" />
+				<slot />
 			</div>
 		</div>
 	</div>
@@ -30,23 +30,9 @@
 <script>
 import Vue from 'vue';
 
-const VNode = Vue.component("vnode", {
-	functional: true,
-	render(h, context){
-		return context.props.node;
-	}
-});
-
 export default {
 	name: 'VirplugsPageChooser',
-	components: {
-		VNode
-	},
 	props: {
-		tabs: {
-			type: Array,
-			default: () => []
-		},
 		currentTab: {
 			type: Object,
 			default: () => null
@@ -70,6 +56,12 @@ export default {
 	},
 	computed: {
 	},
+	watch: {
+		currentSlot: function(newSlot, oldSlot) {
+				if (oldSlot) oldSlot.elm.style.display = "none";
+				if (newSlot) newSlot.elm.style.display = "";
+		}
+	},
 	methods: {
 		title(slot) {
 			console.dir(slot);
@@ -82,21 +74,6 @@ export default {
 			// this.$nextTick(() => {
 			// 	console.log("switching to ", this.$refs.editor[0]._props.filename);
 			// });
-		},
-
-		closeTab(tab) {
-			const index = this.tabs.indexOf(tab);
-			//this.tabs = this.tabs.filter(t => t !== tab);
-			this.$emit('update:tabs', this.tabs.filter(t => t !== tab));
-
-			// If we weren't collapsed, select another tab
-			this.currentTab && this.$nextTick(() => {
-				if (this.tabs.includes(this.prevTab)) {
-					this.selectTab(this.prevTab);
-				} else {
-					this.selectTab(this.tabs[Math.min(index, this.tabs.length - 1)]);
-				}
-			});
 		},
 
 		getCurrentTab() {
@@ -114,6 +91,11 @@ export default {
 	mounted: function() {
 		this.$nextTick(()=>{
 			this.currentSlot = this.$slots.default[0];
+			for (let slot of this.$slots.default) {
+				if (slot !== this.currentSlot) {
+					slot.elm.style.display = "none";
+				}
+			}
 		});
 		// console.dir(this.currentSlot);
 
@@ -136,6 +118,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	position: relative;
+	min-height: 0;
 	flex: 1;
 }
 
@@ -189,7 +172,7 @@ export default {
 	margin-top: 32px;
 	display: flex;
 
-	.page {
+	> .page {
 		flex: 1;
 		overflow: hidden;
 		display: flex;

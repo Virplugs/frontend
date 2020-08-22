@@ -157,8 +157,8 @@ export class ParameterRouteComponent extends RouteComponent {
 }
 
 export function getParametersFromProjectFile() {
-	const fs = nodeRequire('fs');
-	const path = nodeRequire('path');
+	const fs = __non_webpack_require__('fs');
+	const path = __non_webpack_require__('path');
 	let data = JSON.parse(fs.readFileSync(path.join(project.location, project.filename),
 		{ encoding: 'utf8' }));
 	return data.parameters;

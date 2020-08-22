@@ -4,5 +4,6 @@ module.exports = {
 		"indentation": ["tab", {
 			"severity": "warning"
 		}],
+		"no-descending-specificity": null
 	}
 };

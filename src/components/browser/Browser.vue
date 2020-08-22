@@ -42,25 +42,19 @@
 
 						<section>
 							<h2>Places</h2>
-							<div class="item">
-								<img src="@/assets/icons/note.svg">
-								<span>Type of Sounds</span>
+							<div
+								class="item"
+								v-for="place in places"
+								:key="place.path"
+								@click="currentItem = place"
+								:class="{selected: currentItem === place}"
+							>
+								<img src="@/assets/icons/folder.svg">
+								<span>{{ place.name }}</span>
 							</div>
-							<div class="item">
-								<img src="@/assets/icons/note.svg">
-								<span>Drums</span>
-							</div>
-							<div class="item">
-								<img src="@/assets/icons/note.svg">
-								<span>Instruments</span>
-							</div>
-							<div class="item">
-								<img src="@/assets/icons/note.svg">
-								<span>Audio Effects</span>
-							</div>
-							<div class="item">
-								<img src="@/assets/icons/note.svg">
-								<span>Plug-ins</span>
+							<div class="item add" @click="addFolder">
+								<img src="@/assets/icons/add.svg">
+								<span>Add Folder...</span>
 							</div>
 						</section>
 
@@ -94,69 +88,12 @@
 						<input placeholder="Search for anything">
 					</div>
 
-					<h3>Categories</h3>
-					<section>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Type of Sounds</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Drums</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Instruments</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Audio Effects</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Plug-ins</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Type of Sounds</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Drums</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Instruments</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Audio Effects</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Plug-ins</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Type of Sounds</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Drums</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Instruments</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Audio Effects</span>
-						</div>
-						<div class="item">
-							<img src="@/assets/icons/triangle.svg">
-							<span>Plug-ins</span>
-						</div>
-					</section>
+					<VirplugsFileTree
+						v-for="item of places"
+						v-show="currentItem === item"
+						:key="item.path"
+						:path="item.path"
+					/>
 				</aside>
 			</rs-panes>
 		</div>
@@ -164,15 +101,47 @@
 </template>
 
 <script>
-import ResSplitPane from 'vue-resize-split-pane';
+import ResSplitPane from "vue-resize-split-pane";
+import VirplugsFileTree from "@/components/browser/FileTree.vue";
+import * as preferences from "@/preferences.js";
 
 export default {
 	components: {
-		'rs-panes': ResSplitPane,
+		"rs-panes": ResSplitPane,
+		VirplugsFileTree
 	},
-	props: {
+	props: {},
+	data() {
+		return {
+			places: preferences.get("places") || [],
+			currentItem: null,
+		};
+	},
+	methods: {
+		addFolder() {
+			const { dialog } = __non_webpack_require__("electron").remote;
+			const path = __non_webpack_require__("path");
 
-	}
+			dialog.showOpenDialog(window.win, {
+					properties: ["openDirectory"],
+				})
+				.then((result) => {
+					if (result.canceled) return;
+					for (let folder of result.filePaths) {
+						if (this.places.some(p => p.path === folder)) continue;
+						this.places.push({
+							path: folder,
+							name: path.basename(folder) || folder.replace(/(\\|\/)$/, "")
+						});
+					}
+					preferences.set('places', this.places);
+					preferences.commit();
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		},
+	},
 };
 </script>
 
@@ -183,6 +152,7 @@ export default {
 	height: 100%;
 	padding-top: 2px;
 	user-select: none;
+	box-sizing: border-box;
 
 	.panes {
 		flex: 1;
@@ -214,41 +184,57 @@ export default {
 		}
 
 		.sections {
-			overflow-y: scroll;
+			overflow-y: auto;
+			overflow-x: hidden;
 			height: 100%;
 		}
 
 		section {
 			color: #b5b2b1;
-			padding: 0 24px;
-			padding-right: 12px;
+			//padding: 0 24px;
+			//padding-right: 12px;
 			margin-bottom: 24px;
 
 			h2 {
 				font-weight: normal;
 				font-size: 12px;
 				text-transform: uppercase;
-				margin: 0;
-				padding: 0;
+				margin: 0 24px;
 				margin-bottom: 10px;
-				padding-bottom: 10px;
 				border-bottom: 1px solid #b5b2b1;
+				margin-right: 12px;
+				padding-bottom: 8px;
 			}
 
 			.item {
 				line-height: 27px;
 				white-space: nowrap;
+				padding: 0 24px;
+				width: 100%;
 
 				img {
-					transform: scale(0.75);
+					width: 22px;
+					height: 22px;
 					vertical-align: middle;
-					margin-right: 6px;
+					margin-right: 8px;
 					position: relative;
 					top: -1px;
 				}
 
 				span {
 					font-size: 15px;
+				}
+
+				&.add {
+					cursor: pointer;
+
+					span {
+						text-decoration: underline;
+					}
+				}
+
+				&.selected {
+					background: #202020;
 				}
 			}
 		}
@@ -277,40 +263,6 @@ export default {
 
 				&:focus {
 					outline: none;
-				}
-			}
-		}
-
-		h3 {
-			font-weight: normal;
-			font-size: 12px;
-			text-transform: uppercase;
-			border-bottom: 1px solid #b5b2b1;
-			margin: 0 24px;
-			margin-top: 18px;
-			margin-bottom: 0;
-			padding-bottom: 10px;
-		}
-
-		section {
-			overflow-y: scroll;
-			height: 100%;
-			color: #b5b2b1;
-			padding: 0 24px;
-			padding-top: 10px;
-
-			.item {
-				line-height: 27px;
-				white-space: nowrap;
-
-				img {
-					transform: scale(0.75);
-					vertical-align: middle;
-					margin-right: 6px;
-				}
-
-				span {
-					font-size: 15px;
 				}
 			}
 		}

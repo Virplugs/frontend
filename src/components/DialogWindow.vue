@@ -6,7 +6,7 @@
 
 <script>
 import { palette } from '@/styles.js';
-const remote = nodeRequire('electron').remote;
+const remote = __non_webpack_require__('electron').remote;
 
 function copyStyles(sourceDoc, targetDoc) {
 	Array.from(sourceDoc.styleSheets).forEach(styleSheet => {

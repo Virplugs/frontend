@@ -2,7 +2,7 @@ button {
 	font-family: Ubuntu, sans-serif;
 	display: inline-block;
 	padding: 8px 16px;
-	background: #353535;
+	background: rgba(0, 0, 0, 0.33333);
 	color: #b5b2b1;
 	box-sizing: border-box;
 	border: none;
@@ -13,12 +13,20 @@ button {
 	}
 
 	&:hover {
-		background: #494949;
+		background: #3d3d3d;
 	}
 
 	&:active {
+		background: #474747;
+	}
+
+	&.checked {
 		color: #202020;
 		background: #ffc907;
+
+		img {
+			filter: invert(100%) brightness(0.5);
+		}
 	}
 
 	&:focus {
@@ -31,32 +39,83 @@ input {
 	font-family: Ubuntu, sans-serif;
 }
 
+select {
+	background: rgba(0, 0, 0, 0.4);
+	color: #b5b2b1;
+	border: none;
+	border-radius: 3px;
+	padding: 3px;
+	padding-right: 6px;
+	font-size: 0.9em;
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+	}
+
+	option {
+		color: #b5b2b1;
+		background-color: #202020;
+	}
+}
+
 *::-webkit-scrollbar {
 	width: 12px;
 	height: 12px;
 }
 
 *::-webkit-scrollbar-track {
-	margin: 2px;
+	margin: 4px;
+	background: rgba(0, 0, 0, 0);
 }
 
 *::-webkit-scrollbar-thumb {
-	background: rgba(0, 0, 0, 0);
-	border-radius: 2px;
+	background: rgba(0, 0, 0, 0.2);
 	border-right: 2px solid rgba(0, 0, 0, 0);
+	border-left: 2px solid rgba(0, 0, 0, 0);
+	border-radius: 4px;
 	background-clip: content-box;
 }
 
 *:hover::-webkit-scrollbar-thumb {
 	background: rgba(0, 0, 0, 0.45);
 	background-clip: content-box;
+	width: 12px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
 	background: rgba(0, 0, 0, 0.55);
 	background-clip: content-box;
+	width: 12px;
 }
 
 ::-webkit-scrollbar-corner {
 	background: rgba(0, 0, 0, 0);
+}
+
+input[type="range"] {
+	margin: 0;
+	-webkit-appearance: none;
+	position: relative;
+	overflow: hidden;
+	border: none;
+	border-radius: 3px;
+	background: transparent;
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+	}
+
+	&::-webkit-slider-runnable-track {
+		background: rgba(0, 0, 0, 0.33333);
+	}
+
+	&::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 0; /* 1 */
+		height: 22px;
+		background: rgba(0, 0, 0, 0.2);
+		box-shadow: -100vw 0 0 100vw #ffc9075e;
+	}
 }

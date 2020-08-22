@@ -41,7 +41,7 @@
 </template>
 
 <script>
-const fs = nodeRequire('fs');
+const fs = __non_webpack_require__('fs');
 
 import Rete from 'rete';
 import VueRenderPlugin from 'rete-vue-render-plugin';
@@ -58,7 +58,7 @@ import VirplugsToolbar from "../../components/Toolbar/Toolbar.vue";
 import VirplugsToolbarButton from "../../components//Toolbar/ToolbarButton.vue";
 import VirplugsToolbarSeparator from "../../components//Toolbar/ToolbarSeparator.vue";
 
-const remote = nodeRequire('electron').remote;
+const remote = __non_webpack_require__('electron').remote;
 const { Menu, MenuItem } = remote;
 
 import * as components from './components';

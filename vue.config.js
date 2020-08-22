@@ -17,7 +17,23 @@ module.exports = {
 			symlinks: false
 		},
 		externals: [
-		]
+		],
+		module: {
+			rules: [
+				{
+					test: /\.worker\.js$/i,
+					use: [
+						{
+							loader: 'comlink-loader',
+							options: {
+								singleton: true
+							}
+						}
+					]
+				},
+			]
+		},
+		devtool: 'source-map'
 	},
 	publicPath: process.env.NODE_ENV === 'production'
 		? './'
