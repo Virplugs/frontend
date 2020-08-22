@@ -34,8 +34,8 @@ export default {
 			width: 0,
 			playhead: 0.5,
 			fileInfo: {},
-			lineWidth: 2,
-			margin: 2,
+			lineWidth: 2 * 0.75,
+			margin: 2 * 0.75,
 			waveformData: [],
 			waveformWindow: 0,
 		};
@@ -116,17 +116,14 @@ export default {
 		},
 		getOptimalWindow() {
 			function nearestPowerOf2(n) {
-				return 1 << (32 - Math.clz32(n));
+				return 1 << (31 - Math.clz32(n));
 			}
 
 			const canvas = this.$refs.canvas;
 			const resolution = Math.floor(
 				canvas.width / (this.lineWidth + this.margin)
 			);
-			return Math.max(
-				128,
-				nearestPowerOf2(this.fileInfo.frames / resolution)
-			);
+			return nearestPowerOf2(this.fileInfo.frames / resolution);
 		},
 		async openFile(file) {
 			try {

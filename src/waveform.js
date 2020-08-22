@@ -7,27 +7,37 @@ const internalCache = {};
 
 async function process(file, window, cache = {}) {
 	//console.log("window: " + window);
+
+	let waveformData;
+
 	if (!cache[window]) {
-		await createCacheResolution(file, window, cache);
+		waveformData = await ae.readAudioFileWaveform(file, window);
+		if (window >= 128) {
+			cache[window] = waveformData;
+			fs.writeFile(file + ".vpm", JSON.stringify(cache), () => { });
+			internalCache[file] = cache;
+		}
+	} else {
+		waveformData = cache[window];
 	}
-	internalCache[file] = cache;
+
 	return {
 		file,
-		waveformData: cache[window],
+		waveformData,
 		waveformWindow: window
 	};
-}
-
-async function createCacheResolution(file, window, cache) {
-	//console.log("create");
-	cache[window] = await ae.readAudioFileWaveform(file, window);
-	fs.writeFile(file + ".vpm", JSON.stringify(cache), () => { });
 }
 
 export function requestWaveform(file, window) {
 	//console.log('requestWaveform', file, window)
 	return new Promise(async function (resolve) {
 		//let info = await ae.readAudioFileInfo(file);
+
+		if (window < 1) return resolve ({
+			file,
+			waveformData: null,
+			waveformWindow: 0
+		});
 
 		if (internalCache[file]) {
 			resolve(await process(file, window, internalCache[file]));
