@@ -71,7 +71,7 @@
 </template>
 
 <script>
-const fs = nodeRequire('fs');
+const fs = __non_webpack_require__('fs');
 
 import VirplugsPageChooser from '@/components/PageChooser.vue';
 import VirplugsEditorProjectParameters from './parameters.vue';

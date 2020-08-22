@@ -69,7 +69,7 @@
 
 <script>
 
-const remote = nodeRequire('electron').remote;
+const remote = __non_webpack_require__('electron').remote;
 const process = remote.require('process');
 
 import * as feather from "feather-icons";

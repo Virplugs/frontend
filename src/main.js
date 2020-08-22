@@ -7,7 +7,7 @@ import '@/menu.js';
 
 console.log("Loading Virplugs...");
 
-window.win = window.nodeRequire("electron").remote.getCurrentWindow();
+window.win = __non_webpack_require__("electron").remote.getCurrentWindow();
 
 Vue.use(VueObserveVisibility);
 

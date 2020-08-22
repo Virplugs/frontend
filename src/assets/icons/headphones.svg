@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #b5b2b1;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="headphones_icon" data-name="headphones icon" class="cls-1" d="M310.5,934a8.283,8.283,0,0,0-8.5,8.051v6.261A2.757,2.757,0,0,0,304.832,951h2.832V943.84h-3.776v-1.789a6.617,6.617,0,0,1,13.215,0v1.789h-3.776V951h2.832a2.757,2.757,0,0,0,2.832-2.684v-6.261A8.283,8.283,0,0,0,310.5,934Z" transform="translate(-302.5 -934.5)"/>
+</svg>

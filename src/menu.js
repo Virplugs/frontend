@@ -1,4 +1,4 @@
-const remote = nodeRequire('electron').remote;
+const remote = __non_webpack_require__('electron').remote;
 const { app, Menu } = remote;
 const process = remote.require('process');
 
@@ -165,7 +165,7 @@ export const template = [
 			{
 				label: 'Learn More',
 				click: async () => {
-					const { shell } = window.require('electron');
+					const { shell } = __non_webpack_require__('electron');
 					await shell.openExternal('https://electronjs.org');
 				}
 			}
