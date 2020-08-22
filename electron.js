@@ -47,7 +47,6 @@ function createWindow () {
 		resizable: true,
 		hasShadow: true,
 		show: !enableSplashScreen,
-		vibrancy: 'dark',
 		webPreferences: {
 			webSecurity: false,
 			nodeIntegration: true,
@@ -65,7 +64,6 @@ function createWindow () {
 			parent: win,
 			frame: true,
 			titleBarStyle: 'default',
-			vibrancy: 'dark',
 			backgroundColor: '#2D2A2F',
 			show: false,
 			title: frameData.title
