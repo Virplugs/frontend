@@ -79,6 +79,28 @@
 							</div>
 						</label>
 					</template>
+					<template v-if="preferences.audio_api == 'core'">
+						<label>
+							Audio Input Device
+							<div>
+								<select v-model="preferences.audio_core_inputdevice" @change="resetAudioEngine">
+									<option v-for="dev in audioDeviceInfo.core.devices.filter(d=>d.inputChannels > 0)" :key="dev.name" :value="dev.name">
+										{{ dev.name }}
+									</option>
+								</select>
+							</div>
+						</label>
+						<label>
+							Audio Output Device
+							<div>
+								<select v-model="preferences.audio_core_outputdevice" @change="resetAudioEngine">
+									<option v-for="dev in audioDeviceInfo.core.devices.filter(d=>d.outputChannels > 0)" :key="dev.name" :value="dev.name">
+										{{ dev.name }}
+									</option>
+								</select>
+							</div>
+						</label>
+					</template>
 				</fieldset>
 
 				<fieldset v-if="currentOutputDevice">
@@ -205,6 +227,10 @@ export default {
 				return this.audioDeviceInfo.ds.devices.find(
 					d => d.name === this.preferences.audio_wasapi_inputdevice
 				);
+			} else if (this.preferences.audio_api === 'core') {
+				return this.audioDeviceInfo.core.devices.find(
+					d => d.name === this.preferences.audio_core_inputdevice
+				);
 			} else {
 				return null;
 			}
@@ -221,6 +247,10 @@ export default {
 			} else if (this.preferences.audio_api === 'ds') {
 				return this.audioDeviceInfo.ds.devices.find(
 					d => d.name === this.preferences.audio_ds_outputdevice
+				);
+			} else if (this.preferences.audio_api === 'core') {
+				return this.audioDeviceInfo.core.devices.find(
+					d => d.name === this.preferences.audio_core_outputdevice
 				);
 			} else {
 				return null;

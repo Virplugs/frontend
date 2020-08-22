@@ -7,7 +7,6 @@ const prefFile = path.join(app.getPath('userData'), 'preferences.json');
 console.log("Preferences file:", prefFile);
 
 let preferences = {
-	audio_api: 'ds'
 };
 
 if (fs.existsSync(prefFile)) {
