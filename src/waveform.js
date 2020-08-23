@@ -2,12 +2,12 @@ import * as ae from "@/audioengine.js";
 
 const fs = __non_webpack_require__("fs");
 const path = __non_webpack_require__("path");
-const process = __non_webpack_require__("process");
+const process = __non_webpack_require__('process');
 
 const internalCache = {};
 
 function getCacheFilename(file) {
-	return path.join(path.dirname(file), `_${path.basename(file)}.vpm`);
+	return path.join(path.dirname(file), `._${path.basename(file)}.vpm`);
 }
 
 async function processWaveform(file, window, cache = {}) {
@@ -20,9 +20,9 @@ async function processWaveform(file, window, cache = {}) {
 		if (window >= 128) {
 			cache[window] = waveformData;
 			fs.writeFile(getCacheFilename(file), JSON.stringify(cache), () => { });
-			if (process.os === 'win32') {
+			if (process.platform === 'win32') {
 				const fswin = __non_webpack_require__("fswin");
-				fswin.setAttributes(getCacheFilename(file), { IS_HIDDEN: true });
+				fswin.setAttributes(getCacheFilename(file), { IS_HIDDEN: true }, () => { });
 			}
 			internalCache[file] = cache;
 		}

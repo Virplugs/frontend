@@ -78,6 +78,9 @@ export default {
 					let y2 = Math.floor(
 						canvas.height / 2 + (canvas.height / 2) * -valLower
 					);
+					if (y === y2) {
+						y -= .5;
+					}
 					ctx.fillRect(
 						i * (this.lineWidth + this.margin),
 						y,

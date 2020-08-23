@@ -17,12 +17,14 @@
 						class="expander"
 						src="@/assets/icons/triangle.svg"
 						@mousedown.stop="file.isExpanded = !file.isExpanded"
+						@dblclick.stop=""
 						:class="{expanded: file.isExpanded}"
 					>
 					<img class="icon" src="@/assets/icons/folder.svg">
 				</template>
 				<template v-else>
 					<img class="icon" v-if="file.type === 'audio'" src="@/assets/icons/wave.svg">
+					<img class="icon" v-else src="@/assets/icons/wave.svg">
 				</template>
 				<span>{{ file.name }}</span>
 			</div>
@@ -64,6 +66,9 @@ export default {
 	data() {
 		return {
 			files: [],
+			showableExtensions: {
+				'audio': ['wav', 'aiff', 'w64', 'caf', 'flac', 'ogg', 'aif', 'au']
+			}
 		};
 	},
 	methods: {
@@ -74,18 +79,28 @@ export default {
 			if (file.type === 'directory') {
 				file.isExpanded = !file.isExpanded
 			}
+		},
+		getFiletype(file) {
+			return Object.keys(this.showableExtensions).find(k =>
+					this.showableExtensions[k].some(ext =>
+						path.extname(file).toLowerCase() === `.${ext}`
+					)
+				);
 		}
 	},
 	mounted() {
 		console.log("Opened folder", this.path);
 		fs.readdir(this.path, { withFileTypes: true }, (err, files) => {
 			for (let file of files) {
-				this.files.push({
-					name: file.name,
-					path: path.join(this.path, file.name),
-					type: file.isDirectory() ? 'directory' : 'audio',
-					isExpanded: false
-				});
+				const type = file.isDirectory() ? 'directory' : this.getFiletype(file.name);
+				if (type) {
+					this.files.push({
+						name: file.name,
+						path: path.join(this.path, file.name),
+						type: type,
+						isExpanded: false
+					});
+				}
 			}
 		});
 	}

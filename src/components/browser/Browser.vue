@@ -46,7 +46,7 @@
 								class="item"
 								v-for="place in places"
 								:key="place.path"
-								@click="currentItem = place"
+								@mousedown="currentItem = place"
 								:class="{selected: currentItem === place}"
 							>
 								<img src="@/assets/icons/folder.svg">
