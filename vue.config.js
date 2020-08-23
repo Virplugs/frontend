@@ -33,7 +33,14 @@ module.exports = {
 				},
 			]
 		},
-		devtool: 'source-map'
+		devtool: 'source-map',
+		output: {
+			devtoolModuleFilenameTemplate: info => info.resourcePath.match(/^\.\/\S*?\.vue$/)
+				? `webpack-generated:///${info.resourcePath}?${info.hash}`
+				: `app:///${info.resourcePath.replace(/^\.\//, '')}`,
+
+			devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
+		}
 	},
 	publicPath: process.env.NODE_ENV === 'production'
 		? './'
