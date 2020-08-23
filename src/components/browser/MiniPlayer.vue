@@ -51,12 +51,14 @@ export default {
 				const canvas = this.$refs.canvas;
 				const ctx = canvas.getContext("2d");
 
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				if (this.waveformData === null) return;
+
 				const resolution = Math.floor(
 					canvas.width / (this.lineWidth + this.margin)
 				);
 				const height = canvas.height;
-
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 				const optimalWindow = this.getOptimalWindow();
 				if (this.waveformWindow != optimalWindow) {
@@ -94,7 +96,6 @@ export default {
 						"Scale is less than 1, which is not handy for waveform display :-)"
 					);
 				}
-				//console.log(i, "slice from " + Math.floor(i * scale) + " to " + Math.floor(i * scale + scale));
 				const slice = this.waveformData[0].slice(
 					Math.floor(i * scale),
 					Math.floor(i * scale + scale)
@@ -141,6 +142,9 @@ export default {
 				this.draw();
 			} catch (e) {
 				console.error(e);
+				this.waveformData = null;
+				this.waveformWindow = 0;
+				this.draw();
 			} finally {
 				this.isOpening = false;
 			}

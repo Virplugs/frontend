@@ -2,10 +2,15 @@ import * as ae from "@/audioengine.js";
 
 const fs = __non_webpack_require__("fs");
 const path = __non_webpack_require__("path");
+const process = __non_webpack_require__("process");
 
 const internalCache = {};
 
-async function process(file, window, cache = {}) {
+function getCacheFilename(file) {
+	return path.join(path.dirname(file), `_${path.basename(file)}.vpm`);
+}
+
+async function processWaveform(file, window, cache = {}) {
 	//console.log("window: " + window);
 
 	let waveformData;
@@ -14,7 +19,11 @@ async function process(file, window, cache = {}) {
 		waveformData = await ae.readAudioFileWaveform(file, window);
 		if (window >= 128) {
 			cache[window] = waveformData;
-			fs.writeFile(file + ".vpm", JSON.stringify(cache), () => { });
+			fs.writeFile(getCacheFilename(file), JSON.stringify(cache), () => { });
+			if (process.os === 'win32') {
+				const fswin = __non_webpack_require__("fswin");
+				fswin.setAttributes(getCacheFilename(file), { IS_HIDDEN: true });
+			}
 			internalCache[file] = cache;
 		}
 	} else {
@@ -40,13 +49,13 @@ export function requestWaveform(file, window) {
 		});
 
 		if (internalCache[file]) {
-			resolve(await process(file, window, internalCache[file]));
+			resolve(await processWaveform(file, window, internalCache[file]));
 		} else {
-			fs.stat(file + ".vpm", function (err, stats) {
-				fs.open(file + ".vpm", "r", (err, fd) => {
+			fs.stat(getCacheFilename(file), function (err, stats) {
+				fs.open(getCacheFilename(file), "r", (err, fd) => {
 					if (err) {
 						if (err.code === "ENOENT") {
-							resolve(process(file, window));
+							resolve(processWaveform(file, window));
 							return;
 						}
 						throw err;
@@ -55,9 +64,9 @@ export function requestWaveform(file, window) {
 					fs.read(fd, buffer, 0, buffer.length, null, async (error, bytesRead, buffer) => {
 						try {
 							const cache = JSON.parse(buffer);
-							resolve(await process(file, window, cache));
+							resolve(await processWaveform(file, window, cache));
 						} catch {
-							resolve(await process(file, window));
+							resolve(await processWaveform(file, window));
 						}
 					});
 				});
