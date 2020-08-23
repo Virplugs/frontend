@@ -8,7 +8,8 @@
   },
   "main": "dist/electron.js",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "check-licenses": "virplugs-check-licenses",
+    "postinstall": "electron-builder install-app-deps && npm-run-all check-licenses",
     "start:electron": "electron .",
     "start": "npm run build:electron && concurrently --success first --kill-others \"vue-cli-service serve --mode=development\" \"wait-on http://localhost:8123/ && electron . --enable-logging --enable-api-filtering-logging\"",
     "serve": "vue-cli-service serve",
@@ -51,11 +52,14 @@
     }
   },
   "author": "Virplugs",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "@virplugs/audioengine": "github:virplugs/audioengine",
-    "bson-ext": "^2.0.5"
+    "bson-ext": "^2.0.5",
+    "fswin": "^3.19.908"
   },
   "devDependencies": {
+    "@virplugs/license-checker": "github:virplugs/license-checker#master",
     "@vue/cli-plugin-babel": "^4.5.4",
     "@vue/cli-plugin-eslint": "^4.5.4",
     "@vue/cli-service": "^4.5.4",
