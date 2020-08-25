@@ -107,6 +107,10 @@ export default {
 					deviceNameIn = preferences.get('audio_ds_inputdevice');
 					deviceNameOut = preferences.get('audio_ds_outputdevice');
 					break;
+				case 'core':
+					deviceNameIn = preferences.get('audio_core_inputdevice');
+					deviceNameOut = preferences.get('audio_core_outputdevice');
+					break;
 				default:
 					return;
 			}

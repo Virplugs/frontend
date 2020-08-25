@@ -265,7 +265,7 @@ export default {
 			deep: true
 		},
 		'buffersize': debounce(function(val) {
-			this.preferences.audio_buffersize = parseInt(val);
+			this.$set(this.preferences, 'audio_buffersize', parseInt(val));
 			this.resetAudioEngine();
 		}, 1000),
 	},
