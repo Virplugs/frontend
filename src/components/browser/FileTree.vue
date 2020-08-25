@@ -2,7 +2,8 @@
 	<div class="filetree">
 		<h3>Categories</h3>
 		<FileTreeFolder :path="path" @select="select" :selected-files="selectedFiles" />
-		<MiniPlayer v-if="selectedFiles.length > 0" :file="selectedFiles[0].path" />
+		<MiniPlayer v-if="selectedFiles.length > 0 && selectedFiles[0].type === 'audio'" :file="selectedFiles[0].path" />
+		<FileInfo v-if="selectedFiles.length > 0 && selectedFiles[0].type !== 'audio'" :file="selectedFiles[0].path" :type="selectedFiles[0].type" />
 	</div>
 </template>
 
@@ -10,6 +11,7 @@
 import * as preferences from "@/preferences.js";
 import FileTreeFolder from "./FileTreeFolder.vue";
 import MiniPlayer from "./MiniPlayer.vue";
+import FileInfo from "./FileInfo.vue";
 
 const fs = __non_webpack_require__('fs');
 const path = __non_webpack_require__('path');
@@ -17,7 +19,8 @@ const path = __non_webpack_require__('path');
 export default {
 	components: {
 		FileTreeFolder,
-		MiniPlayer
+		MiniPlayer,
+		FileInfo
 	},
 	props: {
 		path: {

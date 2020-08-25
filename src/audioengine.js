@@ -1,17 +1,25 @@
-const path = __non_webpack_require__('path');
-const process = __non_webpack_require__('process');
+const path = require('path');
+const process = require('process');
 
-const audioEngine = __non_webpack_require__('@virplugs/audioengine');
+const audioEngine = require('@virplugs/audioengine');
 
 let deviceinfo = {};
 
-export function init() {
+let audioEngineInitialized = false;
+
+export async function init() {
+	if (audioEngineInitialized) return false;
+
 	deviceinfo = audioEngine.getDeviceInfo();
 	console.dir(deviceinfo);
 	audioEngine.setEventsCallback((eventName, data) => {
 		console.info("Event", eventName, data);
 		window.app.$root.$emit(eventName, data);
 	});
+
+	audioEngineInitialized = true;
+
+	return true;
 }
 
 export function getDeviceInfo() {

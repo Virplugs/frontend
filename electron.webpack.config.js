@@ -10,7 +10,7 @@ module.exports = {
 	},
 	externals: {
 		electron: 'commonjs electron',
-		'vue-devtools': 'commonjs vue-devtools'
+		'vue-devtools': 'commonjs vue-devtools',
 	},
 	resolve: {
 		symlinks: false

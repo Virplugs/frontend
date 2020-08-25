@@ -33,12 +33,32 @@
 import ResSplitPane from 'vue-resize-split-pane';
 import VirplugsBrowser from '@/components/browser/Browser.vue';
 
+import audioEngine from '@/audioengine';
+
 export default {
 	components: {
 		'rs-panes': ResSplitPane,
 		VirplugsBrowser
+	},
+	data: function() {
+		const transport = new audioEngine.Transport();
+		const cueTrack = new audioEngine.Track("cue", [0], [0]);
+		transport.tracks = [cueTrack];
+		audioEngine.setActiveTransport(transport);
+	return {
+			FLAG__isRootProject: true,
+			transport,
+			cueTrack
+		};
 	}
 };
+
+export function getProject(vueElement) {
+	while (!!vueElement && !vueElement.FLAG__isRootProject)
+		vueElement = vueElement.$parent;
+	return vueElement;
+}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

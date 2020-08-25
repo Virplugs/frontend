@@ -13,8 +13,9 @@
 import * as preferences from "@/preferences.js";
 import * as waveform from "@/waveform.js";
 import FileTreeFolder from "./FileTreeFolder.vue";
+import { getProject } from "@/Project.vue";
 
-import * as ae from "@/audioengine.js";
+import audioEngine, * as ae from "@/audioengine.js";
 
 const fs = __non_webpack_require__("fs");
 const path = __non_webpack_require__("path");
@@ -32,7 +33,7 @@ export default {
 			autoplay: false,
 			height: 0,
 			width: 0,
-			playhead: 0.5,
+			playhead: 0,
 			fileInfo: {},
 			lineWidth: 2 * 0.75,
 			margin: 2 * 0.75,
@@ -44,6 +45,9 @@ export default {
 		file(file) {
 			this.openFile(file);
 		},
+		playhead(val) {
+			this.draw();
+		}
 	},
 	methods: {
 		draw() {
@@ -62,8 +66,8 @@ export default {
 
 				const optimalWindow = this.getOptimalWindow();
 				if (this.waveformWindow != optimalWindow) {
-					this.openFile(this.file);
-					return;
+					this.readFileWaveform(this.file);
+					//return; // render 'SOMETING', it's better than nothing
 				}
 
 				ctx.fillStyle = "#0bcae6";
@@ -88,17 +92,26 @@ export default {
 						y2 - y
 					);
 				}
+				// playhead
+				ctx.fillStyle = "#0bcae677";
+				ctx.fillRect(
+						canvas.width * this.playhead,
+						4,
+						1,
+						canvas.height - 8
+					);
+
 			} catch {}
 		},
 		getWaveFragment(i, resolution) {
 			try {
 				const scale =
 					this.fileInfo.frames / this.waveformWindow / resolution;
-				if (scale < 1) {
-					console.warn(
-						"Scale is less than 1, which is not handy for waveform display :-)"
-					);
-				}
+				// if (scale < 1) {
+				// 	console.warn(
+				// 		"Scale is less than 1, which is not handy for waveform display :-)"
+				// 	);
+				// }
 				const slice = this.waveformData[0].slice(
 					Math.floor(i * scale),
 					Math.floor(i * scale + scale)
@@ -129,7 +142,7 @@ export default {
 			);
 			return nearestPowerOf2(this.fileInfo.frames / resolution);
 		},
-		async openFile(file) {
+		async readFileWaveform(file) {
 			try {
 				if (this.isOpening) return;
 				this.isOpening = true;
@@ -152,6 +165,24 @@ export default {
 				this.isOpening = false;
 			}
 		},
+		async openFile(file) {
+			this.readFileWaveform(file);
+
+			const project = getProject(this);
+			if (this.audioevent) {
+				project.cueTrack.stopAudioEvent(this.audioevent);
+			}
+			this.audioevent = new audioEngine.AudioEvent("cue", file);
+			project.cueTrack.playAudioEvent(this.audioevent);
+
+			const timer = setInterval(() => {
+				this.playhead = this.audioevent.lastFrameOffset / this.audioevent.totalFrames;
+				if (this.playhead >= .95) {
+					this.playhead = 1;
+					clearInterval(timer);
+				}
+			}, 1000 / 30);
+		}
 	},
 	mounted() {
 		const canvas = this.$refs.canvas;
@@ -170,6 +201,12 @@ export default {
 
 		this.openFile(this.file);
 	},
+	beforeDestroy() {
+		if (this.audioevent) {
+			const project = getProject(this);
+			project.cueTrack.stopAudioEvent(this.audioevent);
+		}
+	}
 };
 </script>
 

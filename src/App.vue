@@ -91,32 +91,33 @@ export default {
 			preferencesDialogOpen: false,
 		};
 	},
-	mounted: function () {
-		ae.init();
+	mounted: async function () {
+		if (ae.init()) {
+			let deviceNameIn, deviceNameOut;
+			switch (preferences.get('audio_api')) {
+				case 'asio':
+					deviceNameIn = preferences.get('audio_asio_device');
+					deviceNameOut = preferences.get('audio_asio_device');
+					break;
+				case 'wasapi':
+					deviceNameIn = preferences.get('audio_wasapi_inputdevice');
+					deviceNameOut = preferences.get('audio_wasapi_outputdevice');
+					break;
+				case 'ds':
+					deviceNameIn = preferences.get('audio_ds_inputdevice');
+					deviceNameOut = preferences.get('audio_ds_outputdevice');
+					break;
+				default:
+					return;
+			}
 
-		let deviceNameIn, deviceNameOut;
-		switch (preferences.get('audio_api')) {
-			case 'asio':
-				deviceNameIn = preferences.get('audio_asio_device');
-				deviceNameOut = preferences.get('audio_asio_device');
-				break;
-			case 'wasapi':
-				deviceNameIn = preferences.get('audio_wasapi_inputdevice');
-				deviceNameOut = preferences.get('audio_wasapi_outputdevice');
-				break;
-			case 'ds':
-				deviceNameIn = preferences.get('audio_ds_inputdevice');
-				deviceNameOut = preferences.get('audio_ds_outputdevice');
-				break;
-			default:
-				return;
+			let api = preferences.get('audio_api');
+			let sampleRate = preferences.get('audio_samplerate');
+			let bufferSize = preferences.get('audio_buffersize');
+
+			ae.start(api, deviceNameIn, deviceNameOut, sampleRate, bufferSize);
+			console.log(api, deviceNameIn, deviceNameOut, sampleRate, bufferSize);
 		}
-
-		let api = preferences.get('audio_api');
-		let sampleRate = preferences.get('audio_samplerate');
-		let bufferSize = preferences.get('audio_buffersize');
-
-		ae.start(api, deviceNameIn, deviceNameOut, sampleRate, bufferSize);
 
 		this.$nextTick(function () {
 			setTimeout(() => {

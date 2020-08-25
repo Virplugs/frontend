@@ -16,8 +16,11 @@ module.exports = {
 		resolve: {
 			symlinks: false
 		},
-		externals: [
-		],
+		externals: {
+			'@virplugs/audioengine': 'commonjs @virplugs/audioengine',
+			'path': 'commonjs path',
+			'process': 'commonjs process',
+		},
 		module: {
 			rules: [
 				{
