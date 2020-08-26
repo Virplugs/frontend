@@ -1,7 +1,7 @@
 <template>
 	<div class="miniplayer">
-		<button class="autoplay" @click="autoplay = !autoplay" :class="{checked: autoplay}">
-			<img src="@/assets/icons/headphones.svg">
+		<button class="autoplay" @click="autoplay = !autoplay" :class="{ checked: autoplay }">
+			<img src="@/assets/icons/headphones.svg" />
 		</button>
 		<div class="canvascontainer">
 			<canvas ref="canvas" />
@@ -10,15 +10,10 @@
 </template>
 
 <script>
-import * as preferences from "@/preferences.js";
-import * as waveform from "@/waveform.js";
-import FileTreeFolder from "./FileTreeFolder.vue";
-import { getProject } from "@/Project.vue";
+import * as waveform from '@/waveform.js';
+import { getProject } from '@/Project.vue';
 
-import audioEngine, * as ae from "@/audioengine.js";
-
-const fs = __non_webpack_require__("fs");
-const path = __non_webpack_require__("path");
+import audioEngine, * as ae from '@/audioengine.js';
 
 export default {
 	components: {},
@@ -47,22 +42,21 @@ export default {
 		},
 		playhead(val) {
 			this.draw();
-		}
+		},
 	},
 	methods: {
 		draw() {
 			try {
 				const canvas = this.$refs.canvas;
-				const ctx = canvas.getContext("2d");
+				const ctx = canvas.getContext('2d');
 
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-				if (this.waveformData === null) return;
+				if (this.waveformData === null) {
+					return;
+				}
 
-				const resolution = Math.floor(
-					canvas.width / (this.lineWidth + this.margin)
-				);
-				const height = canvas.height;
+				const resolution = Math.floor(canvas.width / (this.lineWidth + this.margin));
 
 				const optimalWindow = this.getOptimalWindow();
 				if (this.waveformWindow != optimalWindow) {
@@ -70,43 +64,31 @@ export default {
 					//return; // render 'SOMETING', it's better than nothing
 				}
 
-				ctx.fillStyle = "#0bcae6";
+				ctx.fillStyle = '#0bcae6';
 				for (let i = 0; i < resolution; i++) {
 					if (i / resolution >= this.playhead) {
-						ctx.fillStyle = "#b5b2b1";
+						ctx.fillStyle = '#b5b2b1';
 					}
 					const fragment = this.getWaveFragment(i, resolution);
 					const valUpper = fragment.max;
 					const valLower = fragment.min;
 					let y = Math.floor((canvas.height / 2) * (1 - valUpper));
-					let y2 = Math.floor(
-						canvas.height / 2 + (canvas.height / 2) * -valLower
-					);
+					let y2 = Math.floor(canvas.height / 2 + (canvas.height / 2) * -valLower);
 					if (y === y2) {
-						y -= .5;
+						y -= 0.5;
 					}
-					ctx.fillRect(
-						i * (this.lineWidth + this.margin),
-						y,
-						this.lineWidth,
-						y2 - y
-					);
+					ctx.fillRect(i * (this.lineWidth + this.margin), y, this.lineWidth, y2 - y);
 				}
 				// playhead
-				ctx.fillStyle = "#0bcae677";
-				ctx.fillRect(
-						canvas.width * this.playhead,
-						4,
-						1,
-						canvas.height - 8
-					);
-
-			} catch {}
+				ctx.fillStyle = '#0bcae677';
+				ctx.fillRect(canvas.width * this.playhead, 4, 1, canvas.height - 8);
+			} catch (e) {
+				console.error(e);
+			}
 		},
 		getWaveFragment(i, resolution) {
 			try {
-				const scale =
-					this.fileInfo.frames / this.waveformWindow / resolution;
+				const scale = this.fileInfo.frames / this.waveformWindow / resolution;
 				// if (scale < 1) {
 				// 	console.warn(
 				// 		"Scale is less than 1, which is not handy for waveform display :-)"
@@ -137,21 +119,18 @@ export default {
 			}
 
 			const canvas = this.$refs.canvas;
-			const resolution = Math.floor(
-				canvas.width / (this.lineWidth + this.margin)
-			);
+			const resolution = Math.floor(canvas.width / (this.lineWidth + this.margin));
 			return nearestPowerOf2(this.fileInfo.frames / resolution);
 		},
 		async readFileWaveform(file) {
 			try {
-				if (this.isOpening) return;
+				if (this.isOpening) {
+					return;
+				}
 				this.isOpening = true;
 				this.fileInfo = await ae.readAudioFileInfo(file);
 				//console.log(this.fileInfo)
-				const data = await waveform.requestWaveform(
-					file,
-					this.getOptimalWindow()
-				);
+				const data = await waveform.requestWaveform(file, this.getOptimalWindow());
 				//console.log("data", data);
 				this.waveformData = data.waveformData;
 				this.waveformWindow = data.waveformWindow;
@@ -172,26 +151,26 @@ export default {
 			if (this.audioevent) {
 				project.cueTrack.stopAudioEvent(this.audioevent);
 			}
-			this.audioevent = new audioEngine.AudioEvent("cue", file);
+			this.audioevent = new audioEngine.AudioEvent('cue', file);
 			project.cueTrack.playAudioEvent(this.audioevent);
 
 			const timer = setInterval(() => {
 				this.playhead = this.audioevent.lastFrameOffset / this.audioevent.totalFrames;
-				if (this.playhead >= .95) {
+				if (this.playhead >= 0.95) {
 					this.playhead = 1;
 					clearInterval(timer);
 				}
 			}, 1000 / 30);
-		}
+		},
 	},
 	mounted() {
 		const canvas = this.$refs.canvas;
 		const self = this;
-		new ResizeObserver((entries) => {
+		new ResizeObserver(entries => {
 			var parent = canvas.parentNode,
 				styles = getComputedStyle(parent),
-				w = parseInt(styles.getPropertyValue("width"), 10),
-				h = parseInt(styles.getPropertyValue("height"), 10);
+				w = parseInt(styles.getPropertyValue('width'), 10),
+				h = parseInt(styles.getPropertyValue('height'), 10);
 
 			canvas.width = w;
 			canvas.height = h;
@@ -206,7 +185,7 @@ export default {
 			const project = getProject(this);
 			project.cueTrack.stopAudioEvent(this.audioevent);
 		}
-	}
+	},
 };
 </script>
 

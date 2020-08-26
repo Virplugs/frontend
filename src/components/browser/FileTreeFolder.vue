@@ -1,13 +1,9 @@
 <template>
 	<section>
-		<div
-			class="itemset"
-			v-for="file in files"
-			:key="file.name"
-		>
+		<div class="itemset" v-for="file in files" :key="file.name">
 			<div
 				class="item"
-				:class="{selected: selectedFiles && selectedFiles.includes(file)}"
+				:class="{ selected: selectedFiles && selectedFiles.includes(file) }"
 				:style="`padding-left: ${40 + depth * 16}px`"
 				@mousedown="$emit('select', file, $event)"
 				@dblclick="action(file, $event)"
@@ -18,13 +14,13 @@
 						src="@/assets/icons/triangle.svg"
 						@mousedown.stop="file.isExpanded = !file.isExpanded"
 						@dblclick.stop=""
-						:class="{expanded: file.isExpanded}"
-					>
-					<img class="icon" src="@/assets/icons/folder.svg">
+						:class="{ expanded: file.isExpanded }"
+					/>
+					<img class="icon" src="@/assets/icons/folder.svg" />
 				</template>
 				<template v-else>
-					<img class="icon" v-if="file.type === 'audio'" src="@/assets/icons/wave.svg">
-					<img class="icon" v-else src="@/assets/icons/wave.svg">
+					<img class="icon" v-if="file.type === 'audio'" src="@/assets/icons/wave.svg" />
+					<img class="icon" v-else src="@/assets/icons/wave.svg" />
 				</template>
 				<span>{{ file.name }}</span>
 			</div>
@@ -40,56 +36,53 @@
 </template>
 
 <script>
-
-const fs = __non_webpack_require__('fs');
-const path = __non_webpack_require__('path');
+const fs = require('fs');
+const path = require('path');
 
 export default {
-	name: "FileTreeFolder",
-	components: {
-
-	},
+	name: 'FileTreeFolder',
+	components: {},
 	props: {
 		path: {
 			type: String,
-			required: true
+			required: true,
 		},
 		selectedFiles: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		depth: {
 			type: Number,
-			default: 0
-		}
+			default: 0,
+		},
 	},
 	data() {
 		return {
 			files: [],
 			showableExtensions: {
-				'audio': ['wav', 'aiff', 'w64', 'caf', 'flac', 'ogg', 'aif', 'au']
-			}
+				audio: ['wav', 'aiff', 'w64', 'caf', 'flac', 'ogg', 'aif', 'au'],
+			},
 		};
 	},
 	methods: {
 		select(file, $event) {
-			this.$emit('select', file, $event)
+			this.$emit('select', file, $event);
 		},
 		action(file, $event) {
 			if (file.type === 'directory') {
-				file.isExpanded = !file.isExpanded
+				file.isExpanded = !file.isExpanded;
 			}
 		},
 		getFiletype(file) {
 			return Object.keys(this.showableExtensions).find(k =>
-					this.showableExtensions[k].some(ext =>
-						path.extname(file).toLowerCase() === `.${ext}`
-					)
-				);
-		}
+				this.showableExtensions[k].some(
+					ext => path.extname(file).toLowerCase() === `.${ext}`
+				)
+			);
+		},
 	},
 	mounted() {
-		console.log("Opened folder", this.path);
+		console.log('Opened folder', this.path);
 		fs.readdir(this.path, { withFileTypes: true }, (err, files) => {
 			for (let file of files) {
 				const type = file.isDirectory() ? 'directory' : this.getFiletype(file.name);
@@ -98,11 +91,11 @@ export default {
 						name: file.name,
 						path: path.join(this.path, file.name),
 						type: type,
-						isExpanded: false
+						isExpanded: false,
 					});
 				}
 			}
 		});
-	}
+	},
 };
 </script>

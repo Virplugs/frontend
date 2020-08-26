@@ -1,9 +1,7 @@
 <template>
 	<div class="maincontainer">
 		<div class="titlebar">
-			<div class="title">
-				Please select a filetype and enter a filename.
-			</div>
+			<div class="title">Please select a filetype and enter a filename.</div>
 		</div>
 
 		<form @submit.prevent="ok" method="get" id="frm" name="frm">
@@ -12,19 +10,15 @@
 					<label
 						v-for="filetype in filetypes"
 						:key="filetype.id"
-						:class="{selected:currentFiletype === filetype}"
+						:class="{ selected: currentFiletype === filetype }"
 					>
-						<input
-							type="radio"
-							v-model="currentFiletype"
-							:value="filetype"
-						>
+						<input type="radio" v-model="currentFiletype" :value="filetype" />
 						{{ filetype.label }}
 					</label>
 				</div>
 				<div class="typedetails">
 					<p>
-						<strong>Type: </strong>
+						<strong>Type:</strong>
 						<span id="type-label">
 							{{ currentFiletype ? currentFiletype.label : '' }}
 						</span>
@@ -38,22 +32,16 @@
 			<div class="fn">
 				<label for="filename" id="basename-label">
 					{{
-						currentFiletype && currentFiletype.basename_label ?
-							currentFiletype.basename_label :
-							'Filename'
+						currentFiletype && currentFiletype.basename_label
+							? currentFiletype.basename_label
+							: 'Filename'
 					}}:
 				</label>
-				<input
-					type="text"
-					v-model="filename"
-					class="filename"
-				>
+				<input type="text" v-model="filename" class="filename" />
 			</div>
 
 			<div class="buttons">
-				<button class="button" type="button" @click="close">
-					Cancel
-				</button>
+				<button class="button" type="button" @click="close">Cancel</button>
 				<button
 					class="button"
 					type="submit"
@@ -68,36 +56,34 @@
 </template>
 
 <script>
-
-const remote = __non_webpack_require__('electron').remote;
+const remote = require('electron').remote;
 const process = remote.require('process');
 
-import * as feather from "feather-icons";
+import * as feather from 'feather-icons';
 
 import * as createFile from '@/createfile_worker.js';
 
 export default {
-	name: "NewFile",
-	components: {
-	},
+	name: 'NewFile',
+	components: {},
 	props: {
 		rootDir: {
 			type: String,
-			default: ''
-		}
+			default: '',
+		},
 	},
 	data: function () {
 		return {
 			platform: process.platform,
 			filetypes: require('@/dialogs/newfile/filetypes.json'),
 			currentFiletype: null,
-			filename: ""
+			filename: '',
 		};
 	},
 	watch: {
 		currentFiletype(val) {
 			this.filename = val.default_basename;
-		}
+		},
 	},
 	mounted: function () {
 		this.currentFiletype = this.filetypes[0];
@@ -107,44 +93,38 @@ export default {
 			feather.replace();
 		});
 	},
-	updated() {
-	},
-	created() {
-	},
-	destroyed() {
-	},
+	updated() {},
+	created() {},
+	destroyed() {},
 	methods: {
 		close() {
 			this.$parent.closePortal();
 		},
 
 		ok() {
-			if (createFile.createFile({
-				basename: this.filename,
-				definition: this.currentFiletype,
-				directory: this.rootDir
-			})) {
+			if (
+				createFile.createFile({
+					basename: this.filename,
+					definition: this.currentFiletype,
+					directory: this.rootDir,
+				})
+			) {
 				this.$parent.closePortal();
 			}
 			return false;
-		}
-	}
+		},
+	},
 };
 </script>
 
 <style lang="less" scoped>
-@import "~material-design-icons/iconfont/material-icons.css";
-@import "@/styles/nativewidgets.less";
+@import '~material-design-icons/iconfont/material-icons.css';
+@import '@/styles/nativewidgets.less';
 
 .maincontainer {
 	background: rgb(44, 34, 39);
-	background:
-		linear-gradient(
-			145deg,
-			rgb(36, 33, 37) 0%,
-			rgb(76, 74, 80) 100%
-		);
-	font-family: "Segoe UI", Roboto, sans-serif;
+	background: linear-gradient(145deg, rgb(36, 33, 37) 0%, rgb(76, 74, 80) 100%);
+	font-family: 'Segoe UI', Roboto, sans-serif;
 	font-size: 16px;
 	color: #ccc;
 	display: flex;
@@ -204,7 +184,7 @@ form {
 	white-space: nowrap;
 }
 
-input[type="radio"] {
+input[type='radio'] {
 	margin-left: 0;
 }
 
@@ -268,4 +248,3 @@ input[type="radio"] {
 	display: none;
 }
 </style>
-

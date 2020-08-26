@@ -1,6 +1,3 @@
-const path = require('path');
-const process = require('process');
-
 const audioEngine = require('@virplugs/audioengine');
 
 let deviceinfo = {};
@@ -8,12 +5,14 @@ let deviceinfo = {};
 let audioEngineInitialized = false;
 
 export async function init() {
-	if (audioEngineInitialized) return false;
+	if (audioEngineInitialized) {
+		return false;
+	}
 
 	deviceinfo = audioEngine.getDeviceInfo();
 	console.dir(deviceinfo);
 	audioEngine.setEventsCallback((eventName, data) => {
-		console.info("Event", eventName, data);
+		console.info('Event', eventName, data);
 		window.app.$root.$emit(eventName, data);
 	});
 
@@ -39,15 +38,14 @@ export function start(api, deviceNameIn, deviceNameOut, sampleRate, bufferSize) 
 export function stop() {
 	try {
 		audioEngine.stopAudioEngine();
-	} catch {
-
+	} catch (e) {
+		console.error(e);
 	}
 }
 
 export function openAsioControlPanel() {
 	audioEngine.openAsioControlPanel();
 }
-
 
 export function requestLatencyInfo() {
 	audioEngine.requestLatencyInfo();
@@ -56,7 +54,9 @@ export function requestLatencyInfo() {
 export function readAudioFileInfo(filename) {
 	return new Promise(function (resolve, reject) {
 		audioEngine.readAudioFileInfo(filename, (err, info) => {
-			if(err) return reject(err);
+			if (err) {
+				return reject(err);
+			}
 			return resolve(info);
 		});
 	});
@@ -66,7 +66,9 @@ export function readAudioFileWaveform(filename, window) {
 	return new Promise(function (resolve, reject) {
 		audioEngine.readAudioFileWaveform(filename, window, (err, cache) => {
 			//console.log(err);
-			if (err) return reject(err);
+			if (err) {
+				return reject(err);
+			}
 			return resolve(cache);
 		});
 	});

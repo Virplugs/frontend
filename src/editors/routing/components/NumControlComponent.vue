@@ -7,7 +7,7 @@
 		@dblclick.stop=""
 		@pointerdown.stop=""
 		@pointermove.stop=""
-	>
+	/>
 </template>
 
 <script>
@@ -28,12 +28,12 @@ export default {
 		},
 		getData: {
 			type: Function,
-			default: () => {}
+			default: () => {},
 		},
 		putData: {
 			type: Function,
-			default: () => {}
-		}
+			default: () => {},
+		},
 	},
 	data() {
 		return {
@@ -46,13 +46,14 @@ export default {
 			this.update();
 		},
 		update() {
-			if (this.ikey)
+			if (this.ikey) {
 				this.putData(this.ikey, this.value);
+			}
 			this.emitter.trigger('process');
-		}
+		},
 	},
 	mounted() {
 		this.value = this.getData(this.ikey);
-	}
+	},
 };
 </script>

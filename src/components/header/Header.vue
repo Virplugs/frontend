@@ -7,9 +7,7 @@
 <script>
 export default {
 	name: 'VirplugsHeader',
-	props: {
-
-	}
+	props: {},
 };
 </script>
 

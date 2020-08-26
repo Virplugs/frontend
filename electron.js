@@ -9,7 +9,7 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 
 if (!process.env.NODE_ENV && !isDev) {
-	console.log("going to prod");
+	console.log('going to prod');
 	process.env.NODE_ENV = 'production';
 }
 
@@ -19,13 +19,13 @@ let win;
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 
-app.setName("Virplugs");
+app.setName('Virplugs');
 
 // fix for fs API stopping: https://github.com/electron/electron/issues/22119
 // Might result in some native modules breaking?
 app.allowRendererProcessReuse = false;
 
-function createWindow () {
+function createWindow() {
 	// Create the browser window.
 	modal.setup();
 
@@ -53,44 +53,58 @@ function createWindow () {
 			nodeIntegrationInWorker: true,
 			enableRemoteModule: true,
 			nativeWindowOpen: true,
-			sandbox: false
+			sandbox: false,
+		},
+	});
+
+	win.webContents.on(
+		'new-window',
+		(event, url, frameData, disposition, options, additionalFeatures) => {
+			// open window as modal
+			frameData = JSON.parse(frameData);
+			event.preventDefault();
+			Object.assign(options, {
+				modal: frameData.type === 'modal',
+				parent: win,
+				frame: true,
+				titleBarStyle: 'default',
+				backgroundColor: '#2D2A2F',
+				show: false,
+				title: frameData.title,
+			});
+			event.newGuest = new BrowserWindow(options);
+			event.newGuest.menuBarVisible = false;
+			setTimeout(() => event.newGuest.show(), 50);
+
+			// Workaround for mainwindow flicker from
+			// https://github.com/electron/electron/issues/10616
+			event.newGuest.on('focus', () => {
+				win.setAlwaysOnTop(true);
+			});
+			event.newGuest.on('blur', () => {
+				win.setAlwaysOnTop(false);
+			});
+			event.newGuest.on('close', () => {
+				win.setAlwaysOnTop(true);
+			});
+			event.newGuest.on('closed', () => {
+				win.setAlwaysOnTop(false);
+			});
 		}
-	});
-
-	win.webContents.on('new-window', (event, url, frameData, disposition, options, additionalFeatures) => {
-		// open window as modal
-		frameData = JSON.parse(frameData);
-		event.preventDefault();
-		Object.assign(options, {
-			modal: frameData.type === 'modal',
-			parent: win,
-			frame: true,
-			titleBarStyle: 'default',
-			backgroundColor: '#2D2A2F',
-			show: false,
-			title: frameData.title
-		});
-		event.newGuest = new BrowserWindow(options);
-		event.newGuest.menuBarVisible = false;
-		setTimeout(() => event.newGuest.show(), 50);
-
-		// Workaround for mainwindow flicker from
-		// https://github.com/electron/electron/issues/10616
-		event.newGuest.on('focus', () => { win.setAlwaysOnTop(true); });
-		event.newGuest.on('blur', () => { win.setAlwaysOnTop(false); });
-		event.newGuest.on('close', () => { win.setAlwaysOnTop(true); });
-		event.newGuest.on('closed', () => { win.setAlwaysOnTop(false); });
-	});
+	);
 
 	if (enableSplashScreen) {
-		const logoData64 = fs.readFileSync(path.join(app.getAppPath(), 'dist', require("./resources/logotext.png")), 'base64');
+		const logoData64 = fs.readFileSync(
+			path.join(app.getAppPath(), 'dist', require('./resources/logotext.png')),
+			'base64'
+		);
 		initSplashScreen({
 			mainWindow: win,
 			//icon: isDev ? resolve('assets/icon.ico') : undefined,
 			url: OfficeTemplate,
 			width: 500,
 			height: 250,
-			color: "#6543A9",
+			color: '#6543A9',
 			brand: `<img
 		         src="data:image/png;base64,${logoData64}"
 		         style="width: auto; margin-left: -22px; margin-top: 10px; height: 32px;">`,
@@ -99,7 +113,7 @@ function createWindow () {
 			//logo: 'data:image/png;base64,' + fs.readFileSync('./public/logotext.png', 'base64'),
 			logo: '',
 			website: 'Version ' + app.getVersion(),
-			text: 'Initializing ...'
+			text: 'Initializing ...',
 		});
 	}
 
@@ -115,15 +129,13 @@ function createWindow () {
 	//win.webContents.openDevTools()
 
 	// Emitted when the window is closed.
-	win.on('closed', (e) => {
+	win.on('closed', e => {
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
-		console.log("closed", e);
+		console.log('closed', e);
 		win = null;
 	});
-
-
 }
 
 // This method will be called when Electron has finished

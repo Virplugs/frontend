@@ -1,13 +1,12 @@
-const { app } = __non_webpack_require__('electron').remote;
-const path = __non_webpack_require__('path');
-const fs = __non_webpack_require__('fs');
+const { app } = require('electron').remote;
+const path = require('path');
+const fs = require('fs');
 
 const prefFile = path.join(app.getPath('userData'), 'preferences.json');
 
-console.log("Preferences file:", prefFile);
+console.log('Preferences file:', prefFile);
 
-let preferences = {
-};
+let preferences = {};
 
 if (fs.existsSync(prefFile)) {
 	preferences = JSON.parse(fs.readFileSync(prefFile));
@@ -28,7 +27,7 @@ export function getCopy() {
 }
 
 export function setFromObject(obj) {
-	preferences = {...preferences, ...obj};
+	preferences = { ...preferences, ...obj };
 }
 
 export function get(key) {
@@ -36,5 +35,5 @@ export function get(key) {
 }
 
 export function set(key, val) {
-	 preferences[key] = val;
+	preferences[key] = val;
 }

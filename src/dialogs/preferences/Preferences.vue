@@ -1,9 +1,7 @@
 <template>
 	<div class="maincontainer">
 		<Virplugs-Page-Chooser class="chooser" main-header="Preferences">
-			<div class="page general" title="General">
-				hey
-			</div>
+			<div class="page general" title="General">hey</div>
 			<div title="Audio" class="page">
 				<fieldset>
 					<legend>Audio Device</legend>
@@ -12,7 +10,11 @@
 						Driver Type
 						<div>
 							<select v-model="preferences.audio_api" @change="resetAudioEngine">
-								<option v-for="(api, name) in audioDeviceInfo" :key="name" :value="name">
+								<option
+									v-for="(api, name) in audioDeviceInfo"
+									:key="name"
+									:value="name"
+								>
 									{{ api.displayName }}
 								</option>
 							</select>
@@ -22,8 +24,15 @@
 						<label>
 							Audio Device
 							<div>
-								<select v-model="preferences.audio_asio_device" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.asio.devices" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_asio_device"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.asio.devices"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -39,8 +48,17 @@
 						<label>
 							Audio Input Device
 							<div>
-								<select v-model="preferences.audio_wasapi_inputdevice" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.wasapi.devices.filter(d=>d.inputChannels > 0)" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_wasapi_inputdevice"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.wasapi.devices.filter(
+											d => d.inputChannels > 0
+										)"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -49,8 +67,17 @@
 						<label>
 							Audio Output Device
 							<div>
-								<select v-model="preferences.audio_wasapi_outputdevice" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.wasapi.devices.filter(d=>d.outputChannels > 0)" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_wasapi_outputdevice"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.wasapi.devices.filter(
+											d => d.outputChannels > 0
+										)"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -61,8 +88,17 @@
 						<label>
 							Audio Input Device
 							<div>
-								<select v-model="preferences.audio_ds_inputdevice" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.ds.devices.filter(d=>d.inputChannels > 0)" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_ds_inputdevice"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.ds.devices.filter(
+											d => d.inputChannels > 0
+										)"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -71,8 +107,17 @@
 						<label>
 							Audio Output Device
 							<div>
-								<select v-model="preferences.audio_ds_outputdevice" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.ds.devices.filter(d=>d.outputChannels > 0)" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_ds_outputdevice"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.ds.devices.filter(
+											d => d.outputChannels > 0
+										)"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -83,8 +128,17 @@
 						<label>
 							Audio Input Device
 							<div>
-								<select v-model="preferences.audio_core_inputdevice" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.core.devices.filter(d=>d.inputChannels > 0)" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_core_inputdevice"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.core.devices.filter(
+											d => d.inputChannels > 0
+										)"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -93,8 +147,17 @@
 						<label>
 							Audio Output Device
 							<div>
-								<select v-model="preferences.audio_core_outputdevice" @change="resetAudioEngine">
-									<option v-for="dev in audioDeviceInfo.core.devices.filter(d=>d.outputChannels > 0)" :key="dev.name" :value="dev.name">
+								<select
+									v-model="preferences.audio_core_outputdevice"
+									@change="resetAudioEngine"
+								>
+									<option
+										v-for="dev in audioDeviceInfo.core.devices.filter(
+											d => d.outputChannels > 0
+										)"
+										:key="dev.name"
+										:value="dev.name"
+									>
 										{{ dev.name }}
 									</option>
 								</select>
@@ -109,8 +172,15 @@
 					<label>
 						In/Out Sample Rate
 						<div>
-							<select v-model="preferences.audio_samplerate" @change="resetAudioEngine">
-								<option v-for="sr in currentOutputDevice.sampleRates" :key="sr" :value="sr">
+							<select
+								v-model="preferences.audio_samplerate"
+								@change="resetAudioEngine"
+							>
+								<option
+									v-for="sr in currentOutputDevice.sampleRates"
+									:key="sr"
+									:value="sr"
+								>
 									{{ sr }}
 								</option>
 							</select>
@@ -126,7 +196,7 @@
 								max="2048"
 								step="64"
 								v-model="buffersize"
-							>
+							/>
 							<span class="rangetext">{{ buffersize }} Samples</span>
 						</div>
 					</label>
@@ -152,12 +222,8 @@
 					</label>
 				</fieldset>
 			</div>
-			<div title="MIDI" class="page">
-				hallo
-			</div>
-			<div title="Plug-Ins" class="page">
-				hallo
-			</div>
+			<div title="MIDI" class="page">hallo</div>
+			<div title="Plug-Ins" class="page">hallo</div>
 		</Virplugs-Page-Chooser>
 
 		<!-- <div class="buttons">
@@ -176,8 +242,7 @@
 </template>
 
 <script>
-
-const remote = __non_webpack_require__('electron').remote;
+const remote = require('electron').remote;
 const process = remote.require('process');
 
 import debounce from 'lodash.debounce';
@@ -188,19 +253,22 @@ import * as preferences from '@/preferences.js';
 import VirplugsPageChooser from '@/components/PageChooser.vue';
 
 export default {
-	name: "Preferences",
+	name: 'Preferences',
 	components: {
-		VirplugsPageChooser
+		VirplugsPageChooser,
 	},
 	filters: {
 		digits: function (value, digits = 2) {
-			if (!value) return value;
-			if (typeof value === 'string') value = parseFloat(value);
+			if (!value) {
+				return value;
+			}
+			if (typeof value === 'string') {
+				value = parseFloat(value);
+			}
 			return value.toFixed(digits);
-		}
+		},
 	},
-	props: {
-	},
+	props: {},
 	data: function () {
 		const prefs = preferences.getCopy();
 		return {
@@ -255,16 +323,16 @@ export default {
 			} else {
 				return null;
 			}
-		}
+		},
 	},
 	watch: {
 		preferences: {
 			handler(val) {
 				this.save();
 			},
-			deep: true
+			deep: true,
 		},
-		'buffersize': debounce(function(val) {
+		buffersize: debounce(function (val) {
 			this.$set(this.preferences, 'audio_buffersize', parseInt(val));
 			this.resetAudioEngine();
 		}, 1000),
@@ -272,11 +340,12 @@ export default {
 	methods: {
 		resetAudioEngine() {
 			ae.stop();
-			ae.start(this.preferences.audio_api,
-					this.currentInputDevice.name,
-					this.currentOutputDevice.name,
-					this.preferences.audio_samplerate,
-					this.preferences.audio_buffersize
+			ae.start(
+				this.preferences.audio_api,
+				this.currentInputDevice.name,
+				this.currentOutputDevice.name,
+				this.preferences.audio_samplerate,
+				this.preferences.audio_buffersize
 			);
 			setTimeout(() => {
 				ae.requestLatencyInfo();
@@ -297,10 +366,10 @@ export default {
 			preferences.setFromObject(this.preferences);
 			preferences.commit();
 			console.log('done save');
-		}
+		},
 	},
 	mounted() {
-		this.$root.$on('latencyUpdated', (data) => {
+		this.$root.$on('latencyUpdated', data => {
 			this.latencyInput = data.input;
 			this.latencyOutput = data.output;
 			this.latencyTotal = data.total;
@@ -311,7 +380,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "@/styles/nativewidgets.less";
+@import '@/styles/nativewidgets.less';
 
 .maincontainer {
 	background: #505050;
@@ -382,7 +451,7 @@ fieldset {
 				display: inline-block;
 			}
 
-			input[type=range] {
+			input[type='range'] {
 				position: relative;
 				top: 3px;
 			}
@@ -404,6 +473,4 @@ fieldset {
 	padding: 10px;
 	width: 100%;
 }
-
 </style>
-

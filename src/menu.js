@@ -1,4 +1,4 @@
-const remote = __non_webpack_require__('electron').remote;
+const remote = require('electron').remote;
 const { app, Menu } = remote;
 const process = remote.require('process');
 
@@ -6,66 +6,76 @@ const isMac = process.platform === 'darwin';
 const isDeveloper = process.env.NODE_ENV !== 'production';
 
 export const template = [
-	...(isMac ? [{
-		label: app.name,
-		id: 'app',
-		submenu: [
-			{ role: 'about' },
-			{ type: 'separator' },
-			{
-				label: 'Preferences',
-				accelerator: 'Cmd+,',
-				click: () => window.app.openPreferences()
-			},
-			{ label: "Virplugs account..." },
-			{ type: 'separator' },
-			{ role: 'services' },
-			{ type: 'separator' },
-			{ role: 'hide' },
-			{ role: 'hideothers' },
-			{ role: 'unhide' },
-			{ type: 'separator' },
-			{ role: 'quit' }
-		]
-	}] : []),
+	...(isMac
+		? [
+				{
+					label: app.name,
+					id: 'app',
+					submenu: [
+						{ role: 'about' },
+						{ type: 'separator' },
+						{
+							label: 'Preferences',
+							accelerator: 'Cmd+,',
+							click: () => window.app.openPreferences(),
+						},
+						{ label: 'Virplugs account...' },
+						{ type: 'separator' },
+						{ role: 'services' },
+						{ type: 'separator' },
+						{ role: 'hide' },
+						{ role: 'hideothers' },
+						{ role: 'unhide' },
+						{ type: 'separator' },
+						{ role: 'quit' },
+					],
+				},
+		  ]
+		: []),
 
 	{
 		label: 'File',
 		id: 'file',
 		submenu: [
-			{ label: "New project..." },
+			{ label: 'New project...' },
 			{
-				label: "Open project...",
-				click: () => { window.app.openProject(); },
-				accelerator: "CommandOrControl+O"
+				label: 'Open project...',
+				click: () => {
+					window.app.openProject();
+				},
+				accelerator: 'CommandOrControl+O',
 			},
-			{ label: "Clone project..." },
-			{ label: "Starting page" },
+			{ label: 'Clone project...' },
+			{ label: 'Starting page' },
 			{ type: 'separator' },
-			{ label: "Close file" },
-			{ label: "Close project" },
-			{ label: "Reload file" },
+			{ label: 'Close file' },
+			{ label: 'Close project' },
+			{ label: 'Reload file' },
 			{ type: 'separator' },
-			{ label: "Save file" },
+			{ label: 'Save file' },
 			{
 				label: 'Save',
-				click: () => { window.app.saveCurrentEditor(); },
-				accelerator: "CommandOrControl+S"
+				click: () => {
+					window.app.saveCurrentEditor();
+				},
+				accelerator: 'CommandOrControl+S',
 			},
-			{ label: "Save file as..." },
-			{ label: "Save all" },
+			{ label: 'Save file as...' },
+			{ label: 'Save all' },
 			{ type: 'separator' },
-			...(!isMac ? [
-				{ label: "Virplugs account..." },
-				{
-					label: 'Preferences',
-					accelerator: 'CmdOrCtrl+,',
-					click: () => window.app.openPreferences()
-				}
-			] : []),
+			...(!isMac
+				? [
+						{ label: 'Virplugs account...' },
+						{
+							label: 'Preferences',
+							accelerator: 'CmdOrCtrl+,',
+							click: () => window.app.openPreferences(),
+						},
+				  ]
+				: []),
 			{ type: 'separator' },
 			isMac ? { role: 'close' } : { role: 'quit' },
-		]
+		],
 	},
 
 	{
@@ -78,24 +88,19 @@ export const template = [
 			{ role: 'cut' },
 			{ role: 'copy' },
 			{ role: 'paste' },
-			...(isMac ? [
-				{ role: 'pasteAndMatchStyle' },
-				{ role: 'delete' },
-				{ role: 'selectAll' },
-				{ type: 'separator' },
-				{
-					label: 'Speech',
-					submenu: [
-						{ role: 'startspeaking' },
-						{ role: 'stopspeaking' }
-					]
-				}
-			] : [
-				{ role: 'delete' },
-				{ type: 'separator' },
-				{ role: 'selectAll' }
-			])
-		]
+			...(isMac
+				? [
+						{ role: 'pasteAndMatchStyle' },
+						{ role: 'delete' },
+						{ role: 'selectAll' },
+						{ type: 'separator' },
+						{
+							label: 'Speech',
+							submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+						},
+				  ]
+				: [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]),
+		],
 	},
 
 	{
@@ -107,39 +112,29 @@ export const template = [
 			{ role: 'zoomout' },
 			{ type: 'separator' },
 			{ role: 'togglefullscreen' },
-			{ type: 'separator' },
-			{
-				label: 'Refresh Current Editor',
-				click: () => { editor.refreshCurrentEditor(); }
-			},
-			{
-				label: 'Reload Current Editor',
-				click: () => { editor.reloadCurrentEditor(); }
-			},
-			{ type: 'separator' },
-			{
-				label: 'Toggle Output Panel',
-				click: () => { $('.statusbar').click(); }
-			}
-		]
+		],
 	},
 
-	...(isDeveloper ? [{
-		label: "Developer",
-		id: 'developer',
-		submenu: [
-			{ role: 'reload' },
-			{ role: 'forcereload' },
-			{ role: 'toggledevtools' },
-			{ type: 'separator' },
-			{
-				label: 'Open JavaScript console',
-				click: async () => {
-					window.app.openJSConsole();
-				}
-			}
-		]
-	}] : []),
+	...(isDeveloper
+		? [
+				{
+					label: 'Developer',
+					id: 'developer',
+					submenu: [
+						{ role: 'reload' },
+						{ role: 'forcereload' },
+						{ role: 'toggledevtools' },
+						{ type: 'separator' },
+						{
+							label: 'Open JavaScript console',
+							click: async () => {
+								window.app.openJSConsole();
+							},
+						},
+					],
+				},
+		  ]
+		: []),
 
 	{
 		label: 'Window',
@@ -147,15 +142,15 @@ export const template = [
 		submenu: [
 			{ role: 'minimize' },
 			{ role: 'zoom' },
-			...(isMac ? [
-				{ type: 'separator' },
-				{ role: 'front' },
-				{ type: 'separator' },
-				{ role: 'window' }
-			] : [
-				{ role: 'close' }
-			])
-		]
+			...(isMac
+				? [
+						{ type: 'separator' },
+						{ role: 'front' },
+						{ type: 'separator' },
+						{ role: 'window' },
+				  ]
+				: [{ role: 'close' }]),
+		],
 	},
 
 	{
@@ -165,12 +160,12 @@ export const template = [
 			{
 				label: 'Learn More',
 				click: async () => {
-					const { shell } = __non_webpack_require__('electron');
+					const { shell } = require('electron');
 					await shell.openExternal('https://electronjs.org');
-				}
-			}
-		]
-	}
+				},
+			},
+		],
+	},
 ];
 
 export const menu = Menu.buildFromTemplate(template);
@@ -179,4 +174,3 @@ Menu.setApplicationMenu(menu);
 export function openMenu(id) {
 	menu.getMenuItemById(id).submenu.popup({ window: remote.getCurrentWindow() });
 }
-

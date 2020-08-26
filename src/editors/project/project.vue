@@ -4,15 +4,13 @@
 			<div class="page general" title="General">
 				<section>
 					<header>
-						<i
-							aria-hidden="true"
-							class="material-icons"
-						>keyboard_arrow_down</i> Identity
+						<i aria-hidden="true" class="material-icons">keyboard_arrow_down</i>
+						Identity
 					</header>
 					<main>
 						<label>
 							<span>Display Name</span>
-							<input name="displayname" v-model="projectData.identity.displayName">
+							<input name="displayname" v-model="projectData.identity.displayName" />
 						</label>
 						<label>
 							<span>Bundle Identifier</span>
@@ -20,39 +18,37 @@
 								name="bundleid"
 								class="monospace"
 								v-model="projectData.identity.bundleId"
-							>
+							/>
 						</label>
 						<label>
 							<span>Version</span>
-							<input name="version" v-model="projectData.identity.version">
+							<input name="version" v-model="projectData.identity.version" />
 						</label>
 						<label>
 							<span>Build</span>
-							<input name="build" v-model="projectData.identity.build">
+							<input name="build" v-model="projectData.identity.build" />
 						</label>
 					</main>
 
 					<header>
-						<i
-							aria-hidden="true"
-							class="material-icons"
-						>keyboard_arrow_down</i> Company
+						<i aria-hidden="true" class="material-icons">keyboard_arrow_down</i>
+						Company
 					</header>
 					<main>
 						<label>
 							<span>Name</span>
-							<input name="companyName" v-model="projectData.identity.companyName">
+							<input name="companyName" v-model="projectData.identity.companyName" />
 						</label>
 						<label>
 							<span>Website</span>
-							<input
-								name="companyWeb"
-								v-model="projectData.identity.companyWeb"
-							>
+							<input name="companyWeb" v-model="projectData.identity.companyWeb" />
 						</label>
 						<label>
 							<span>Email</span>
-							<input name="companyEmail" v-model="projectData.identity.companyEmail">
+							<input
+								name="companyEmail"
+								v-model="projectData.identity.companyEmail"
+							/>
 						</label>
 					</main>
 				</section>
@@ -60,18 +56,14 @@
 			<div title="Plugin Parameters" class="page">
 				<VirplugsEditorProjectParameters :parameters="projectData.parameters" />
 			</div>
-			<div title="Build Settings" class="page">
-				hallo
-			</div>
-			<div title="Packaging" class="page">
-				hallo
-			</div>
+			<div title="Build Settings" class="page">hallo</div>
+			<div title="Packaging" class="page">hallo</div>
 		</Virplugs-Page-Chooser>
 	</div>
 </template>
 
 <script>
-const fs = __non_webpack_require__('fs');
+const fs = require('fs');
 
 import VirplugsPageChooser from '@/components/PageChooser.vue';
 import VirplugsEditorProjectParameters from './parameters.vue';
@@ -80,70 +72,59 @@ export default {
 	name: 'VirplugsEditorProject',
 	components: {
 		VirplugsPageChooser,
-		VirplugsEditorProjectParameters
+		VirplugsEditorProjectParameters,
 	},
 	props: {
 		filename: {
 			type: String,
 			required: true,
-			default: null
-		}
+			default: null,
+		},
 	},
-	data: function() {
+	data: function () {
 		return {
-			projectData: { identity: { } }
+			projectData: { identity: {} },
 		};
 	},
 	methods: {
-		onResize(e) {
-
-		},
+		onResize(e) {},
 		save() {
-			fs.writeFile(this.filename, JSON.stringify(this.projectData),
-				{ encoding: "utf8" },
-				(err) => {
+			fs.writeFile(
+				this.filename,
+				JSON.stringify(this.projectData),
+				{ encoding: 'utf8' },
+				err => {
 					if (err) {
 						console.err(err);
 					} else {
-						console.log(this.filename + " saved");
+						console.log(this.filename + ' saved');
 					}
-				});
+				}
+			);
 			console.dir(this.projectData);
 		},
-		focus() {
-
-		}
+		focus() {},
 	},
-	beforeCreate() {
-
-	},
-	created() {
-
-	},
-	destroyed() {
-
-	},
-	updated() {
-
-	},
-	activated() {
-
-	},
+	beforeCreate() {},
+	created() {},
+	destroyed() {},
+	updated() {},
+	activated() {},
 	mounted() {
-		let data = fs.readFileSync(this.filename, {encoding: "utf8"});
+		let data = fs.readFileSync(this.filename, { encoding: 'utf8' });
 		let obj = JSON.parse(data.toString());
 		this.projectData = obj;
 
 		// this.projectData.identity.displayName = 'hoi';
 		// this.hi = 'sdf';
 		//this.$set(this.projectData.identity, 'displayName', 'sdf');
-	}
+	},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@import "../../styles/vars.less";
+@import '../../styles/vars.less';
 
 .editor {
 	flex: 1;
@@ -214,7 +195,7 @@ export default {
 
 				/* border-bottom: 1px solid #4e4f50; */
 				&.monospace {
-					font-family: "Segoe UI Mono", "Consolas", "Menlo", monospace;
+					font-family: 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
 				}
 
 				&:focus {
@@ -225,5 +206,4 @@ export default {
 		}
 	}
 }
-
 </style>

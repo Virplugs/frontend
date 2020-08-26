@@ -1,8 +1,8 @@
 <template>
 	<div
 		class="socket"
-		:class="[type, socket.name, used()?'used':''] | kebab"
-		:title="socket.name+'\\n'+socket.hint"
+		:class="[type, socket.name, used() ? 'used' : ''] | kebab"
+		:title="socket.name + '\\n' + socket.hint"
 	/>
 </template>
 
@@ -12,16 +12,18 @@ export default {
 	props: {
 		type: {
 			type: String,
-			default: ''
+			default: '',
 		},
 		socket: {
 			type: Object,
-			default: () => { return {name: ''}; }
+			default: () => {
+				return { name: '' };
+			},
 		},
 		used: {
 			type: Function,
-			default: () => 0
-		}
+			default: () => 0,
+		},
 	},
 };
 </script>

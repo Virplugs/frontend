@@ -2,35 +2,38 @@
 	<div class="filetree">
 		<h3>Categories</h3>
 		<FileTreeFolder :path="path" @select="select" :selected-files="selectedFiles" />
-		<MiniPlayer v-if="selectedFiles.length > 0 && selectedFiles[0].type === 'audio'" :file="selectedFiles[0].path" />
-		<FileInfo v-if="selectedFiles.length > 0 && selectedFiles[0].type !== 'audio'" :file="selectedFiles[0].path" :type="selectedFiles[0].type" />
+		<MiniPlayer
+			v-if="selectedFiles.length > 0 && selectedFiles[0].type === 'audio'"
+			:file="selectedFiles[0].path"
+		/>
+		<FileInfo
+			v-if="selectedFiles.length > 0 && selectedFiles[0].type !== 'audio'"
+			:file="selectedFiles[0].path"
+			:type="selectedFiles[0].type"
+		/>
 	</div>
 </template>
 
 <script>
-import * as preferences from "@/preferences.js";
-import FileTreeFolder from "./FileTreeFolder.vue";
-import MiniPlayer from "./MiniPlayer.vue";
-import FileInfo from "./FileInfo.vue";
-
-const fs = __non_webpack_require__('fs');
-const path = __non_webpack_require__('path');
+import FileTreeFolder from './FileTreeFolder.vue';
+import MiniPlayer from './MiniPlayer.vue';
+import FileInfo from './FileInfo.vue';
 
 export default {
 	components: {
 		FileTreeFolder,
 		MiniPlayer,
-		FileInfo
+		FileInfo,
 	},
 	props: {
 		path: {
 			type: String,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
-			selectedFiles: []
+			selectedFiles: [],
 		};
 	},
 	methods: {
@@ -40,10 +43,9 @@ export default {
 			} else {
 				this.selectedFiles = [item];
 			}
-		}
+		},
 	},
-	mounted() {
-	}
+	mounted() {},
 };
 </script>
 

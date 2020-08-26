@@ -1,17 +1,12 @@
 <template>
 	<div class="fileinfo">
-		<span class="desc">{{ type }}</span> {{ filename }}
+		<span class="desc">{{ type }}</span>
+		{{ filename }}
 	</div>
 </template>
 
 <script>
-import * as preferences from "@/preferences.js";
-import * as waveform from "@/waveform.js";
-import FileTreeFolder from "./FileTreeFolder.vue";
-import { getProject } from "@/Project.vue";
-
-const fs = __non_webpack_require__("fs");
-const path = __non_webpack_require__("path");
+const path = require('path');
 
 export default {
 	components: {},
@@ -22,13 +17,13 @@ export default {
 		},
 		type: {
 			type: String,
-			required: true
-		}
+			required: true,
+		},
 	},
 	computed: {
 		filename() {
 			return path.basename(this.file);
-		}
+		},
 	},
 	data() {
 		return {
@@ -41,9 +36,7 @@ export default {
 		},
 	},
 	methods: {
-		async openFile(file) {
-
-		}
+		async openFile(file) {},
 	},
 };
 </script>

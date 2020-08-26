@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="node parameter"
-		:class="[selected(), node.name, isPlaceholder ? 'placeholder' : '' ] | kebab"
+		:class="[selected(), node.name, isPlaceholder ? 'placeholder' : ''] | kebab"
 		:title="isPlaceholder ? 'This parameter is referenced, but does not currently exist' : ''"
 	>
 		<div class="nsockets">
@@ -44,13 +44,13 @@ export default {
 	name: 'ParameterComponent',
 	mixins: [VueRenderPlugin.mixin],
 	components: {
-		ParameterSocket
+		ParameterSocket,
 	},
 	props: {
 		isPlaceholder: {
 			type: Boolean,
-			default: false
-		}
-	}
+			default: false,
+		},
+	},
 };
 </script>

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-const fs = __non_webpack_require__('fs');
+const fs = require('fs');
 import * as monaco from 'monaco-editor';
 import { palette } from '@/styles.js';
 
@@ -13,33 +13,31 @@ export default {
 		filename: {
 			type: String,
 			required: true,
-			default: null
-		}
+			default: null,
+		},
 	},
 	methods: {
 		onResize(e) {
 			this.monacoEditor.layout();
 		},
 		save() {
-			fs.writeFile(this.filename, this.monacoEditor.getValue(),
-				{ encoding: "utf8" },
-				(err) => {
-					if (err) {
-						console.err(err);
-					} else {
-						console.log(this.filename + " saved");
-					}
-				});
+			fs.writeFile(this.filename, this.monacoEditor.getValue(), { encoding: 'utf8' }, err => {
+				if (err) {
+					console.err(err);
+				} else {
+					console.log(this.filename + ' saved');
+				}
+			});
 		},
 		focus() {
 			this.monacoEditor.focus();
-		}
+		},
 	},
 	created() {
-		window.addEventListener("resize", this.onResize);
+		window.addEventListener('resize', this.onResize);
 	},
 	destroyed() {
-		window.removeEventListener("resize", this.onResize);
+		window.removeEventListener('resize', this.onResize);
 	},
 	updated() {
 		// console.log('updated '+ this.filename);
@@ -52,32 +50,31 @@ export default {
 		monaco.editor.defineTheme('myCoolTheme', {
 			base: 'vs-dark',
 			inherit: true,
-			"colors": {
-				"editor.background": palette.colorPanelBackground,
-				"editor.lineHighlightBorder": "#FFFFFF10",
-				"editor.lineHighlightBackground": "#FFFFFF10"
+			colors: {
+				'editor.background': palette.colorPanelBackground,
+				'editor.lineHighlightBorder': '#FFFFFF10',
+				'editor.lineHighlightBackground': '#FFFFFF10',
 			},
 			rules: [
-				{ background: palette.colorPanelBackground }
+				{ background: palette.colorPanelBackground },
 				// { token: 'custom-info', foreground: '808080' },
 				// { token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
 				// { token: 'custom-notice', foreground: 'FFA500' },
 				// { token: 'custom-date', foreground: '008800' },
-			]
+			],
 		});
 
 		this.monacoEditor = monaco.editor.create(this.$refs.container, {
 			theme: 'myCoolTheme',
-			language: 'cpp'
+			language: 'cpp',
 		});
 
-		let data = fs.readFileSync(this.filename, {encoding: "utf8"});
+		let data = fs.readFileSync(this.filename, { encoding: 'utf8' });
 		this.monacoEditor.setValue(data.toString());
 
 		new ResizeObserver(entries => {
 			this.monacoEditor.layout();
 		}).observe(this.$el);
-
 
 		// editor.addAction({
 		// 	id: 'my-save-id',
@@ -97,13 +94,13 @@ export default {
 		// 		return null;
 		// 	}
 		// });
-	}
+	},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@import "../../styles/vars.less";
+@import '../../styles/vars.less';
 
 .editor {
 	flex: 1;
@@ -111,5 +108,4 @@ export default {
 	background: @colorPanelBackground;
 	cursor: default;
 }
-
 </style>

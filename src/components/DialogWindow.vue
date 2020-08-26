@@ -6,13 +6,12 @@
 
 <script>
 import { palette } from '@/styles.js';
-const remote = __non_webpack_require__('electron').remote;
 
 function copyStyles(sourceDoc, targetDoc) {
 	Array.from(sourceDoc.styleSheets).forEach(styleSheet => {
 		if (styleSheet.cssRules) {
 			// for <style> elements
-			const newStyleEl = sourceDoc.createElement("style");
+			const newStyleEl = sourceDoc.createElement('style');
 
 			Array.from(styleSheet.cssRules).forEach(cssRule => {
 				// write the text of each rule into the body of the style element
@@ -22,9 +21,9 @@ function copyStyles(sourceDoc, targetDoc) {
 			targetDoc.head.appendChild(newStyleEl);
 		} else if (styleSheet.href) {
 			// for <link> elements loading CSS from a URL
-			const newLinkEl = sourceDoc.createElement("link");
+			const newLinkEl = sourceDoc.createElement('link');
 
-			newLinkEl.rel = "stylesheet";
+			newLinkEl.rel = 'stylesheet';
 			newLinkEl.href = styleSheet.href;
 			targetDoc.head.appendChild(newLinkEl);
 		}
@@ -35,7 +34,7 @@ export default {
 	name: 'VirplugsDialogWindow',
 	model: {
 		prop: 'open',
-		event: 'close'
+		event: 'close',
 	},
 	props: {
 		open: {
@@ -52,16 +51,16 @@ export default {
 		},
 		type: {
 			type: String,
-			default: 'modal'
+			default: 'modal',
 		},
 		resizable: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		title: {
 			type: String,
-			default: ""
-		}
+			default: '',
+		},
 	},
 	data() {
 		return {
@@ -70,26 +69,27 @@ export default {
 	},
 	watch: {
 		open(newOpen) {
-			console.log("newOpen", newOpen);
-			if(newOpen) {
+			console.log('newOpen', newOpen);
+			if (newOpen) {
 				this.openPortal();
 			} else {
 				this.closePortal();
 			}
-		}
+		},
 	},
 	methods: {
 		openPortal() {
-			const left = (screen.width / 2) - (this.width / 2);
-			const top = (screen.height / 2) - (this.height / 2);
+			const left = screen.width / 2 - this.width / 2;
+			const top = screen.height / 2 - this.height / 2;
 
 			this.windowRef = window.open(
 				``,
 				JSON.stringify({
 					type: this.type,
-					title: this.title
+					title: this.title,
 				}),
-				`width=${this.width},height=${this.height},left=${left},top=${top},resizable=${this.resizable},title=bla`
+				`width=${this.width},height=${this.height},left=${left},\
+				top=${top},resizable=${this.resizable},title=bla`
 			);
 			this.windowRef.document.body.style.backgroundColor = palette.colorPanelBackground;
 			this.windowRef.document.body.appendChild(this.$el);
@@ -99,15 +99,15 @@ export default {
 			});
 		},
 		closePortal() {
-			if(this.windowRef) {
+			if (this.windowRef) {
 				this.windowRef.close();
 				this.windowRef = null;
 				this.$emit('close');
 			}
-		}
+		},
 	},
 	mounted() {
-		if(this.open) {
+		if (this.open) {
 			this.openPortal();
 		}
 	},
@@ -115,6 +115,6 @@ export default {
 		if (this.windowRef) {
 			this.closePortal();
 		}
-	}
+	},
 };
 </script>

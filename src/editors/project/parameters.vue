@@ -34,8 +34,8 @@ import 'jquery-ui/ui/widgets/sortable';
 
 import VirplugsEditorProjectParameter from './parameter.vue';
 
-import VirplugsToolbar from "../../components/Toolbar/Toolbar.vue";
-import VirplugsToolbarButton from "../../components//Toolbar/ToolbarButton.vue";
+import VirplugsToolbar from '../../components/Toolbar/Toolbar.vue';
+import VirplugsToolbarButton from '../../components//Toolbar/ToolbarButton.vue';
 // import VirplugsToolbarSeparator from "../../components//Toolbar/ToolbarSeparator.vue";
 
 function nextID(parameters) {
@@ -44,7 +44,7 @@ function nextID(parameters) {
 			return i;
 		}
 	}
-	alert("Ran out of ID space");
+	alert('Ran out of ID space');
 }
 
 function sleep(ms) {
@@ -56,43 +56,46 @@ export default {
 	components: {
 		VirplugsEditorProjectParameter,
 		VirplugsToolbar,
-		VirplugsToolbarButton
+		VirplugsToolbarButton,
 	},
 	props: {
 		parameters: {
 			type: Array,
 			default: () => [],
-			required: true
-		}
+			required: true,
+		},
 	},
 	methods: {
 		async createParameter(anim) {
-			if (anim && this.collapseAll()) await sleep(200);
+			if (anim && this.collapseAll()) {
+				await sleep(200);
+			}
 
 			this.parameters.push({
-				"id": nextID(this.parameters),
-				"title": "",
-				"shortTitle": "",
-				"units": "",
-				"stepCount": "",
-				"defaultNormalizedValue": "",
-				"flagIsReadOnly": false,
-				"flagIsWrapAround": false,
-				"flagIsList": false,
-				"flagIsProgramChange": false,
-				"flagIsBypass": false
+				id: nextID(this.parameters),
+				title: '',
+				shortTitle: '',
+				units: '',
+				stepCount: '',
+				defaultNormalizedValue: '',
+				flagIsReadOnly: false,
+				flagIsWrapAround: false,
+				flagIsList: false,
+				flagIsProgramChange: false,
+				flagIsBypass: false,
 			});
 
 			if (anim && this.$refs.parameters?.length) {
 				this.$refs.parameters[this.$refs.parameters.length - 1].$el.scrollIntoView({
-					behavior: 'smooth'
+					behavior: 'smooth',
 				});
 			}
 			return this.parameters[this.parameters.length - 1];
-
 		},
 		collapseAll() {
-			if (!this.$refs.parameters) return;
+			if (!this.$refs.parameters) {
+				return;
+			}
 			if (!this.$refs.parameters.length) {
 				this.$refs.parameters.isCollapsed = true;
 				return;
@@ -107,16 +110,15 @@ export default {
 		duplicateParameter(parameter) {
 			const copy = JSON.parse(JSON.stringify(parameter));
 			copy.id = nextID(this.parameters);
-			copy.title += " (duplicate)";
-			this.parameters.splice(this.parameters.indexOf(parameter) + 1, 0,
-				copy);
-		}
+			copy.title += ' (duplicate)';
+			this.parameters.splice(this.parameters.indexOf(parameter) + 1, 0, copy);
+		},
 	},
 	mounted() {
-		const list = $(this.$el).find(".parameter-list");
+		const list = $(this.$el).find('.parameter-list');
 		list.sortable({
 			axis: 'y',
-			handle: ".title",
+			handle: '.title',
 			placeholder: null,
 			stop: (event, ui) => {
 				const parameter = ui.item[0].__vue__.parameter;
@@ -134,15 +136,15 @@ export default {
 				// this.parameters.splice(newIndex, 0, parameter);
 
 				return false;
-			}
+			},
 		});
-	}
+	},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@import "../../styles/vars.less";
+@import '../../styles/vars.less';
 
 .parameters {
 	display: flex;
@@ -169,5 +171,4 @@ export default {
 	background: @colorPanelToolbarBackground;
 	padding: 2px;
 }
-
 </style>

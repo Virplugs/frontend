@@ -68,14 +68,14 @@ export default {
 	name: 'CustomNodeComponent',
 	mixins: [VueRenderPlugin.mixin],
 	components: {
-		CustomSocket
-	}
+		CustomSocket,
+	},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-	.bla {
-		display: inherit;
-	}
+.bla {
+	display: inherit;
+}
 </style>

@@ -6,20 +6,23 @@ module.exports = {
 	lintOnSave: process.env.NODE_ENV !== 'production',
 	configureWebpack: {
 		node: {
-			global: false
+			global: false,
 		},
 		plugins: [
 			new StyleLintPlugin({
 				files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
-			})
+			}),
 		],
 		resolve: {
-			symlinks: false
+			symlinks: false,
 		},
 		externals: {
 			'@virplugs/audioengine': 'commonjs @virplugs/audioengine',
-			'path': 'commonjs path',
-			'process': 'commonjs process',
+			path: 'commonjs path',
+			fs: 'commonjs fs',
+			process: 'commonjs process',
+			fswin: 'commonjs fswin',
+			electron: 'commonjs electron',
 		},
 		module: {
 			rules: [
@@ -29,28 +32,26 @@ module.exports = {
 						{
 							loader: 'comlink-loader',
 							options: {
-								singleton: true
-							}
-						}
-					]
+								singleton: true,
+							},
+						},
+					],
 				},
-			]
+			],
 		},
 		devtool: 'source-map',
 		output: {
-			devtoolModuleFilenameTemplate: info => info.resourcePath.match(/^\.\/\S*?\.vue$/)
-				? `webpack-generated:///${info.resourcePath}?${info.hash}`
-				: `app:///${info.resourcePath.replace(/^\.\//, '')}`,
+			devtoolModuleFilenameTemplate: info =>
+				info.resourcePath.match(/^\.\/\S*?\.vue$/)
+					? `webpack-generated:///${info.resourcePath}?${info.hash}`
+					: `app:///${info.resourcePath.replace(/^\.\//, '')}`,
 
 			devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
-		}
+		},
 	},
-	publicPath: process.env.NODE_ENV === 'production'
-		? './'
-		: '/',
+	publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 	productionSourceMap: false,
 	devServer: {
-		port: 8123
+		port: 8123,
 	},
-
 };

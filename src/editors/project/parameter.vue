@@ -1,100 +1,113 @@
 <template>
 	<li class="template editing">
 		<div class="title" @click="isCollapsed = !isCollapsed">
-			<i aria-hidden="true" class="material-icons collapser">{{ isCollapsed ? 'keyboard_arrow_right' : 'keyboard_arrow_down' }}</i>
-			<span class="title-text">{{ parameter.title === '' ? '(New parameter)' : parameter.title }}</span>
+			<i aria-hidden="true" class="material-icons collapser">
+				{{ isCollapsed ? 'keyboard_arrow_right' : 'keyboard_arrow_down' }}
+			</i>
+			<span class="title-text">
+				{{ parameter.title === '' ? '(New parameter)' : parameter.title }}
+			</span>
 			<span class="title-lens" />
-			<i aria-hidden="true" class="button material-icons delete" title="Delete" @click.stop="$emit('delete')">delete</i>
-			<i aria-hidden="true" class="button material-icons duplicate" title="Duplicate" @click.stop="$emit('duplicate')">content_copy</i>
+			<i
+				aria-hidden="true"
+				class="button material-icons delete"
+				title="Delete"
+				@click.stop="$emit('delete')"
+			>
+				delete
+			</i>
+			<i
+				aria-hidden="true"
+				class="button material-icons duplicate"
+				title="Duplicate"
+				@click.stop="$emit('duplicate')"
+			>
+				content_copy
+			</i>
 		</div>
 		<main v-show="!isCollapsed">
 			<div class="table">
 				<div class="table-head">
-					<div class="table-head-cell">
-						Key
-					</div>
-					<div class="table-head-cell">
-						Value
+					<div class="table-head-cell">Key</div>
+					<div class="table-head-cell">Value</div>
+				</div>
+				<div class="table-row">
+					<div class="table-cell">Title</div>
+					<div class="table-cell">
+						<input name="title" v-model="parameter.title" />
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">Short Title</div>
 					<div class="table-cell">
-						Title
-					</div>
-					<div class="table-cell">
-						<input name="title" v-model="parameter.title">
+						<input name="shortTitle" v-model="parameter.shortTitle" />
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">Units</div>
 					<div class="table-cell">
-						Short Title
-					</div>
-					<div class="table-cell">
-						<input name="shortTitle" v-model="parameter.shortTitle">
+						<input name="units" v-model="parameter.units" />
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">Step Count</div>
 					<div class="table-cell">
-						Units
-					</div>
-					<div class="table-cell">
-						<input name="units" v-model="parameter.units">
+						<input name="stepCount" v-model="parameter.stepCount" />
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">Default Normalized Value</div>
 					<div class="table-cell">
-						Step Count
-					</div>
-					<div class="table-cell">
-						<input name="stepCount" v-model="parameter.stepCount">
-					</div>
-				</div>
-				<div class="table-row">
-					<div class="table-cell">
-						Default Normalized Value
-					</div>
-					<div class="table-cell">
-						<input name="defaultNormalizedValue" v-model="parameter.defaultNormalizedValue">
+						<input
+							name="defaultNormalizedValue"
+							v-model="parameter.defaultNormalizedValue"
+						/>
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">is Read Only</div>
 					<div class="table-cell">
-						is Read Only
-					</div>
-					<div class="table-cell">
-						<input name="flagIsReadOnly" type="checkbox" v-model="parameter.flagIsReadOnly">
-					</div>
-				</div>
-				<div class="table-row">
-					<div class="table-cell">
-						is Wrap Around
-					</div>
-					<div class="table-cell">
-						<input name="flagIsWrapAround" type="checkbox" v-model="parameter.flagIsWrapAround">
+						<input
+							name="flagIsReadOnly"
+							type="checkbox"
+							v-model="parameter.flagIsReadOnly"
+						/>
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">is Wrap Around</div>
 					<div class="table-cell">
-						is List
-					</div>
-					<div class="table-cell">
-						<input name="flagIsList" type="checkbox" v-model="parameter.flagIsList">
-					</div>
-				</div>
-				<div class="table-row">
-					<div class="table-cell">
-						is Program Change
-					</div>
-					<div class="table-cell">
-						<input name="flagIsProgramChange" type="checkbox" v-model="parameter.flagIsProgramChange">
+						<input
+							name="flagIsWrapAround"
+							type="checkbox"
+							v-model="parameter.flagIsWrapAround"
+						/>
 					</div>
 				</div>
 				<div class="table-row">
+					<div class="table-cell">is List</div>
 					<div class="table-cell">
-						is Bypass
+						<input name="flagIsList" type="checkbox" v-model="parameter.flagIsList" />
 					</div>
+				</div>
+				<div class="table-row">
+					<div class="table-cell">is Program Change</div>
 					<div class="table-cell">
-						<input name="flagIsBypass" type="checkbox" v-model="parameter.flagIsBypass">
+						<input
+							name="flagIsProgramChange"
+							type="checkbox"
+							v-model="parameter.flagIsProgramChange"
+						/>
+					</div>
+				</div>
+				<div class="table-row">
+					<div class="table-cell">is Bypass</div>
+					<div class="table-cell">
+						<input
+							name="flagIsBypass"
+							type="checkbox"
+							v-model="parameter.flagIsBypass"
+						/>
 					</div>
 				</div>
 			</div>
@@ -102,51 +115,53 @@
 	</li>
 </template>
 
-
 <script>
 import $ from 'jquery';
 
 export default {
 	name: 'VirplugsEditorProjectParameter',
-	components: {
-	},
+	components: {},
 	props: {
 		collapsed: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		parameter: {
 			type: Object,
 			default: () => {},
-			required: true
-		}
+			required: true,
+		},
 	},
-	data: function() {
+	data: function () {
 		return {
-			isCollapsed: false
+			isCollapsed: false,
 		};
 	},
-	methods: {
-
-	},
+	methods: {},
 	mounted() {
 		this.isCollapsed = this.collapsed;
-		$(this.$el).find(".table input").on('focus', function () {
-			$(this).closest('.table-row').addClass('focus');
-		});
-		$(this.$el).find(".table input").on('blur', function () {
-			$(this).closest('.table-row').removeClass('focus');
-		});
-		$(this.$el).find(".table-row").click(function () {
-			$(this).find('input')[0].focus();
-		});
-	}
+		$(this.$el)
+			.find('.table input')
+			.on('focus', function () {
+				$(this).closest('.table-row').addClass('focus');
+			});
+		$(this.$el)
+			.find('.table input')
+			.on('blur', function () {
+				$(this).closest('.table-row').removeClass('focus');
+			});
+		$(this.$el)
+			.find('.table-row')
+			.click(function () {
+				$(this).find('input')[0].focus();
+			});
+	},
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@import "../../styles/vars.less";
+@import '../../styles/vars.less';
 
 .title {
 	position: relative;
@@ -198,7 +213,7 @@ li .title i.material-icons.collapser {
 
 li .title .title-lens {
 	color: #777;
-	font-family: "Segoe UI Mono", "Consolas", "Menlo", monospace;
+	font-family: 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
 	margin-left: 20px;
 	position: relative;
 	white-space: nowrap;
@@ -262,20 +277,20 @@ li main a {
 	width: 100%;
 }
 
-.table-cell input[type=checkbox] {
+.table-cell input[type='checkbox'] {
 	width: auto;
 	height: auto;
-	font-family: "Segoe UI Mono", "Consolas", "Menlo", monospace;
+	font-family: 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
 	font-size: 13px;
 	line-height: 13px;
 }
 
-.table-cell input[type=checkbox]::after {
+.table-cell input[type='checkbox']::after {
 	content: 'false';
 	margin-left: 20px;
 }
 
-.table-cell input[type=checkbox]:checked::after {
+.table-cell input[type='checkbox']:checked::after {
 	content: 'true';
 }
 
@@ -291,5 +306,4 @@ li main a {
 .table-row:active {
 	background: rgba(71, 149, 212, 0.1);
 }
-
 </style>

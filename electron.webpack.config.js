@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-	target: "node",
+	target: 'node',
 	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	entry: './electron.js',
 	output: {
@@ -13,7 +13,7 @@ module.exports = {
 		'vue-devtools': 'commonjs vue-devtools',
 	},
 	resolve: {
-		symlinks: false
+		symlinks: false,
 	},
 	module: {
 		rules: [
@@ -25,6 +25,6 @@ module.exports = {
 					},
 				],
 			},
-		]
-	}
+		],
+	},
 };

@@ -18,13 +18,9 @@
 				:resizer-thickness="1"
 			>
 				<virplugs-browser slot="firstPane" />
-				<div slot="secondPane">
-					CENTER
-				</div>
+				<div slot="secondPane">CENTER</div>
 			</rs-panes>
-			<div slot="secondPane">
-				BOTTOM
-			</div>
+			<div slot="secondPane">BOTTOM</div>
 		</rs-panes>
 	</div>
 </template>
@@ -38,27 +34,27 @@ import audioEngine from '@/audioengine';
 export default {
 	components: {
 		'rs-panes': ResSplitPane,
-		VirplugsBrowser
+		VirplugsBrowser,
 	},
-	data: function() {
+	data: function () {
 		const transport = new audioEngine.Transport();
-		const cueTrack = new audioEngine.Track("cue", [0], [0]);
+		const cueTrack = new audioEngine.Track('cue', [0], [0]);
 		transport.tracks = [cueTrack];
 		audioEngine.setActiveTransport(transport);
-	return {
+		return {
 			FLAG__isRootProject: true,
 			transport,
-			cueTrack
+			cueTrack,
 		};
-	}
+	},
 };
 
 export function getProject(vueElement) {
-	while (!!vueElement && !vueElement.FLAG__isRootProject)
+	while (!!vueElement && !vueElement.FLAG__isRootProject) {
 		vueElement = vueElement.$parent;
+	}
 	return vueElement;
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

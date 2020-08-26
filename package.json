@@ -39,23 +39,10 @@
       "dist/**"
     ]
   },
-  "eslintConfig": {
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaVersion": 2020
-    },
-    "env": {
-      "browser": true,
-      "node": true,
-      "es2020": true,
-      "jquery": true
-    }
-  },
   "author": "Virplugs",
   "license": "GPL-3.0-only",
   "dependencies": {
     "@virplugs/audioengine": "github:virplugs/audioengine",
-    "bson-ext": "^2.0.5",
     "fswin": "^3.19.908"
   },
   "devDependencies": {
@@ -77,6 +64,8 @@
     "electron-rebuild": "^1.11.0",
     "electron-splashscreen": "^1.0.0",
     "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
     "less": "^3.0.4",
     "less-loader": "^6.2.0",
@@ -87,6 +76,7 @@
     "material-design-icons": "^3.0.1",
     "mousetrap": "^1.6.5",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.1",
     "raw-loader": "^4.0.1",
     "rete": "^1.4.4",
     "rete-area-plugin": "^0.2.1",
@@ -113,9 +103,6 @@
     "vuedraggable": "^2.24.0",
     "wait-on": "^5.1.0",
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "xterm": "^4.8.1",
-    "xterm-addon-fit": "^0.4.0",
-    "xterm-addon-search": "^0.7.0"
+    "webpack-cli": "^3.3.12"
   }
 }

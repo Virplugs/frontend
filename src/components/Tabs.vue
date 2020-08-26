@@ -1,5 +1,5 @@
 <template>
-	<div class="tabs" :class="{isEmpty: tabs.length === 0}" tabindex="0">
+	<div class="tabs" :class="{ isEmpty: tabs.length === 0 }" tabindex="0">
 		<draggable
 			class="tabbar"
 			ref="tabbar"
@@ -15,7 +15,7 @@
 					:key="tab.props.key"
 					:data-key="tab.props.key"
 					:ref="tab.props.key"
-					:class="{selected: tab === currentTab}"
+					:class="{ selected: tab === currentTab }"
 					@click.stop="selectTab(tab)"
 					@click.middle="closeTab(tab)"
 				>
@@ -26,7 +26,9 @@
 						class="material-icons close"
 						title="close"
 						@click.stop="closeTab(tab)"
-					>close</i>
+					>
+						close
+					</i>
 				</li>
 			</transition-group>
 		</draggable>
@@ -57,19 +59,19 @@ import draggable from 'vuedraggable';
 export default {
 	name: 'VirplugsTabs',
 	components: {
-		draggable
+		draggable,
 	},
 	props: {
 		tabs: {
 			type: Array,
-			default: () => []
+			default: () => [],
 		},
 		currentTab: {
 			type: Object,
-			default: () => null
+			default: () => null,
 		},
 	},
-	data: function() {
+	data: function () {
 		return {
 			prevTab: null,
 			hasFocus: false,
@@ -85,7 +87,7 @@ export default {
 
 			this.$nextTick(() => {
 				this.$refs[val.props.key][0].scrollIntoView({
-					behavior: 'smooth'
+					behavior: 'smooth',
 				});
 				this.$emit('tabChange', {
 					val,
@@ -99,11 +101,11 @@ export default {
 		dragOptions() {
 			return {
 				animation: 200,
-				group: "description",
+				group: 'description',
 				disabled: false,
-				ghostClass: "ghost"
+				ghostClass: 'ghost',
 			};
-		}
+		},
 	},
 	methods: {
 		selectTab(tab) {
@@ -118,19 +120,25 @@ export default {
 		},
 
 		closeTab(tab) {
-			if (!tab.props.closable) return;
+			if (!tab.props.closable) {
+				return;
+			}
 			const index = this.tabs.indexOf(tab);
 			//this.tabs = this.tabs.filter(t => t !== tab);
-			this.$emit('update:tabs', this.tabs.filter(t => t !== tab));
+			this.$emit(
+				'update:tabs',
+				this.tabs.filter(t => t !== tab)
+			);
 
 			// If we weren't collapsed, select another tab
-			this.currentTab && this.$nextTick(() => {
-				if (this.tabs.includes(this.prevTab)) {
-					this.selectTab(this.prevTab);
-				} else {
-					this.selectTab(this.tabs[Math.min(index, this.tabs.length - 1)]);
-				}
-			});
+			this.currentTab &&
+				this.$nextTick(() => {
+					if (this.tabs.includes(this.prevTab)) {
+						this.selectTab(this.prevTab);
+					} else {
+						this.selectTab(this.tabs[Math.min(index, this.tabs.length - 1)]);
+					}
+				});
 		},
 
 		getCurrentTab() {
@@ -145,7 +153,7 @@ export default {
 			this.hasFocus = false;
 		},
 	},
-	mounted: function() {
+	mounted: function () {
 		// this.$el.addEventListener('wheel', (e) => {
 		// 	this.$refs.tabbarul.scrollLeft += e.deltaY;
 		// });
@@ -156,12 +164,11 @@ export default {
 		this.$el.removeEventListener('focusin', this.focusIn);
 		this.$el.removeEventListener('focusout', this.focusOut);
 	},
-
 };
 </script>
 
 <style scoped lang="less">
-@import "../styles/vars.less";
+@import '../styles/vars.less';
 
 .tabs {
 	display: flex;

@@ -12,30 +12,30 @@
 			>
 				<main slot="firstPane">
 					<h1>
-						<img src="@/assets/icons/drag_affordance.svg" class="drag-affordance">
+						<img src="@/assets/icons/drag_affordance.svg" class="drag-affordance" />
 						Browser
 					</h1>
 					<div class="sections">
 						<section>
 							<h2>Categories</h2>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Type of Sounds</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Drums</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Instruments</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Audio Effects</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Plug-ins</span>
 							</div>
 						</section>
@@ -47,13 +47,13 @@
 								v-for="place in places"
 								:key="place.path"
 								@mousedown="currentItem = place"
-								:class="{selected: currentItem === place}"
+								:class="{ selected: currentItem === place }"
 							>
-								<img src="@/assets/icons/folder.svg">
+								<img src="@/assets/icons/folder.svg" />
 								<span>{{ place.name }}</span>
 							</div>
 							<div class="item add" @click="addFolder">
-								<img src="@/assets/icons/add.svg">
+								<img src="@/assets/icons/add.svg" />
 								<span>Add Folder...</span>
 							</div>
 						</section>
@@ -61,23 +61,23 @@
 						<section>
 							<h2>Favorites</h2>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Type of Sounds</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Drums</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Instruments</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Audio Effects</span>
 							</div>
 							<div class="item">
-								<img src="@/assets/icons/note.svg">
+								<img src="@/assets/icons/note.svg" />
 								<span>Plug-ins</span>
 							</div>
 						</section>
@@ -85,7 +85,7 @@
 				</main>
 				<aside slot="secondPane">
 					<div class="searchbox">
-						<input placeholder="Search for anything">
+						<input placeholder="Search for anything" />
 					</div>
 
 					<VirplugsFileTree
@@ -101,43 +101,48 @@
 </template>
 
 <script>
-import ResSplitPane from "vue-resize-split-pane";
-import VirplugsFileTree from "@/components/browser/FileTree.vue";
-import * as preferences from "@/preferences.js";
+import ResSplitPane from 'vue-resize-split-pane';
+import VirplugsFileTree from '@/components/browser/FileTree.vue';
+import * as preferences from '@/preferences.js';
 
 export default {
 	components: {
-		"rs-panes": ResSplitPane,
-		VirplugsFileTree
+		'rs-panes': ResSplitPane,
+		VirplugsFileTree,
 	},
 	props: {},
 	data() {
 		return {
-			places: preferences.get("places") || [],
+			places: preferences.get('places') || [],
 			currentItem: null,
 		};
 	},
 	methods: {
 		addFolder() {
-			const { dialog } = __non_webpack_require__("electron").remote;
-			const path = __non_webpack_require__("path");
+			const { dialog } = require('electron').remote;
+			const path = require('path');
 
-			dialog.showOpenDialog(window.win, {
-					properties: ["openDirectory"],
+			dialog
+				.showOpenDialog(window.win, {
+					properties: ['openDirectory'],
 				})
-				.then((result) => {
-					if (result.canceled) return;
+				.then(result => {
+					if (result.canceled) {
+						return;
+					}
 					for (let folder of result.filePaths) {
-						if (this.places.some(p => p.path === folder)) continue;
+						if (this.places.some(p => p.path === folder)) {
+							continue;
+						}
 						this.places.push({
 							path: folder,
-							name: path.basename(folder) || folder.replace(/(\\|\/)$/, "")
+							name: path.basename(folder) || folder.replace(/(\\|\/)$/, ''),
 						});
 					}
 					preferences.set('places', this.places);
 					preferences.commit();
 				})
-				.catch((err) => {
+				.catch(err => {
 					console.error(err);
 				});
 		},

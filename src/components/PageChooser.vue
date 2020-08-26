@@ -8,7 +8,12 @@
 				<li
 					v-for="slot in $slots.default"
 					:key="slot.key"
-					:class="{selected: slot && currentSlot && slot.data.attrs.title === currentSlot.data.attrs.title}"
+					:class="{
+						selected:
+							slot &&
+							currentSlot &&
+							slot.data.attrs.title === currentSlot.data.attrs.title,
+					}"
 					@click="currentSlot = slot"
 				>
 					{{ slot ? slot.data.attrs.title : '' }}
@@ -28,39 +33,40 @@
 </template>
 
 <script>
-import Vue from 'vue';
-
 export default {
 	name: 'VirplugsPageChooser',
 	props: {
 		currentTab: {
 			type: Object,
-			default: () => null
+			default: () => null,
 		},
 		showHeaders: {
 			type: Boolean,
 			default: true,
-			required: false
+			required: false,
 		},
 		mainHeader: {
 			type: String,
 			default: 'Configuration',
-			required: false
-		}
+			required: false,
+		},
 	},
-	data: function() {
+	data: function () {
 		return {
 			currentSlot: null,
 			hasFocus: false,
 		};
 	},
-	computed: {
-	},
+	computed: {},
 	watch: {
-		currentSlot: function(newSlot, oldSlot) {
-				if (oldSlot) oldSlot.elm.style.display = "none";
-				if (newSlot) newSlot.elm.style.display = "";
-		}
+		currentSlot: function (newSlot, oldSlot) {
+			if (oldSlot) {
+				oldSlot.elm.style.display = 'none';
+			}
+			if (newSlot) {
+				newSlot.elm.style.display = '';
+			}
+		},
 	},
 	methods: {
 		title(slot) {
@@ -88,12 +94,12 @@ export default {
 			this.hasFocus = false;
 		},
 	},
-	mounted: function() {
-		this.$nextTick(()=>{
+	mounted: function () {
+		this.$nextTick(() => {
 			this.currentSlot = this.$slots.default[0];
 			for (let slot of this.$slots.default) {
 				if (slot !== this.currentSlot) {
-					slot.elm.style.display = "none";
+					slot.elm.style.display = 'none';
 				}
 			}
 		});
@@ -106,12 +112,11 @@ export default {
 		this.$el.removeEventListener('focusin', this.focusIn);
 		this.$el.removeEventListener('focusout', this.focusOut);
 	},
-
 };
 </script>
 
 <style scoped lang="less">
-@import "../styles/vars.less";
+@import '../styles/vars.less';
 
 .page-chooser {
 	background: transparent;
@@ -178,5 +183,4 @@ export default {
 		display: flex;
 	}
 }
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<div class="item" :class="{disabled: disabled}" @click="$emit('click')">
+	<div class="item" :class="{ disabled: disabled }" @click="$emit('click')">
 		<slot />
 	</div>
 </template>
@@ -9,8 +9,8 @@ export default {
 	props: {
 		disabled: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 };
 </script>
