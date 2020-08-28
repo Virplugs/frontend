@@ -7,9 +7,6 @@ module.exports = {
 	extends: [
 		'eslint:recommended',
 		'plugin:vue/strongly-recommended',
-		'plugin:prettier/recommended',
-		'prettier',
-		'prettier/vue',
 	],
 	ignorePatterns: '*.min.js',
 	parserOptions: {

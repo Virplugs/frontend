@@ -23,6 +23,7 @@ module.exports = {
 			process: 'commonjs process',
 			fswin: 'commonjs fswin',
 			electron: 'commonjs electron',
+			robotjs: 'commonjs robotjs',
 		},
 		module: {
 			rules: [

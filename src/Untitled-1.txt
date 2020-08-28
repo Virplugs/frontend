@@ -1,0 +1,8 @@
+const ae = require('@virplugs/audioengine')
+var transport = new ae.Transport()
+transport.bpm = 120
+var track = new ae.Track("Track 1", [0], [0]);
+transport.tracks = [track]
+var audioevent = new ae.AudioEvent("loop", "D:\\drumLoop.wav")
+ae.setActiveTransport(transport)
+audioevent.playOnTrack(track)

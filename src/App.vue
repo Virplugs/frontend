@@ -34,7 +34,7 @@ import * as ae from '@/audioengine.js';
 const process = remote.require('process');
 
 import VirplugsTabs from '@/components/Tabs.vue';
-import VirplugsProject from '@/Project.vue';
+import VirplugsProject from '@/components/Project.vue';
 
 import VirplugsHeader from '@/components/header/Header.vue';
 import VirplugsHeaderSection from '@/components/header/HeaderSection.vue';
@@ -44,6 +44,7 @@ import VirplugsDialogWindow from '@/components/DialogWindow.vue';
 import Preferences from '@/dialogs/preferences/Preferences.vue';
 
 import * as preferences from '@/preferences.js';
+import { getProject } from './project';
 
 export default {
 	name: 'App',
@@ -108,6 +109,8 @@ export default {
 		}
 
 		this.$nextTick(function () {
+			const project = getProject(this.$refs.tabs.getCurrentTab());
+			project.setActive();
 			setTimeout(() => {
 				console.log('Virplugs ready');
 				window.win.show();
@@ -117,22 +120,22 @@ export default {
 			}, 500);
 		});
 
-		this.tabs.push({
-			component: VirplugsProject,
-			props: {
-				title: 'Project 2',
-				key: 'Project 2',
-				msg: 'project 2',
-			},
-		});
-		this.tabs.push({
-			component: VirplugsProject,
-			props: {
-				title: 'Project 3',
-				key: 'Project 3',
-				msg: 'project 3',
-			},
-		});
+		// this.tabs.push({
+		// 	component: VirplugsProject,
+		// 	props: {
+		// 		title: 'Project 2',
+		// 		key: 'Project 2',
+		// 		msg: 'project 2',
+		// 	},
+		// });
+		// this.tabs.push({
+		// 	component: VirplugsProject,
+		// 	props: {
+		// 		title: 'Project 3',
+		// 		key: 'Project 3',
+		// 		msg: 'project 3',
+		// 	},
+		// });
 	},
 	updated() {},
 	created() {},

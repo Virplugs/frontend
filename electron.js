@@ -34,13 +34,13 @@ function createWindow() {
 	console.log(`Running in mode ${process.env.NODE_ENV} (app.isPackaged: ${app.isPackaged})`);
 
 	if (process.env.NODE_ENV !== 'production') {
-		require('vue-devtools').install();
+		//require('vue-devtools').install();
 		enableSplashScreen = false;
 	}
 
 	win = new BrowserWindow({
-		width: 1300,
-		height: 870,
+		width: 1400,
+		height: 970,
 		frame: true,
 		transparent: false,
 		thickFrame: true,

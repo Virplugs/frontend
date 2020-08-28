@@ -1,7 +1,11 @@
 <template>
 	<div class="miniplayer">
-		<button class="autoplay" @click="autoplay = !autoplay" :class="{ checked: autoplay }">
-			<img src="@/assets/icons/headphones.svg" />
+		<button
+			class="autoplay"
+			@click="$emit('update:autoplay', !autoplay)"
+			:class="{ checked: autoplay }"
+		>
+			<img src="@/assets/icons/headphones.svg">
 		</button>
 		<div class="canvascontainer">
 			<canvas ref="canvas" />
@@ -11,7 +15,7 @@
 
 <script>
 import * as waveform from '@/waveform.js';
-import { getProject } from '@/Project.vue';
+import { getProject } from '@/project';
 
 import audioEngine, * as ae from '@/audioengine.js';
 
@@ -22,10 +26,14 @@ export default {
 			type: String,
 			required: true,
 		},
+		autoplay: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
-			autoplay: false,
+			id: Math.random().toString(36).substring(7),
 			height: 0,
 			width: 0,
 			playhead: 0,
@@ -48,13 +56,12 @@ export default {
 		draw() {
 			try {
 				const canvas = this.$refs.canvas;
+				if (!canvas) {
+					return;
+				}
 				const ctx = canvas.getContext('2d');
 
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-				if (this.waveformData === null) {
-					return;
-				}
 
 				const resolution = Math.floor(canvas.width / (this.lineWidth + this.margin));
 
@@ -62,6 +69,10 @@ export default {
 				if (this.waveformWindow != optimalWindow) {
 					this.readFileWaveform(this.file);
 					//return; // render 'SOMETING', it's better than nothing
+				}
+
+				if (this.waveformData === null) {
+					return;
 				}
 
 				ctx.fillStyle = '#0bcae6';
@@ -119,7 +130,8 @@ export default {
 			}
 
 			const canvas = this.$refs.canvas;
-			const resolution = Math.floor(canvas.width / (this.lineWidth + this.margin));
+			const width = canvas ? canvas.width : 200;
+			const resolution = Math.floor(width / (this.lineWidth + this.margin));
 			return nearestPowerOf2(this.fileInfo.frames / resolution);
 		},
 		async readFileWaveform(file) {
@@ -134,39 +146,54 @@ export default {
 				//console.log("data", data);
 				this.waveformData = data.waveformData;
 				this.waveformWindow = data.waveformWindow;
-				this.draw();
 			} catch (e) {
 				console.error(e);
 				this.waveformData = null;
 				this.waveformWindow = 0;
-				this.draw();
 			} finally {
 				this.isOpening = false;
 			}
+			this.draw();
 		},
 		async openFile(file) {
-			this.readFileWaveform(file);
+			await this.readFileWaveform(file);
 
 			const project = getProject(this);
 			if (this.audioevent) {
 				project.cueTrack.stopAudioEvent(this.audioevent);
 			}
-			this.audioevent = new audioEngine.AudioEvent('cue', file);
-			project.cueTrack.playAudioEvent(this.audioevent);
 
-			const timer = setInterval(() => {
+			this.playhead = -1;
+
+			if (this.autoplay) {
+				await this.play(file);
+			}
+		},
+
+		async play(file) {
+			if (this.destroyed) {
+				return;
+			}
+			const project = getProject(this);
+			this.audioevent = new audioEngine.NativeAudioEvent('cue', file);
+			project.cueTrack.nativeTrack.playAudioEvent(this.audioevent);
+
+			this.playheadTimer = setInterval(() => {
 				this.playhead = this.audioevent.lastFrameOffset / this.audioevent.totalFrames;
-				if (this.playhead >= 0.95) {
-					this.playhead = 1;
-					clearInterval(timer);
+				if (this.playhead > 1.0) {
+					clearInterval(this.playheadTimer);
+					this.audioevent = null;
 				}
 			}, 1000 / 30);
 		},
 	},
+	async created() {
+		await this.openFile(this.file);
+	},
 	mounted() {
-		const canvas = this.$refs.canvas;
 		const self = this;
-		new ResizeObserver(entries => {
+		const canvas = self.$refs.canvas;
+		self.resizeObserver = new ResizeObserver(entries => {
 			var parent = canvas.parentNode,
 				styles = getComputedStyle(parent),
 				w = parseInt(styles.getPropertyValue('width'), 10),
@@ -176,15 +203,21 @@ export default {
 			canvas.height = h;
 
 			self.draw();
-		}).observe(this.$el);
-
-		this.openFile(this.file);
+		});
+		self.resizeObserver.observe(this.$el);
 	},
-	beforeDestroy() {
+	destroyed() {
 		if (this.audioevent) {
 			const project = getProject(this);
-			project.cueTrack.stopAudioEvent(this.audioevent);
+			project.cueTrack.nativeTrack.stopAudioEvent(this.audioevent);
+			clearInterval(this.playheadTimer);
+			this.audioevent = null;
 		}
+		if (this.resizeObserver) {
+			this.resizeObserver.disconnect();
+		}
+
+		this.destroyed = true;
 	},
 };
 </script>

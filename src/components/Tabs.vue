@@ -39,15 +39,12 @@
 				:key="tab.props.key"
 				v-show="tab === currentTab"
 			>
-				<keep-alive>
-					<component
-						ref="editor"
-						v-if="tab === currentTab"
-						:is="tab.component"
-						v-bind="tab.props"
-						@title-changed="tab.props.title = $event"
-					/>
-				</keep-alive>
+				<component
+					ref="editor"
+					:is="tab.component"
+					v-bind="tab.props"
+					@title-changed="tab.props.title = $event"
+				/>
 			</div>
 		</div>
 	</div>

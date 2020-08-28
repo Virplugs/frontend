@@ -5,6 +5,7 @@
 		<MiniPlayer
 			v-if="selectedFiles.length > 0 && selectedFiles[0].type === 'audio'"
 			:file="selectedFiles[0].path"
+			:autoplay.sync="autoplay"
 		/>
 		<FileInfo
 			v-if="selectedFiles.length > 0 && selectedFiles[0].type !== 'audio'"
@@ -34,6 +35,7 @@ export default {
 	data() {
 		return {
 			selectedFiles: [],
+			autoplay: false,
 		};
 	},
 	methods: {
@@ -80,7 +82,7 @@ export default {
 		color: #b5b2b1;
 
 		.item {
-			line-height: 27px;
+			line-height: 25px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -109,7 +111,7 @@ export default {
 			}
 
 			span {
-				font-size: 15px;
+				font-size: 14px;
 			}
 
 			&.selected {

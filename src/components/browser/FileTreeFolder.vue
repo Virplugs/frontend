@@ -7,6 +7,9 @@
 				:style="`padding-left: ${40 + depth * 16}px`"
 				@mousedown="$emit('select', file, $event)"
 				@dblclick="action(file, $event)"
+				draggable="true"
+				@dragstart="dragfilestart(file, $event)"
+				@dragend="dragfileend(file, $event)"
 			>
 				<template v-if="file.type === 'directory'">
 					<img
@@ -80,6 +83,16 @@ export default {
 				)
 			);
 		},
+		dragfilestart(file, $event) {
+			// hide drag area thingy
+			$event.dataTransfer.setDragImage(document.createElement('div'), 0, 0);
+			$event.dataTransfer.setData('text/virplugs-inode', JSON.stringify(file));
+			$event.dataTransfer.setData(
+				'text/virplugs-inode/name:' + path.parse(file.path).name,
+				'x'
+			);
+		},
+		dragfileend(file, $event) {},
 	},
 	mounted() {
 		console.log('Opened folder', this.path);

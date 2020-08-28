@@ -8,6 +8,7 @@
         "christian-kohler.npm-intellisense",
         "rvest.vs-code-prettier-eslint",
         "octref.vetur",
-        "visualstudioexptteam.vscodeintellicode"
+        "visualstudioexptteam.vscodeintellicode",
+		"sonarsource.sonarlint-vscode"
     ]
 }

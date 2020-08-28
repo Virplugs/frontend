@@ -212,7 +212,7 @@ export default {
 			}
 
 			.item {
-				line-height: 27px;
+				line-height: 25px;
 				white-space: nowrap;
 				padding: 0 24px;
 				width: 100%;
@@ -227,7 +227,7 @@ export default {
 				}
 
 				span {
-					font-size: 15px;
+					font-size: 14px;
 				}
 
 				&.add {
@@ -263,7 +263,7 @@ export default {
 				border: none;
 				background: transparent;
 				color: #b5b2b1;
-				font-size: 15px;
+				font-size: 14px;
 				font-weight: normal;
 
 				&:focus {

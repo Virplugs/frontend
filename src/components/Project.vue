@@ -18,9 +18,13 @@
 				:resizer-thickness="1"
 			>
 				<virplugs-browser slot="firstPane" />
-				<div slot="secondPane">CENTER</div>
+				<div class="main" slot="secondPane">
+					<Mixer ref="mixer" :master-track="project.masterTrack" />
+				</div>
 			</rs-panes>
-			<div slot="secondPane">BOTTOM</div>
+			<div slot="secondPane">
+				BOTTOM
+			</div>
 		</rs-panes>
 	</div>
 </template>
@@ -28,33 +32,36 @@
 <script>
 import ResSplitPane from 'vue-resize-split-pane';
 import VirplugsBrowser from '@/components/browser/Browser.vue';
+import Mixer from '@/components/mixer/Mixer.vue';
 
-import audioEngine from '@/audioengine';
+import Project from '@/project';
+import Track from '@/track';
 
 export default {
 	components: {
 		'rs-panes': ResSplitPane,
 		VirplugsBrowser,
+		Mixer,
 	},
 	data: function () {
-		const transport = new audioEngine.Transport();
-		const cueTrack = new audioEngine.Track('cue', [0], [0]);
-		transport.tracks = [cueTrack];
-		audioEngine.setActiveTransport(transport);
+		const project = new Project();
+		project.masterTrack.addSubTrack(new Track('EL GUITAR'));
+		project.masterTrack.addSubTrack(new Track('DRUMS'));
+		project.masterTrack.addSubTrack(new Track('ROLAND 808'));
 		return {
+			project,
 			FLAG__isRootProject: true,
-			transport,
-			cueTrack,
 		};
 	},
-};
-
-export function getProject(vueElement) {
-	while (!!vueElement && !vueElement.FLAG__isRootProject) {
-		vueElement = vueElement.$parent;
+	methods: {
+		groupSelected() {
+			this.$refs.mixer.groupSelected();
+		},
+		deleteSelected() {
+			this.$refs.mixer.deleteSelected();
+		},
 	}
-	return vueElement;
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -64,5 +71,11 @@ export function getProject(vueElement) {
 	flex: 1;
 	overflow: hidden;
 	position: relative;
+
+	.main {
+		display: flex;
+		height: 100%;
+	}
 }
+
 </style>

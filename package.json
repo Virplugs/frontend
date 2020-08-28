@@ -43,7 +43,8 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "@virplugs/audioengine": "github:virplugs/audioengine",
-    "fswin": "^3.19.908"
+    "fswin": "^3.19.908",
+    "robotjs": "^0.6.0"
   },
   "devDependencies": {
     "@virplugs/license-checker": "github:virplugs/license-checker#master",
@@ -57,7 +58,7 @@
     "concurrently": "^5.2.0",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
-    "electron": "^9.2.1",
+    "electron": "^10.0.0",
     "electron-builder": "^22.8.0",
     "electron-is-dev": "^1.2.0",
     "electron-modal": "^1.0.0",
@@ -95,6 +96,7 @@
     "stylelint-config-standard": "^20.0.0",
     "stylelint-webpack-plugin": "^2.1.0",
     "ubuntu-fontface": "^0.1.13",
+    "uuid": "^8.3.0",
     "vue": "^2.6.11",
     "vue-devtools": "^5.1.4",
     "vue-observe-visibility": "^0.4.6",

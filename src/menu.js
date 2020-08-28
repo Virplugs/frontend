@@ -1,9 +1,11 @@
+import { getProject, getProjectComponent } from '@/project';
+
 const remote = require('electron').remote;
 const { app, Menu } = remote;
 const process = remote.require('process');
 
 const isMac = process.platform === 'darwin';
-const isDeveloper = process.env.NODE_ENV !== 'production';
+const isDeveloper = !app.isPackaged;
 
 export const template = [
 	...(isMac
@@ -30,7 +32,7 @@ export const template = [
 						{ role: 'quit' },
 					],
 				},
-		  ]
+		]
 		: []),
 
 	{
@@ -71,7 +73,7 @@ export const template = [
 							accelerator: 'CmdOrCtrl+,',
 							click: () => window.app.openPreferences(),
 						},
-				  ]
+				]
 				: []),
 			{ type: 'separator' },
 			isMac ? { role: 'close' } : { role: 'quit' },
@@ -98,8 +100,32 @@ export const template = [
 							label: 'Speech',
 							submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
 						},
-				  ]
+				]
 				: [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]),
+			{ type: 'separator' },
+			{
+				label: 'Delete Selected',
+				accelerator: 'Delete',
+				click: () => getProjectComponent().deleteSelected(),
+			},
+			{ type: 'separator' },
+			{
+				label: 'Group Selected',
+				accelerator: 'CmdOrCtrl+G',
+				click: () => getProjectComponent().groupSelected(),
+			},
+		],
+	},
+
+	{
+		label: 'Create',
+		id: 'create',
+		submenu: [
+			{
+				label: 'Insert Track',
+				accelerator: 'CmdOrCtrl+T',
+				click: () => getProject().createNewTrack(),
+			},
 		],
 	},
 
@@ -133,7 +159,7 @@ export const template = [
 						},
 					],
 				},
-		  ]
+		]
 		: []),
 
 	{
@@ -148,7 +174,7 @@ export const template = [
 						{ role: 'front' },
 						{ type: 'separator' },
 						{ role: 'window' },
-				  ]
+				]
 				: [{ role: 'close' }]),
 		],
 	},
@@ -164,6 +190,8 @@ export const template = [
 					await shell.openExternal('https://electronjs.org');
 				},
 			},
+			{ role: 'forcereload' },
+			{ role: 'toggledevtools' },
 		],
 	},
 ];
