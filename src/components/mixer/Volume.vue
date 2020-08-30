@@ -3,7 +3,6 @@
 		class="volume"
 		tabindex="0"
 		@mousedown="startdrag($event)"
-		@mouseup="enddrag($event)"
 		@dblclick="setDefaultValue"
 		@focus="draw(false)"
 		@blur="draw(false)"
@@ -20,31 +19,6 @@ import Track from '@/track';
 import 'reflect-metadata';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import 'vue-class-component/hooks';
-
-import robotjs = require('robotjs');
-
-function roundRect(
-	ctx: CanvasRenderingContext2D,
-	x: number,
-	y: number,
-	w: number,
-	h: number,
-	r: number
-) {
-	if (w < 2 * r) {
-		r = w / 2;
-	}
-	if (h < 2 * r) {
-		r = h / 2;
-	}
-	ctx.beginPath();
-	ctx.moveTo(x + r, y);
-	ctx.arcTo(x + w, y, x + w, y + h, r);
-	ctx.arcTo(x + w, y + h, x, y + h, r);
-	ctx.arcTo(x, y + h, x, y, r);
-	ctx.arcTo(x, y, x + w, y, r);
-	ctx.closePath();
-}
 
 function leftPointingTriangle(
 	ctx: CanvasRenderingContext2D,
@@ -194,55 +168,73 @@ export default class Volume extends Vue {
 		}
 	}
 
-	isDragging = false;
-	startScreenX = 0;
-	startScreenY = 0;
-	dy = 0;
-	dragStartValue = 0;
+	lastmousedown = 0;
+	lastdblclick = 0;
 	startdrag($event: MouseEvent) {
-		this.isDragging = true;
-		this.startScreenX = $event.screenX;
-		this.startScreenY = $event.screenY;
-		this.dragStartValue = this.track.nativeTrack.volume;
-		this.dy = 0;
-		document.body.classList.add('volume__hidecursor');
+		const doubleclickSpeed = 300;
+		const now = new Date().getTime();
+		if (now - this.lastdblclick <= doubleclickSpeed) {
+			// Triple click
+			console.log('tripleclick');
+			this.lastdblclick = now;
+			this.lastmousedown = now;
+			return;
+		}
+		if (now - this.lastmousedown <= doubleclickSpeed) {
+			// Double click
+			this.setDefaultValue();
+			this.lastdblclick = now;
+			this.lastmousedown = now;
+			return;
+		} else {
+			// Single click
+			this.lastmousedown = now;
+		}
+
+		this.$el.requestPointerLock();
+	}
+
+	pointerlockchange(e: Event) {
+		if (document.pointerLockElement === this.$el) {
+			// console.log('The pointer lock status is now locked');
+			document.addEventListener('mousemove', this.updatePosition, false);
+			document.addEventListener('mouseup', this.enddrag, false);
+			document.addEventListener('dblclick', this.setDefaultValue, false);
+		} else {
+			// console.log('The pointer lock status is now unlocked');
+			document.removeEventListener('mousemove', this.updatePosition, false);
+			document.removeEventListener('mouseup', this.enddrag, false);
+			document.removeEventListener('dblclick', this.setDefaultValue, false);
+		}
 	}
 
 	enddrag($event: MouseEvent) {
-		this.isDragging = false;
-
-		document.body.classList.remove('volume__hidecursor');
+		document.exitPointerLock();
 	}
 
-	ignoreNextMouseMove = false;
-	documentMouseMove(e: MouseEvent) {
-		if (this.isDragging) {
-			if (this.ignoreNextMouseMove) {
-				this.ignoreNextMouseMove = false;
-				return;
+	updatePosition(e: MouseEvent) {
+		const currentVolume = this.track.nativeTrack.volume;
+		if (
+			e.movementY != 0 &&
+			(e.movementY < 0 || currentVolume > 0) &&
+			(e.movementY > 0 || currentVolume < 2)
+		) {
+			const precisionAcceleration = e.shiftKey ? 0.1 : 1;
+			let newVal =
+				Math.max(this.noiseFloor, currentVolume) -
+				e.movementY *
+					Math.max(this.noiseFloor, Math.pow(currentVolume, 0.75)) *
+					this.acceleration *
+					precisionAcceleration;
+			newVal = Math.max(0, Math.min(2, newVal));
+			if (newVal < this.noiseFloor) {
+				newVal = 0;
 			}
-			const currentVolume = this.track.nativeTrack.volume;
-			const dy = e.screenY - this.startScreenY;
-			if (dy != 0 && (dy < 0 || currentVolume > 0) && (dy > 0 || currentVolume < 2)) {
-				const precisionAcceleration = e.shiftKey ? 0.1 : 1;
-				let newVal =
-					Math.max(this.noiseFloor, currentVolume) -
-					dy *
-						Math.max(this.noiseFloor, Math.pow(currentVolume, 0.75)) *
-						this.acceleration *
-						precisionAcceleration;
-				newVal = Math.max(0, Math.min(2, newVal));
-				if (newVal < this.noiseFloor) {
-					newVal = 0;
-				}
-				if (newVal !== currentVolume) {
-					this.$emit('input', newVal);
-					this.track.nativeTrack.volume = newVal;
-					this.draw();
-				}
+			if (newVal !== currentVolume) {
+				this.$emit('input', newVal);
+				this.track.nativeTrack.volume = newVal;
+				this.draw();
 			}
-			this.ignoreNextMouseMove = true;
-			robotjs.moveMouse(this.startScreenX, this.startScreenY);
 		}
 	}
 
@@ -262,7 +254,9 @@ export default class Volume extends Vue {
 		if (newVal !== currentVolume) {
 			this.$emit('input', newVal);
 			this.track.nativeTrack.volume = newVal;
-			this.draw();
+			window.requestAnimationFrame(() => {
+				this.draw();
+			});
 		}
 	}
 
@@ -296,7 +290,7 @@ export default class Volume extends Vue {
 
 		this.meterHeight = this.$refs.canvas.height - 8;
 
-		document.addEventListener('mousemove', this.documentMouseMove);
+		document.addEventListener('pointerlockchange', this.pointerlockchange, false);
 		(document as any).fonts.ready.then(() => this.draw(false));
 
 		const animFrameFn = (timestamp: number) => {
@@ -317,7 +311,7 @@ export default class Volume extends Vue {
 
 	isDestroyed = false;
 	beforeDestroy() {
-		document.removeEventListener('mousemove', this.documentMouseMove);
+		document.removeEventListener('pointerlockchange', this.pointerlockchange, false);
 		this.isDestroyed = true;
 		//this.resizeObserver.disconnect();
 	}
@@ -345,12 +339,5 @@ export default class Volume extends Vue {
 		background-repeat: no-repeat;
 		background-size: 8px 8px;
 	}
-}
-</style>
-
-<style lang="less">
-.volume__hidecursor,
-.volume__hidecursor * {
-	cursor: none !important;
 }
 </style>

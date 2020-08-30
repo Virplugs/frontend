@@ -7,9 +7,6 @@ import '@/menu';
 
 console.log('Loading Virplugs...');
 
-const robotjs = require('robotjs');
-robotjs.setMouseDelay(0);
-
 (window as any).win = require('electron').remote.getCurrentWindow();
 
 Vue.use(VueObserveVisibility);

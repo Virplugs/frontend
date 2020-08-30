@@ -23,7 +23,6 @@ module.exports = {
 			process: 'commonjs process',
 			fswin: 'commonjs fswin',
 			electron: 'commonjs electron',
-			robotjs: 'commonjs robotjs',
 		},
 		devtool: 'source-map',
 		output: {

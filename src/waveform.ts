@@ -4,7 +4,7 @@ import fs = require('fs');
 import path = require('path');
 import process = require('process');
 
-type WaveformCache = Record<number, audioEngine.WaveformOverview>;
+type WaveformCache = Record<number, audioEngine.WaveformOverview[]>;
 type CachedWaveform = {
 	file: string,
 	waveformData: audioEngine.WaveformOverview[] | null,
@@ -18,7 +18,7 @@ function getCacheFilename(file: string) {
 }
 
 async function processWaveform(file: string, window: number, cache: WaveformCache = {}): Promise<CachedWaveform> {
-	let waveformData: audioEngine.WaveformOverview;
+	let waveformData: audioEngine.WaveformOverview[];
 
 	if (!cache[window]) {
 		waveformData = await ae.readAudioFileWaveform(file, window);

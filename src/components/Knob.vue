@@ -8,7 +8,6 @@
 			width="40"
 			height="40"
 			@mousedown="startdrag($event)"
-			@mouseup="enddrag($event)"
 			@dblclick="setDefaultValue"
 			@wheel.prevent="wheel($event)"
 		>
@@ -46,15 +45,10 @@ import 'reflect-metadata';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import 'vue-class-component/hooks';
 
-import robotjs = require('robotjs');
-
 @Component
 export default class Knob extends Vue {
 	circumference = 0;
 	circumferenceMinusOpening = 0;
-	isDragging = false;
-	dy = 0;
-	dragStartValue = 0;
 
 	@Prop({ required: true }) value!: number;
 	@Prop({ default: 100 }) max!: number;
@@ -102,49 +96,76 @@ export default class Knob extends Vue {
 			this.$refs.progress.style.strokeDashoffset = offset.toString();
 		}
 	}
-	startScreenX = 0;
-	startScreenY = 0;
+
+	lastmousedown = 0;
+	lastdblclick = 0;
 	startdrag($event: MouseEvent) {
-		this.isDragging = true;
-		this.startScreenX = $event.screenX;
-		this.startScreenY = $event.screenY;
-		this.dragStartValue = this.value;
-		this.dy = 0;
-		document.body.classList.add('knob__hidecursor');
-	}
-	enddrag($event: MouseEvent) {
-		this.isDragging = false;
+		// Todo: refactor this so it's reusable
+		const doubleclickSpeed = 300;
+		const now = new Date().getTime();
+		if (now - this.lastdblclick <= doubleclickSpeed) {
+			// Triple click
+			console.log('tripleclick');
+			this.lastdblclick = now;
+			this.lastmousedown = now;
+			return;
+		}
+		if (now - this.lastmousedown <= doubleclickSpeed) {
+			// Double click
+			this.setDefaultValue();
+			this.lastdblclick = now;
+			this.lastmousedown = now;
+			return;
+		} else {
+			// Single click
+			this.lastmousedown = now;
+		}
 
-		document.body.classList.remove('knob__hidecursor');
+		this.$el.requestPointerLock();
 	}
 
-	ignoreNextMouseMove = false;
-	documentMouseMove(e: MouseEvent) {
-		if (this.isDragging) {
-			if (this.ignoreNextMouseMove) {
-				this.ignoreNextMouseMove = false;
-				return;
-			}
-			const dy = e.screenY - this.startScreenY;
-			if (dy != 0 && (dy < 0 || this.value > this.min) && (dy > 0 || this.value < this.max)) {
-				const precisionAcceleration = e.shiftKey ? 0.1 : 1;
-				this.dy -= dy * precisionAcceleration;
-				let newVal = Math.max(
-					this.min,
-					Math.min(this.max, this.dragStartValue + this.dy * this.relativeAcceleration)
-				);
-				if (this.stepSize) {
-					newVal = newVal - (newVal % this.stepSize);
-				}
-				if (newVal !== this.value) {
-					this.$emit('input', newVal);
-					this.setValue(newVal);
-				}
-			}
-			this.ignoreNextMouseMove = true;
-			robotjs.moveMouse(this.startScreenX, this.startScreenY);
+	pointerlockchange(e: Event) {
+		if (document.pointerLockElement === this.$el) {
+			// console.log('The pointer lock status is now locked');
+			document.addEventListener('mousemove', this.updatePosition, false);
+			document.addEventListener('mouseup', this.enddrag, false);
+			document.addEventListener('dblclick', this.setDefaultValue, false);
+		} else {
+			// console.log('The pointer lock status is now unlocked');
+			document.removeEventListener('mousemove', this.updatePosition, false);
+			document.removeEventListener('mouseup', this.enddrag, false);
+			document.removeEventListener('dblclick', this.setDefaultValue, false);
 		}
 	}
+
+	enddrag($event: MouseEvent) {
+		document.exitPointerLock();
+	}
+
+	updatePosition(e: MouseEvent) {
+		if (
+			e.movementY != 0 &&
+			(e.movementY < 0 || this.value > this.min) &&
+			(e.movementY > 0 || this.value < this.max)
+		) {
+			const precisionAcceleration = e.shiftKey ? 0.1 : 1;
+			let newVal = Math.max(
+				this.min,
+				Math.min(
+					this.max,
+					this.value - e.movementY * this.relativeAcceleration * precisionAcceleration
+				)
+			);
+			if (this.stepSize) {
+				newVal = newVal - (newVal % this.stepSize);
+			}
+			if (newVal !== this.value) {
+				this.$emit('input', newVal);
+				this.setValue(newVal);
+			}
+		}
+	}
+
 	wheel($event: WheelEvent) {
 		const precisionAcceleration = $event.shiftKey ? 0.1 : 1;
 		let newVal = Math.max(
@@ -194,11 +215,11 @@ export default class Knob extends Vue {
 
 		this.setValue(this.value);
 
-		document.addEventListener('mousemove', this.documentMouseMove);
+		document.addEventListener('pointerlockchange', this.pointerlockchange, false);
 	}
 
 	beforeDestroy() {
-		document.removeEventListener('mousemove', this.documentMouseMove);
+		document.removeEventListener('pointerlockchange', this.pointerlockchange, false);
 	}
 }
 </script>
@@ -250,12 +271,5 @@ export default class Knob extends Vue {
 .progress-ring__progress {
 	transform-origin: 50% 50%;
 	//transition: stroke-dashoffset 0.05s;
-}
-</style>
-
-<style lang="less">
-.knob__hidecursor,
-.knob__hidecursor * {
-	cursor: none !important;
 }
 </style>
