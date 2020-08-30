@@ -1,10 +1,13 @@
 <template>
-	<div class="channel" @mousedown.stop="$emit('select', {track, $event})">
+	<div class="channel" @mousedown.stop="$emit('select', { track, $event })">
 		<div class="color" :style="`background-color: ${track.color};`" />
 		<div class="container">
 			<div
 				class="maintrack"
-				:class="{selected: selectedtracks.includes(track), collapsed: !!collapsedtracks[track.id]}"
+				:class="{
+					selected: selectedtracks.includes(track),
+					collapsed: !!collapsedtracks[track.id],
+				}"
 				draggable="true"
 				@dragover="ondragover($event, track)"
 				@dragleave="ondragleave($event, track)"
@@ -15,7 +18,12 @@
 					{{ name }}
 				</div>
 
-				<img v-if="track.subTracks.length" class="collapser" src="@/assets/icons/mixer_collapse.svg" @mousedown="collapse(track)">
+				<img
+					v-if="track.subTracks.length"
+					class="collapser"
+					src="@/assets/icons/mixer_collapse.svg"
+					@mousedown="collapse(track)"
+				/>
 			</div>
 			<template v-if="showSubtracks && !collapsedtracks[track.id]">
 				<track-header
@@ -58,13 +66,13 @@ export default {
 		},
 		showSubtracks: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
 	computed: {
 		name() {
 			return this.track.name.replace(/#/g, this.index + 1);
-		}
+		},
 	},
 	methods: {
 		dragstart($event, track) {
@@ -87,7 +95,7 @@ export default {
 			$event.currentTarget.classList.remove('dropleft');
 			$event.currentTarget.classList.remove('dropright');
 		},
-		ondrop($event, /**@type {Track} */droppedOnTrack) {
+		ondrop($event, /**@type {Track} */ droppedOnTrack) {
 			$event.currentTarget.classList.remove('dropright');
 			$event.currentTarget.classList.remove('dropleft');
 			const id = $event.dataTransfer.getData('text/virplugs-track');
@@ -118,9 +126,8 @@ export default {
 		},
 		collapse(track) {
 			this.collapsedtracks[track.id] = !this.collapsedtracks[track.id];
-		}
-
-	}
+		},
+	},
 };
 </script>
 
@@ -157,7 +164,7 @@ export default {
 
 			&.dropleft {
 				&::before {
-					content: " ";
+					content: ' ';
 					display: block;
 					position: absolute;
 					left: -1px;
@@ -170,7 +177,7 @@ export default {
 
 			&.dropright {
 				&::before {
-					content: " ";
+					content: ' ';
 					display: block;
 					position: absolute;
 					right: -2px;

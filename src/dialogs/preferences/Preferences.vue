@@ -247,8 +247,8 @@ const process = remote.require('process');
 
 import debounce from 'lodash.debounce';
 
-import * as ae from '@/audioengine.js';
-import * as preferences from '@/preferences.js';
+import * as ae from '@/audioengine';
+import * as preferences from '@/preferences';
 
 import VirplugsPageChooser from '@/components/PageChooser.vue';
 

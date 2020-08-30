@@ -25,21 +25,6 @@ module.exports = {
 			electron: 'commonjs electron',
 			robotjs: 'commonjs robotjs',
 		},
-		module: {
-			rules: [
-				{
-					test: /\.worker\.js$/i,
-					use: [
-						{
-							loader: 'comlink-loader',
-							options: {
-								singleton: true,
-							},
-						},
-					],
-				},
-			],
-		},
 		devtool: 'source-map',
 		output: {
 			devtoolModuleFilenameTemplate: info =>

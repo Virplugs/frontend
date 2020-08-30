@@ -5,7 +5,15 @@ import Clip from '@/clip';
 let currentHue = 46;
 
 export default class Track {
-	constructor(name, /**@type {Track}*/parent = null) {
+	nativeTrack: audioEngine.NativeTrack;
+	color: string;
+	name: string;
+	clips: Clip[];
+	id: string;
+	subTracks: Track[];
+	parent: Track | null;
+
+	constructor(name: string, parent: Track | null = null) {
 		this.nativeTrack = new audioEngine.NativeTrack(name, [0], [0]);
 		this.color = `hsl(${currentHue % 360}, 65%, 47%)`;
 		this.name = name;
@@ -17,14 +25,14 @@ export default class Track {
 		currentHue += 30;
 	}
 
-	playClip(/**@type {Clip} */clip) {
+	playClip(clip: Clip) {
 		if (!this.clips.includes(clip)) {
 			console.warn("Track does not contain clip", this, clip);
 		}
 		this.nativeTrack.playAudioEvent(clip.nativeAudioEvent);
 	}
 
-	addSubTrack(/**@type {Track} */track, index) {
+	addSubTrack(track: Track, index?: number) {
 		this.nativeTrack.addSubTrack(track.nativeTrack, index);
 		if (index !== undefined) {
 			this.subTracks.splice(index, 0, track);
@@ -34,7 +42,7 @@ export default class Track {
 		track.parent = this;
 	}
 
-	removeSubTrack(/**@type {Track} */track) {
+	removeSubTrack(track: Track) {
 		this.nativeTrack.removeSubTrack(track.nativeTrack);
 		const index = this.subTracks.indexOf(track);
 		if (index !== -1) {
@@ -43,8 +51,7 @@ export default class Track {
 		track.parent = null;
 	}
 
-	/** @returns {Track} */
-	findTrackByID(id) {
+	findTrackByID(id: string): Track | null {
 		for (const track of this.subTracks) {
 			if (track.id === id) {
 				return track;

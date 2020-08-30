@@ -4,10 +4,14 @@
 	</div>
 </template>
 
-<script>
-import { palette } from '@/styles.js';
+<script lang="ts">
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch, Model } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
 
-function copyStyles(sourceDoc, targetDoc) {
+import { palette } from '@/styles';
+
+function copyStyles(sourceDoc: Document, targetDoc: Document) {
 	Array.from(sourceDoc.styleSheets).forEach(styleSheet => {
 		if (styleSheet.cssRules) {
 			// for <style> elements
@@ -30,91 +34,66 @@ function copyStyles(sourceDoc, targetDoc) {
 	});
 }
 
-export default {
-	name: 'VirplugsDialogWindow',
-	model: {
-		prop: 'open',
-		event: 'close',
-	},
-	props: {
-		open: {
-			type: Boolean,
-			default: false,
-		},
-		width: {
-			type: Number,
-			default: 600,
-		},
-		height: {
-			type: Number,
-			default: 400,
-		},
-		type: {
-			type: String,
-			default: 'modal',
-		},
-		resizable: {
-			type: Boolean,
-			default: false,
-		},
-		title: {
-			type: String,
-			default: '',
-		},
-	},
-	data() {
-		return {
-			windowRef: null,
-		};
-	},
-	watch: {
-		open(newOpen) {
-			console.log('newOpen', newOpen);
-			if (newOpen) {
-				this.openPortal();
-			} else {
-				this.closePortal();
-			}
-		},
-	},
-	methods: {
-		openPortal() {
-			const left = screen.width / 2 - this.width / 2;
-			const top = screen.height / 2 - this.height / 2;
+@Component
+export default class DialogWindow extends Vue {
+	@Model('close', { default: false }) readonly open!: boolean;
+	@Prop({ default: 600 }) width!: number;
+	@Prop({ default: 400 }) height!: number;
+	@Prop({ default: 'modal' }) type!: string;
+	@Prop({ default: false }) resizable!: boolean;
+	@Prop({ default: '' }) title!: string;
 
-			this.windowRef = window.open(
-				``,
-				JSON.stringify({
-					type: this.type,
-					title: this.title,
-				}),
-				`width=${this.width},height=${this.height},left=${left},\
+	windowRef: Window | null = null;
+
+	@Watch('open') onOpenChanged(newOpen: boolean) {
+		if (newOpen) {
+			this.openPortal();
+		} else {
+			this.closePortal();
+		}
+	}
+
+	openPortal() {
+		const left = screen.width / 2 - this.width / 2;
+		const top = screen.height / 2 - this.height / 2;
+
+		this.windowRef = window.open(
+			``,
+			JSON.stringify({
+				type: this.type,
+				title: this.title,
+			}),
+			`width=${this.width},height=${this.height},left=${left},\
 				top=${top},resizable=${this.resizable},title=bla`
-			);
-			this.windowRef.document.body.style.backgroundColor = palette.colorPanelBackground;
-			this.windowRef.document.body.appendChild(this.$el);
-			copyStyles(window.document, this.windowRef.document);
-			this.windowRef.addEventListener('beforeunload', () => {
-				this.$emit('update:open', false);
-			});
-		},
-		closePortal() {
-			if (this.windowRef) {
-				this.windowRef.close();
-				this.windowRef = null;
-				this.$emit('close');
-			}
-		},
-	},
+		);
+
+		if (this.windowRef === null) {
+			return;
+		}
+
+		this.windowRef.document.body.style.backgroundColor = palette.colorPanelBackground;
+		this.windowRef.document.body.appendChild(this.$el);
+		copyStyles(window.document, this.windowRef.document);
+		this.windowRef.addEventListener('beforeunload', () => {
+			this.$emit('update:open', false);
+		});
+	}
+	closePortal() {
+		if (this.windowRef) {
+			this.windowRef.close();
+			this.windowRef = null;
+			this.$emit('close');
+		}
+	}
 	mounted() {
 		if (this.open) {
 			this.openPortal();
 		}
-	},
+	}
 	beforeDestroy() {
 		if (this.windowRef) {
 			this.closePortal();
 		}
-	},
-};
+	}
+}
 </script>

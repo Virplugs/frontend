@@ -1,19 +1,24 @@
-import * as ae from '@/audioengine.js';
+import audioEngine, * as ae from '@/audioengine';
 
-const fs = require('fs');
-const path = require('path');
-const process = require('process');
+import fs = require('fs');
+import path = require('path');
+import process = require('process');
 
-const internalCache = {};
+type WaveformCache = Record<number, audioEngine.WaveformOverview>;
+type CachedWaveform = {
+	file: string,
+	waveformData: audioEngine.WaveformOverview[] | null,
+	waveformWindow: number,
+};
 
-function getCacheFilename(file) {
+const internalCache: Record<string, WaveformCache> = {};
+
+function getCacheFilename(file: string) {
 	return path.join(path.dirname(file), `._${path.basename(file)}.vpm`);
 }
 
-async function processWaveform(file, window, cache = {}) {
-	//console.log("window: " + window);
-
-	let waveformData;
+async function processWaveform(file: string, window: number, cache: WaveformCache = {}): Promise<CachedWaveform> {
+	let waveformData: audioEngine.WaveformOverview;
 
 	if (!cache[window]) {
 		waveformData = await ae.readAudioFileWaveform(file, window);
@@ -37,7 +42,7 @@ async function processWaveform(file, window, cache = {}) {
 	};
 }
 
-export function requestWaveform(file, window) {
+export function requestWaveform(file: string, window: number): Promise<CachedWaveform> {
 	// eslint-disable-next-line no-async-promise-executor
 	return new Promise(async function (resolve) {
 		if (window < 1) {
@@ -60,7 +65,7 @@ export function requestWaveform(file, window) {
 						}
 						throw err;
 					}
-					const buffer = new Buffer(stats.size);
+					const buffer = Buffer.alloc(stats.size);
 					fs.read(
 						fd,
 						buffer,
@@ -69,7 +74,7 @@ export function requestWaveform(file, window) {
 						null,
 						async (error, bytesRead, buffer) => {
 							try {
-								const cache = JSON.parse(buffer);
+								const cache = JSON.parse(buffer.toString());
 								resolve(await processWaveform(file, window, cache));
 							} catch {
 								resolve(await processWaveform(file, window));

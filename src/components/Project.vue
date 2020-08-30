@@ -22,46 +22,46 @@
 					<Mixer ref="mixer" :master-track="project.masterTrack" />
 				</div>
 			</rs-panes>
-			<div slot="secondPane">
-				BOTTOM
-			</div>
+			<div slot="secondPane">BOTTOM</div>
 		</rs-panes>
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
 import ResSplitPane from 'vue-resize-split-pane';
 import VirplugsBrowser from '@/components/browser/Browser.vue';
 import Mixer from '@/components/mixer/Mixer.vue';
 
-import Project from '@/project';
+import _Project from '@/project';
 import Track from '@/track';
 
-export default {
+@Component({
 	components: {
 		'rs-panes': ResSplitPane,
 		VirplugsBrowser,
 		Mixer,
 	},
-	data: function () {
-		const project = new Project();
-		project.masterTrack.addSubTrack(new Track('EL GUITAR'));
-		project.masterTrack.addSubTrack(new Track('DRUMS'));
-		project.masterTrack.addSubTrack(new Track('ROLAND 808'));
-		return {
-			project,
-			FLAG__isRootProject: true,
-		};
-	},
-	methods: {
-		groupSelected() {
-			this.$refs.mixer.groupSelected();
-		},
-		deleteSelected() {
-			this.$refs.mixer.deleteSelected();
-		},
+})
+export default class Project extends Vue {
+	project: _Project = new _Project();
+	FLAG__isRootProject = true;
+
+	created() {
+		this.project.masterTrack.addSubTrack(new Track('EL GUITAR'));
+		this.project.masterTrack.addSubTrack(new Track('DRUMS'));
+		this.project.masterTrack.addSubTrack(new Track('ROLAND 808'));
 	}
-};
+
+	groupSelected() {
+		(this.$refs.mixer as any).groupSelected();
+	}
+	deleteSelected() {
+		(this.$refs.mixer as any).deleteSelected();
+	}
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -77,5 +77,4 @@ export default {
 		height: 100%;
 	}
 }
-
 </style>

@@ -1,7 +1,13 @@
 import audioEngine from '@/audioengine';
 import Track from '@/track';
+import ProjectComp from '@/components/Project.vue';
 
 export default class Project {
+	transport: audioEngine.NativeTransport;
+	cueTrack: Track;
+	masterTrack: Track;
+
+
 	constructor() {
 		this.transport = new audioEngine.NativeTransport();
 		this.cueTrack = new Track("Cue");
@@ -9,8 +15,6 @@ export default class Project {
 		this.masterTrack = new Track("Master");
 		this.masterTrack.color = "#B5B2B1";
 		this.transport.masterTrack = this.masterTrack.nativeTrack;
-
-		this.currentHue = 46;
 	}
 
 	/** @returns {Track} */
@@ -25,19 +29,17 @@ export default class Project {
 	}
 }
 
-/** @returns {Project} */
-export function getProject(/** @type {Vue} */ vueElement) {
+export function getProject(vueElement?: Vue): Project {
 	return getProjectComponent(vueElement).project;
 }
 
-/** @returns {Vue} */
-export function getProjectComponent(/** @type {Vue} */ vueElement) {
+export function getProjectComponent(vueElement?: Vue): ProjectComp {
 	if (!vueElement) {
-		return window.app.$refs.tabs.getCurrentTab();
+		return (window as any).app.$refs.tabs.getCurrentTab();
 	}
 
-	while (!!vueElement && !vueElement.FLAG__isRootProject) {
+	while (!!vueElement && !(vueElement as any).FLAG__isRootProject) {
 		vueElement = vueElement.$parent;
 	}
-	return vueElement;
+	return vueElement as ProjectComp;
 }

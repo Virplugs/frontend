@@ -1,11 +1,9 @@
 <template>
 	<div class="group">
-		<div class="controls" :class="{selected: selectedtracks.includes(track)}">
+		<div class="controls" :class="{ selected: selectedtracks.includes(track) }">
 			<div class="container">
 				<div class="left">
-					<button class="peaklevel">
-						-2.32
-					</button>
+					<button class="peaklevel">-2.32</button>
 					<knob
 						class="pan"
 						v-model="someValue"
@@ -13,7 +11,10 @@
 						:min="-50"
 						:max="50"
 						:is-offset="true"
-						:value-display-function="v => v === 0 ? 'C' : v < 0 ? `${-Math.round(v)}L` : `${Math.round(v)}R`"
+						:value-display-function="
+							v =>
+								v === 0 ? 'C' : v < 0 ? `${-Math.round(v)}L` : `${Math.round(v)}R`
+						"
 					/>
 					<knob
 						class="cue"
@@ -38,13 +39,13 @@
 import Knob from '@/components/Knob.vue';
 import Volume from './Volume.vue';
 import Track from '@/track';
-import {getProject} from '@/project';
+import { getProject } from '@/project';
 import { dBFS2sample, sample2dBFS } from '@/units';
 export default {
 	name: 'TrackControls',
 	components: {
 		Knob,
-		Volume
+		Volume,
 	},
 	props: {
 		track: {
@@ -67,17 +68,17 @@ export default {
 	data: function () {
 		return {
 			someValue: 30,
-			cueVolume: 1
+			cueVolume: 1,
 		};
 	},
 	watch: {
 		cueVolume(val) {
 			const currentVolume = getProject().cueTrack.nativeTrack.volume;
-			let newVal = Math.max(this.noiseFloor, val)
-				* Math.max(this.noiseFloor, Math.pow(val, 0.75));
+			let newVal =
+				Math.max(this.noiseFloor, val) * Math.max(this.noiseFloor, Math.pow(val, 0.75));
 
 			getProject().cueTrack.nativeTrack.volume = newVal;
-		}
+		},
 	},
 	mounted() {
 		this.noiseFloor = dBFS2sample(-72);
@@ -85,14 +86,14 @@ export default {
 	methods: {
 		sample2dBFS(v) {
 			if (v === 0) {
-				return "-\u221E dB";
+				return '-\u221E dB';
 			} else {
 				v = Math.max(this.noiseFloor, Math.pow(v, 1 / 0.75));
 				const db = sample2dBFS(v);
 				return `${db.toFixed(1)} dB`;
 			}
-		}
-	}
+		},
+	},
 };
 </script>
 

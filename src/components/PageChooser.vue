@@ -32,74 +32,51 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'VirplugsPageChooser',
-	props: {
-		currentTab: {
-			type: Object,
-			default: () => null,
-		},
-		showHeaders: {
-			type: Boolean,
-			default: true,
-			required: false,
-		},
-		mainHeader: {
-			type: String,
-			default: 'Configuration',
-			required: false,
-		},
-	},
-	data: function () {
-		return {
-			currentSlot: null,
-			hasFocus: false,
-		};
-	},
-	computed: {},
-	watch: {
-		currentSlot: function (newSlot, oldSlot) {
-			if (oldSlot) {
-				oldSlot.elm.style.display = 'none';
+<script lang="ts">
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
+@Component
+export default class PageChooser extends Vue {
+	currentSlot: Vue.VNode | undefined | null = null;
+	hasFocus = false;
+
+	@Prop({ default: true }) showHeaders!: boolean;
+	@Prop({ default: 'Configuration' }) mainHeader!: string;
+
+	@Watch('currentSlot')
+	onCurrentSlotChanged(newSlot?: Vue.VNode, oldSlot?: Vue.VNode) {
+		if (oldSlot) {
+			if (oldSlot?.elm) {
+				(oldSlot.elm as HTMLElement).style.display = 'none';
 			}
-			if (newSlot) {
-				newSlot.elm.style.display = '';
+		}
+		if (newSlot) {
+			if (newSlot?.elm) {
+				(newSlot.elm as HTMLElement).style.display = '';
 			}
-		},
-	},
-	methods: {
-		title(slot) {
-			console.dir(slot);
-		},
-		selectTab(tab) {
-			this.prevTab = this.currentTab;
-			this.myCurrentTab = tab;
-			this.$emit('update:currentTab', tab);
+		}
+	}
 
-			// this.$nextTick(() => {
-			// 	console.log("switching to ", this.$refs.editor[0]._props.filename);
-			// });
-		},
+	focusIn(event: Event) {
+		this.hasFocus = true;
+	}
 
-		getCurrentTab() {
-			return this.$refs.editor[0];
-		},
+	focusOut(event: Event) {
+		this.hasFocus = false;
+	}
 
-		focusIn(event) {
-			this.hasFocus = true;
-		},
-
-		focusOut(event) {
-			this.hasFocus = false;
-		},
-	},
-	mounted: function () {
+	mounted() {
 		this.$nextTick(() => {
-			this.currentSlot = this.$slots.default[0];
-			for (let slot of this.$slots.default) {
-				if (slot !== this.currentSlot) {
-					slot.elm.style.display = 'none';
+			this.currentSlot = this.$slots?.default ? this.$slots?.default[0] : null;
+			if (this.$slots?.default) {
+				for (let slot of this.$slots?.default) {
+					if (slot !== this.currentSlot) {
+						if (slot?.elm) {
+							(slot.elm as HTMLElement).style.display = 'none';
+						}
+					}
 				}
 			}
 		});
@@ -107,12 +84,12 @@ export default {
 
 		this.$el.addEventListener('focusin', this.focusIn);
 		this.$el.addEventListener('focusout', this.focusOut);
-	},
+	}
 	beforeDestroy() {
 		this.$el.removeEventListener('focusin', this.focusIn);
 		this.$el.removeEventListener('focusout', this.focusOut);
-	},
-};
+	}
+}
 </script>
 
 <style scoped lang="less">

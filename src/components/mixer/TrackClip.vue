@@ -1,7 +1,7 @@
 <template>
 	<div class="clip">
 		<div class="color" :style="`background-color: ${track.color};`" />
-		<img src="@/assets/icons/play.svg" class="play" @mousedown="play">
+		<img src="@/assets/icons/play.svg" class="play" @mousedown="play" />
 
 		<div class="title">
 			{{ clip.name }}
@@ -25,7 +25,7 @@ export default {
 	methods: {
 		play() {
 			this.clip.play();
-		}
+		},
 	},
 };
 </script>

@@ -1,11 +1,9 @@
 <template>
 	<div class="group">
-		<div class="controls" :class="{selected: selectedtracks.includes(track)}">
+		<div class="controls" :class="{ selected: selectedtracks.includes(track) }">
 			<div class="container">
 				<div class="left">
-					<button class="peaklevel">
-						-2.32
-					</button>
+					<button class="peaklevel">-2.32</button>
 					<knob
 						class="pan"
 						v-model="someValue"
@@ -13,17 +11,18 @@
 						:min="-50"
 						:max="50"
 						:is-offset="true"
-						:value-display-function="v => v === 0 ? 'C' : v < 0 ? `${-Math.round(v)}L` : `${Math.round(v)}R`"
+						:value-display-function="
+							v =>
+								v === 0 ? 'C' : v < 0 ? `${-Math.round(v)}L` : `${Math.round(v)}R`
+						"
 					/>
 					<button class="mute checked">
 						{{ index + 1 }}
 					</button>
 
-					<button class="solo">
-						S
-					</button>
+					<button class="solo">S</button>
 					<button class="arm checked">
-						<img src="@/assets/icons/record.svg">
+						<img src="@/assets/icons/record.svg" />
 					</button>
 				</div>
 				<div class="spacer" />
@@ -53,7 +52,7 @@ export default {
 	name: 'TrackControls',
 	components: {
 		Knob,
-		Volume
+		Volume,
 	},
 	props: {
 		track: {
@@ -78,10 +77,7 @@ export default {
 			someValue: 30,
 		};
 	},
-	mounted() {
-
-
-	},
+	mounted() {},
 };
 </script>
 

@@ -2,7 +2,7 @@
 	<div class="group">
 		<div
 			class="clips"
-			:class="{selected: selectedtracks.includes(track)}"
+			:class="{ selected: selectedtracks.includes(track) }"
 			v-if="track.subTracks.length === 0"
 		>
 			<div
@@ -15,11 +15,11 @@
 			>
 				<track-clip class="fill audioclip" v-if="clip" :track="track" :clip="clip" />
 				<div v-else class="fill empty">
-					<img src="@/assets/icons/stop.svg" class="stop">
+					<img src="@/assets/icons/stop.svg" class="stop" />
 				</div>
 				<div :class="{ visible: dragoverstate[index] }" class="drag">
 					<div class="color" :style="`background-color: ${track.color};`" />
-					<img src="@/assets/icons/play.svg" class="play">
+					<img src="@/assets/icons/play.svg" class="play" />
 
 					<div class="title">
 						{{ dragoverstate[index] }}
@@ -27,7 +27,12 @@
 				</div>
 			</div>
 		</div>
-		<group-track-clips v-else :track="track" :selectedtracks="selectedtracks" :collapsedtracks="collapsedtracks" />
+		<group-track-clips
+			v-else
+			:track="track"
+			:selectedtracks="selectedtracks"
+			:collapsedtracks="collapsedtracks"
+		/>
 		<template v-if="track.subTracks.length && !collapsedtracks[track.id]">
 			<track-clips
 				v-for="(subTrack, index) of track.subTracks"
@@ -124,7 +129,9 @@ export default {
 		display: flex;
 		position: relative;
 
-		.clip { z-index: 9; }
+		.clip {
+			z-index: 9;
+		}
 
 		&.dragover {
 			.empty .stop {
@@ -193,5 +200,4 @@ export default {
 		}
 	}
 }
-
 </style>

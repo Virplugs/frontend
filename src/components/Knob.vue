@@ -41,168 +41,133 @@
 	</div>
 </template>
 
-<script>
-const robotjs = require('robotjs');
+<script lang="ts">
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
 
-export default {
-	data() {
-		return {
-			circumference: 0,
-			circumferenceMinusOpening: 0,
-			isDragging: false,
-			dy: 0,
-			dragStartValue: 0,
-		};
-	},
-	props: {
-		value: {
-			type: Number,
-			required: true,
-		},
-		max: {
-			type: Number,
-			default: 100,
-		},
-		min: {
-			type: Number,
-			default: 0,
-		},
-		stepSize: {
-			type: Number,
-			default: 0,
-		},
-		acceleration: {
-			type: Number,
-			default: 0.5,
-		},
-		disabled: {
-			type: Boolean,
-			default: false,
-		},
-		color: {
-			type: String,
-			default: '#ffc907',
-		},
-		trackColor: {
-			type: String,
-			default: '#353535',
-		},
-		title: {
-			type: String,
-			default: '',
-		},
-		showValue: {
-			type: Boolean,
-			default: true,
-		},
-		valueDisplayFunction: {
-			type: Function,
-			default: v => v,
-		},
-		isOffset: {
-			type: Boolean,
-			default: false,
-		},
-		defaultValue: {
-			type: Number,
-			default: 0
-		}
-	},
-	watch: {
-		value(val) {
-			this.setValue(val);
-		},
-	},
-	computed: {
-		relativeAcceleration() {
-			return this.acceleration * ((this.max - this.min) / 100);
-		}
-	},
-	methods: {
-		setValue(val) {
-			if (this.isOffset) {
-				const offset =
-					this.circumference -
-					((val - this.min) / (this.max - this.min) - 0.5)
-					* this.circumferenceMinusOpening;
-				this.$refs.progress.style.strokeDashoffset = offset;
-				if (Math.abs(this.circumference - this.$refs.progress.style.strokeDashoffset) < 1) {
-					this.$refs.progress.style.strokeDashoffset = this.circumference - 1;
-					this.$refs.progress.style.transform = `rotate(-91deg)`;
-				} else {
-					this.$refs.progress.style.transform = `rotate(-90deg)`;
-				}
+import robotjs = require('robotjs');
+
+@Component
+export default class Knob extends Vue {
+	circumference = 0;
+	circumferenceMinusOpening = 0;
+	isDragging = false;
+	dy = 0;
+	dragStartValue = 0;
+
+	@Prop({ required: true }) value!: number;
+	@Prop({ default: 100 }) max!: number;
+	@Prop({ default: 0 }) min!: number;
+	@Prop({ default: 0 }) stepSize!: number;
+	@Prop({ default: 0.5 }) acceleration!: number;
+	@Prop({ default: false }) disabled!: boolean;
+	@Prop({ default: '#ffc907' }) color!: string;
+	@Prop({ default: '#353535' }) trackColor!: string;
+	@Prop({ default: '' }) title!: string;
+	@Prop({ default: true }) showValue!: boolean;
+	@Prop({ default: (v: number) => v }) valueDisplayFunction!: (value: number) => any;
+	@Prop({ default: false }) isOffset!: boolean;
+	@Prop({ default: 0 }) defaultValue!: number;
+
+	public $refs!: {
+		track: SVGCircleElement;
+		progress: SVGCircleElement;
+	};
+
+	@Watch('value') onValueChanged(val: number) {
+		this.setValue(val);
+	}
+
+	get relativeAcceleration() {
+		return this.acceleration * ((this.max - this.min) / 100);
+	}
+
+	setValue(val: number) {
+		if (this.isOffset) {
+			const offset =
+				this.circumference -
+				((val - this.min) / (this.max - this.min) - 0.5) * this.circumferenceMinusOpening;
+			this.$refs.progress.style.strokeDashoffset = offset.toString();
+			if (Math.abs(this.circumference - +this.$refs.progress.style.strokeDashoffset) < 1) {
+				this.$refs.progress.style.strokeDashoffset = (this.circumference - 1).toString();
+				this.$refs.progress.style.transform = `rotate(-91deg)`;
 			} else {
-				const offset =
-					this.circumference -
-					((val - this.min) / (this.max - this.min)) * this.circumferenceMinusOpening;
-				this.$refs.progress.style.strokeDashoffset = offset;
+				this.$refs.progress.style.transform = `rotate(-90deg)`;
 			}
-		},
-		startdrag($event) {
-			this.isDragging = true;
-			this.startScreenX = $event.screenX;
-			this.startScreenY = $event.screenY;
-			this.dragStartValue = this.value;
-			this.dy = 0;
-			document.body.classList.add('knob__hidecursor');
-		},
-		enddrag($event) {
-			this.isDragging = false;
-
-			document.body.classList.remove('knob__hidecursor');
-		},
-		documentMouseMove(e) {
-			if (this.isDragging) {
-				if (this.ignoreNextMouseMove) {
-					this.ignoreNextMouseMove = false;
-					return;
-				}
-				const dy = e.screenY - this.startScreenY;
-				if (
-					dy != 0 &&
-					(dy < 0 || this.value > this.min) &&
-					(dy > 0 || this.value < this.max)
-				) {
-					const precisionAcceleration = e.shiftKey ? 0.1 : 1;
-					this.dy -= dy * precisionAcceleration;
-					let newVal = Math.max(
-						this.min,
-						Math.min(this.max, this.dragStartValue + this.dy
-							* this.relativeAcceleration)
-					);
-					if (this.stepSize) {
-						newVal = newVal - newVal % this.stepSize;
-					}
-					if (newVal !== this.value) {
-						this.$emit('input', newVal);
-						this.setValue(newVal);
-					}
-				}
-				this.ignoreNextMouseMove = true;
-				robotjs.moveMouse(this.startScreenX, this.startScreenY);
-			}
-		},
-		wheel($event) {
-			const precisionAcceleration = $event.shiftKey ? 0.1 : 1;
-			let newVal = Math.max(
-				this.min,
-				Math.min(this.max, this.value - ($event.deltaY / 10) * precisionAcceleration
-					* this.relativeAcceleration)
-			);
-			if (this.stepSize) {
-				newVal = newVal - newVal % this.stepSize;
-			}
-			if (newVal !== this.value) {
-				this.$emit('input', newVal);
-				this.setValue(newVal);
-			}
-		},
-		setDefaultValue() {
-			this.$emit('input', this.defaultValue);
-			this.setValue(this.defaultValue);
+		} else {
+			const offset =
+				this.circumference -
+				((val - this.min) / (this.max - this.min)) * this.circumferenceMinusOpening;
+			this.$refs.progress.style.strokeDashoffset = offset.toString();
 		}
-	},
+	}
+	startScreenX = 0;
+	startScreenY = 0;
+	startdrag($event: MouseEvent) {
+		this.isDragging = true;
+		this.startScreenX = $event.screenX;
+		this.startScreenY = $event.screenY;
+		this.dragStartValue = this.value;
+		this.dy = 0;
+		document.body.classList.add('knob__hidecursor');
+	}
+	enddrag($event: MouseEvent) {
+		this.isDragging = false;
+
+		document.body.classList.remove('knob__hidecursor');
+	}
+
+	ignoreNextMouseMove = false;
+	documentMouseMove(e: MouseEvent) {
+		if (this.isDragging) {
+			if (this.ignoreNextMouseMove) {
+				this.ignoreNextMouseMove = false;
+				return;
+			}
+			const dy = e.screenY - this.startScreenY;
+			if (dy != 0 && (dy < 0 || this.value > this.min) && (dy > 0 || this.value < this.max)) {
+				const precisionAcceleration = e.shiftKey ? 0.1 : 1;
+				this.dy -= dy * precisionAcceleration;
+				let newVal = Math.max(
+					this.min,
+					Math.min(this.max, this.dragStartValue + this.dy * this.relativeAcceleration)
+				);
+				if (this.stepSize) {
+					newVal = newVal - (newVal % this.stepSize);
+				}
+				if (newVal !== this.value) {
+					this.$emit('input', newVal);
+					this.setValue(newVal);
+				}
+			}
+			this.ignoreNextMouseMove = true;
+			robotjs.moveMouse(this.startScreenX, this.startScreenY);
+		}
+	}
+	wheel($event: WheelEvent) {
+		const precisionAcceleration = $event.shiftKey ? 0.1 : 1;
+		let newVal = Math.max(
+			this.min,
+			Math.min(
+				this.max,
+				this.value -
+					($event.deltaY / 10) * precisionAcceleration * this.relativeAcceleration
+			)
+		);
+		if (this.stepSize) {
+			newVal = newVal - (newVal % this.stepSize);
+		}
+		if (newVal !== this.value) {
+			this.$emit('input', newVal);
+			this.setValue(newVal);
+		}
+	}
+	setDefaultValue() {
+		this.$emit('input', this.defaultValue);
+		this.setValue(this.defaultValue);
+	}
+
 	mounted() {
 		const opening = 90;
 
@@ -212,13 +177,15 @@ export default {
 		this.circumferenceMinusOpening = this.circumference * ((360 - opening) / 360.0);
 
 		track.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
-		track.style.strokeDashoffset = this.circumference;
+		track.style.strokeDashoffset = this.circumference.toString();
 		track.style.transform = `rotate(${90 + opening / 2}deg)`;
-		track.style.strokeDashoffset = this.circumference - this.circumferenceMinusOpening;
+		track.style.strokeDashoffset = (
+			this.circumference - this.circumferenceMinusOpening
+		).toString();
 
 		const progress = this.$refs.progress;
 		progress.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
-		progress.style.strokeDashoffset = this.circumference;
+		progress.style.strokeDashoffset = this.circumference.toString();
 		if (this.isOffset) {
 			progress.style.transform = `rotate(-90deg)`;
 		} else {
@@ -228,11 +195,12 @@ export default {
 		this.setValue(this.value);
 
 		document.addEventListener('mousemove', this.documentMouseMove);
-	},
+	}
+
 	beforeDestroy() {
 		document.removeEventListener('mousemove', this.documentMouseMove);
-	},
-};
+	}
+}
 </script>
 
 <style scoped lang="less">

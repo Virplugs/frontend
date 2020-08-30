@@ -1,13 +1,14 @@
 import { getProject, getProjectComponent } from '@/project';
 
-const remote = require('electron').remote;
-const { app, Menu } = remote;
-const process = remote.require('process');
+import electron = require('electron');
+
+const { app, Menu } = electron.remote;
+const process: NodeJS.Process = electron.remote.require('process');
 
 const isMac = process.platform === 'darwin';
 const isDeveloper = !app.isPackaged;
 
-export const template = [
+export const template: Electron.MenuItemConstructorOptions[] = [
 	...(isMac
 		? [
 				{
@@ -19,7 +20,7 @@ export const template = [
 						{
 							label: 'Preferences',
 							accelerator: 'Cmd+,',
-							click: () => window.app.openPreferences(),
+							click: () => (window as any).app.openPreferences(),
 						},
 						{ label: 'Virplugs account...' },
 						{ type: 'separator' },
@@ -33,7 +34,7 @@ export const template = [
 					],
 				},
 		]
-		: []),
+		: []) as Electron.MenuItemConstructorOptions[],
 
 	{
 		label: 'File',
@@ -43,7 +44,7 @@ export const template = [
 			{
 				label: 'Open project...',
 				click: () => {
-					window.app.openProject();
+					(window as any).app.openProject();
 				},
 				accelerator: 'CommandOrControl+O',
 			},
@@ -58,7 +59,7 @@ export const template = [
 			{
 				label: 'Save',
 				click: () => {
-					window.app.saveCurrentEditor();
+					(window as any).app.saveCurrentEditor();
 				},
 				accelerator: 'CommandOrControl+S',
 			},
@@ -71,7 +72,7 @@ export const template = [
 						{
 							label: 'Preferences',
 							accelerator: 'CmdOrCtrl+,',
-							click: () => window.app.openPreferences(),
+							click: () => (window as any).app.openPreferences(),
 						},
 				]
 				: []),
@@ -101,7 +102,7 @@ export const template = [
 							submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
 						},
 				]
-				: [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]),
+				: [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]) as Electron.MenuItemConstructorOptions[],
 			{ type: 'separator' },
 			{
 				label: 'Delete Selected',
@@ -133,9 +134,9 @@ export const template = [
 		label: 'View',
 		id: 'view',
 		submenu: [
-			{ role: 'resetzoom' },
-			{ role: 'zoomin' },
-			{ role: 'zoomout' },
+			{ role: 'resetZoom' },
+			{ role: 'zoomIn' },
+			{ role: 'zoomOut' },
 			{ type: 'separator' },
 			{ role: 'togglefullscreen' },
 		],
@@ -148,19 +149,19 @@ export const template = [
 					id: 'developer',
 					submenu: [
 						{ role: 'reload' },
-						{ role: 'forcereload' },
-						{ role: 'toggledevtools' },
+						{ role: 'forceReload' },
+						{ role: 'toggleDevTools' },
 						{ type: 'separator' },
 						{
 							label: 'Open JavaScript console',
 							click: async () => {
-								window.app.openJSConsole();
+								(window as any).app.openJSConsole();
 							},
 						},
 					],
 				},
 		]
-		: []),
+		: []) as Electron.MenuItemConstructorOptions[],
 
 	{
 		label: 'Window',
@@ -175,7 +176,7 @@ export const template = [
 						{ type: 'separator' },
 						{ role: 'window' },
 				]
-				: [{ role: 'close' }]),
+				: [{ role: 'close' }]) as Electron.MenuItemConstructorOptions[],
 		],
 	},
 
@@ -186,12 +187,11 @@ export const template = [
 			{
 				label: 'Learn More',
 				click: async () => {
-					const { shell } = require('electron');
-					await shell.openExternal('https://electronjs.org');
+					await electron.shell.openExternal('https://electronjs.org');
 				},
 			},
-			{ role: 'forcereload' },
-			{ role: 'toggledevtools' },
+			{ role: 'forceReload' },
+			{ role: 'toggleDevTools' },
 		],
 	},
 ];
@@ -199,6 +199,7 @@ export const template = [
 export const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
 
-export function openMenu(id) {
-	menu.getMenuItemById(id).submenu.popup({ window: remote.getCurrentWindow() });
+export function openMenu(id: string) {
+	const m = menu.getMenuItemById(id);
+	m.submenu?.popup({ window: electron.remote.getCurrentWindow() });
 }

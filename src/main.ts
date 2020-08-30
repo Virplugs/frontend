@@ -3,21 +3,21 @@ import VueObserveVisibility from 'vue-observe-visibility';
 
 import App from '@/App.vue';
 
-import '@/menu.js';
+import '@/menu';
 
 console.log('Loading Virplugs...');
 
 const robotjs = require('robotjs');
 robotjs.setMouseDelay(0);
 
-window.win = require('electron').remote.getCurrentWindow();
+(window as any).win = require('electron').remote.getCurrentWindow();
 
 Vue.use(VueObserveVisibility);
 
 Vue.config.productionTip = false;
 
-window.vueRoot = new Vue({
+(window as any).vueRoot = new Vue({
 	render: h => h(App, { ref: 'app' }),
 }).$mount('#app');
 
-window.app = window.vueRoot.$root.$children[0];
+(window as any).app = (window as any).vueRoot.$root.$children[0];

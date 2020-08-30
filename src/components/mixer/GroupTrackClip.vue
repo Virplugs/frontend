@@ -4,17 +4,20 @@
 			class="color"
 			:style="`background: repeating-linear-gradient(0deg,transparent,transparent 4px,${track.color},4px,${track.color} 8px);`"
 		/>
-		<img src="@/assets/icons/play.svg" class="play" @mousedown="play(track)">
+		<img src="@/assets/icons/play.svg" class="play" @mousedown="play(track)" />
 
 		<div class="title">
-			{{ clip ? clip.name : "" }}
+			{{ clip ? clip.name : '' }}
 		</div>
 	</div>
 </template>
 
 <script>
+import { Component, Vue } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
 import GroupClip from '@/groupclip';
-export default {
+export default Vue.extend({
 	props: {
 		track: {
 			type: Object,
@@ -39,21 +42,14 @@ export default {
 					this.play(track);
 				}
 			}
-		}
+		},
 	},
-};
+});
 </script>
 
 <style scoped lang="less">
 .clip {
-	background:
-		repeating-linear-gradient(
-			45deg,
-			#505050,
-			#505050 11px,
-			#5a5a5a 11px,
-			#5a5a5a 22px
-		);
+	background: repeating-linear-gradient(45deg, #505050, #505050 11px, #5a5a5a 11px, #5a5a5a 22px);
 	display: flex;
 	flex-direction: row;
 	width: 100%;

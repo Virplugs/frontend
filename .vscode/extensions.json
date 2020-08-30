@@ -9,6 +9,7 @@
         "rvest.vs-code-prettier-eslint",
         "octref.vetur",
         "visualstudioexptteam.vscodeintellicode",
-		"sonarsource.sonarlint-vscode"
+		"emeraldwalk.runonsave"
+
     ]
 }

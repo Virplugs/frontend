@@ -1,0 +1,945 @@
+{
+  "program": {
+    "fileInfos": {
+      "./node_modules/typescript/lib/lib.es5.d.ts": {
+        "version": "c9a1f03d6ba0fe3c871eb0dd81622e78fbb61ade70878b34d48a341a690c59e9",
+        "signature": "c9a1f03d6ba0fe3c871eb0dd81622e78fbb61ade70878b34d48a341a690c59e9",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.d.ts": {
+        "version": "dc47c4fa66b9b9890cf076304de2a9c5201e94b740cffdf09f87296d877d71f6",
+        "signature": "dc47c4fa66b9b9890cf076304de2a9c5201e94b740cffdf09f87296d877d71f6",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2016.d.ts": {
+        "version": "7a387c58583dfca701b6c85e0adaf43fb17d590fb16d5b2dc0a2fbd89f35c467",
+        "signature": "7a387c58583dfca701b6c85e0adaf43fb17d590fb16d5b2dc0a2fbd89f35c467",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2017.d.ts": {
+        "version": "8a12173c586e95f4433e0c6dc446bc88346be73ffe9ca6eec7aa63c8f3dca7f9",
+        "signature": "8a12173c586e95f4433e0c6dc446bc88346be73ffe9ca6eec7aa63c8f3dca7f9",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2018.d.ts": {
+        "version": "5f4e733ced4e129482ae2186aae29fde948ab7182844c3a5a51dd346182c7b06",
+        "signature": "5f4e733ced4e129482ae2186aae29fde948ab7182844c3a5a51dd346182c7b06",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2019.d.ts": {
+        "version": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
+        "signature": "e6b724280c694a9f588847f754198fb96c43d805f065c3a5b28bbc9594541c84",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.es2020.d.ts": {
+        "version": "666172ccd045546f9b6d099744da9b822357e393c9fe67c34d3f44eabdf15723",
+        "signature": "666172ccd045546f9b6d099744da9b822357e393c9fe67c34d3f44eabdf15723",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.esnext.d.ts": {
+        "version": "2f8f379dedbdbd96a38a1e445cb3919853a1157a950fd977f85808db8d0f8a58",
+        "signature": "2f8f379dedbdbd96a38a1e445cb3919853a1157a950fd977f85808db8d0f8a58",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/typescript/lib/lib.dom.d.ts": {
+        "version": "38130cdd16bd2318b9362f9d60dd9670f7e38708bb6131cf11fc78a41b2c34a0",
+        "signature": "38130cdd16bd2318b9362f9d60dd9670f7e38708bb6131cf11fc78a41b2c34a0",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.dom.iterable.d.ts": {
+        "version": "fb0c09b697dc42afa84d1587e3c994a2f554d2a45635e4f0618768d16a86b69a",
+        "signature": "fb0c09b697dc42afa84d1587e3c994a2f554d2a45635e4f0618768d16a86b69a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.scripthost.d.ts": {
+        "version": "097a57355ded99c68e6df1b738990448e0bf170e606707df5a7c0481ff2427cd",
+        "signature": "097a57355ded99c68e6df1b738990448e0bf170e606707df5a7c0481ff2427cd",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.core.d.ts": {
+        "version": "46ee15e9fefa913333b61eaf6b18885900b139867d89832a515059b62cf16a17",
+        "signature": "46ee15e9fefa913333b61eaf6b18885900b139867d89832a515059b62cf16a17",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.collection.d.ts": {
+        "version": "43fb1d932e4966a39a41b464a12a81899d9ae5f2c829063f5571b6b87e6d2f9c",
+        "signature": "43fb1d932e4966a39a41b464a12a81899d9ae5f2c829063f5571b6b87e6d2f9c",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.generator.d.ts": {
+        "version": "cdccba9a388c2ee3fd6ad4018c640a471a6c060e96f1232062223063b0a5ac6a",
+        "signature": "cdccba9a388c2ee3fd6ad4018c640a471a6c060e96f1232062223063b0a5ac6a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.iterable.d.ts": {
+        "version": "42f5e41e5893da663dbf0394268f54f1da4b43dc0ddd2ea4bf471fe5361d6faf",
+        "signature": "42f5e41e5893da663dbf0394268f54f1da4b43dc0ddd2ea4bf471fe5361d6faf",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.promise.d.ts": {
+        "version": "0b7a905675e6cb4211c128f0a3aa47d414b275180a299a9aad5d3ec298abbfc4",
+        "signature": "0b7a905675e6cb4211c128f0a3aa47d414b275180a299a9aad5d3ec298abbfc4",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.proxy.d.ts": {
+        "version": "dfff68b3c34338f6b307a25d4566de15eed7973b0dc5d69f9fde2bcac1c25315",
+        "signature": "dfff68b3c34338f6b307a25d4566de15eed7973b0dc5d69f9fde2bcac1c25315",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.reflect.d.ts": {
+        "version": "cb609802a8698aa28b9c56331d4b53f590ca3c1c3a255350304ae3d06017779d",
+        "signature": "cb609802a8698aa28b9c56331d4b53f590ca3c1c3a255350304ae3d06017779d",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.symbol.d.ts": {
+        "version": "3013574108c36fd3aaca79764002b3717da09725a36a6fc02eac386593110f93",
+        "signature": "3013574108c36fd3aaca79764002b3717da09725a36a6fc02eac386593110f93",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts": {
+        "version": "4670208dd7da9d6c774ab1b75c1527a810388c7989c4905de6aaea8561cb9dce",
+        "signature": "4670208dd7da9d6c774ab1b75c1527a810388c7989c4905de6aaea8561cb9dce",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2016.array.include.d.ts": {
+        "version": "3be5a1453daa63e031d266bf342f3943603873d890ab8b9ada95e22389389006",
+        "signature": "3be5a1453daa63e031d266bf342f3943603873d890ab8b9ada95e22389389006",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.object.d.ts": {
+        "version": "17bb1fc99591b00515502d264fa55dc8370c45c5298f4a5c2083557dccba5a2a",
+        "signature": "17bb1fc99591b00515502d264fa55dc8370c45c5298f4a5c2083557dccba5a2a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts": {
+        "version": "b5e4c2d67aa844ed503b29cd4ca2ede1a229ac7fe874613b2c996fa9c581a25f",
+        "signature": "b5e4c2d67aa844ed503b29cd4ca2ede1a229ac7fe874613b2c996fa9c581a25f",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.string.d.ts": {
+        "version": "6a6b173e739a6a99629a8594bfb294cc7329bfb7b227f12e1f7c11bc163b8577",
+        "signature": "6a6b173e739a6a99629a8594bfb294cc7329bfb7b227f12e1f7c11bc163b8577",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.intl.d.ts": {
+        "version": "12a310447c5d23c7d0d5ca2af606e3bd08afda69100166730ab92c62999ebb9d",
+        "signature": "12a310447c5d23c7d0d5ca2af606e3bd08afda69100166730ab92c62999ebb9d",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2017.typedarrays.d.ts": {
+        "version": "b0124885ef82641903d232172577f2ceb5d3e60aed4da1153bab4221e1f6dd4e",
+        "signature": "b0124885ef82641903d232172577f2ceb5d3e60aed4da1153bab4221e1f6dd4e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts": {
+        "version": "0eb85d6c590b0d577919a79e0084fa1744c1beba6fd0d4e951432fa1ede5510a",
+        "signature": "0eb85d6c590b0d577919a79e0084fa1744c1beba6fd0d4e951432fa1ede5510a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.asynciterable.d.ts": {
+        "version": "a40c4d82bf13fcded295ac29f354eb7d40249613c15e07b53f2fc75e45e16359",
+        "signature": "a40c4d82bf13fcded295ac29f354eb7d40249613c15e07b53f2fc75e45e16359",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.intl.d.ts": {
+        "version": "df9c8a72ca8b0ed62f5470b41208a0587f0f73f0a7db28e5a1272cf92537518e",
+        "signature": "df9c8a72ca8b0ed62f5470b41208a0587f0f73f0a7db28e5a1272cf92537518e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.promise.d.ts": {
+        "version": "bb2d3fb05a1d2ffbca947cc7cbc95d23e1d053d6595391bd325deb265a18d36c",
+        "signature": "bb2d3fb05a1d2ffbca947cc7cbc95d23e1d053d6595391bd325deb265a18d36c",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2018.regexp.d.ts": {
+        "version": "c80df75850fea5caa2afe43b9949338ce4e2de086f91713e9af1a06f973872b8",
+        "signature": "c80df75850fea5caa2afe43b9949338ce4e2de086f91713e9af1a06f973872b8",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.array.d.ts": {
+        "version": "9d57b2b5d15838ed094aa9ff1299eecef40b190722eb619bac4616657a05f951",
+        "signature": "9d57b2b5d15838ed094aa9ff1299eecef40b190722eb619bac4616657a05f951",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.object.d.ts": {
+        "version": "6c51b5dd26a2c31dbf37f00cfc32b2aa6a92e19c995aefb5b97a3a64f1ac99de",
+        "signature": "6c51b5dd26a2c31dbf37f00cfc32b2aa6a92e19c995aefb5b97a3a64f1ac99de",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.string.d.ts": {
+        "version": "93544ca2f26a48716c1b6c5091842cad63129daac422dfa4bc52460465f22bb1",
+        "signature": "93544ca2f26a48716c1b6c5091842cad63129daac422dfa4bc52460465f22bb1",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2019.symbol.d.ts": {
+        "version": "2ad234885a4240522efccd77de6c7d99eecf9b4de0914adb9a35c0c22433f993",
+        "signature": "2ad234885a4240522efccd77de6c7d99eecf9b4de0914adb9a35c0c22433f993",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.bigint.d.ts": {
+        "version": "7b5a10e3c897fabece5a51aa85b4111727d7adb53c2734b5d37230ff96802a09",
+        "signature": "7b5a10e3c897fabece5a51aa85b4111727d7adb53c2734b5d37230ff96802a09",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.promise.d.ts": {
+        "version": "7435b75fdf3509622e79622dbe5091cf4b09688410ee2034e4fc17d0c99d0862",
+        "signature": "7435b75fdf3509622e79622dbe5091cf4b09688410ee2034e4fc17d0c99d0862",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.string.d.ts": {
+        "version": "faf0221ae0465363c842ce6aa8a0cbda5d9296940a8e26c86e04cc4081eea21e",
+        "signature": "faf0221ae0465363c842ce6aa8a0cbda5d9296940a8e26c86e04cc4081eea21e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts": {
+        "version": "936d7d2e8851af9ccfa5333b15e877a824417d352b1d7fd06388639dc69ef80a",
+        "signature": "936d7d2e8851af9ccfa5333b15e877a824417d352b1d7fd06388639dc69ef80a",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.es2020.intl.d.ts": {
+        "version": "905b020308ed3bd9cd2457f5a4def1844620d48020cec405cafb4e86b3194af1",
+        "signature": "905b020308ed3bd9cd2457f5a4def1844620d48020cec405cafb4e86b3194af1",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.intl.d.ts": {
+        "version": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
+        "signature": "89bf2b7a601b73ea4311eda9c41f86a58994fec1bee3b87c4a14d68d9adcdcbd",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.string.d.ts": {
+        "version": "fb4416144c1bf0323ccbc9afb0ab289c07312214e8820ad17d709498c865a3fe",
+        "signature": "fb4416144c1bf0323ccbc9afb0ab289c07312214e8820ad17d709498c865a3fe",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/typescript/lib/lib.esnext.promise.d.ts": {
+        "version": "cd6efb9467a8b6338ece2e2855e37765700f2cd061ca54b01b33878cf5c7677e",
+        "signature": "cd6efb9467a8b6338ece2e2855e37765700f2cd061ca54b01b33878cf5c7677e",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/tslib/tslib.d.ts": {
+        "version": "4576b4e61049f5ffd7c9e935cf88832e089265bdb15ffc35077310042cbbbeea",
+        "signature": "4576b4e61049f5ffd7c9e935cf88832e089265bdb15ffc35077310042cbbbeea",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@virplugs/audioengine/audioengine.d.ts": {
+        "version": "3350ae33de47942af00df1b1e60b8fa36646637ee06331a7a8885087c7c01a44",
+        "signature": "3350ae33de47942af00df1b1e60b8fa36646637ee06331a7a8885087c7c01a44",
+        "affectsGlobalScope": false
+      },
+      "./src/audioengine.ts": {
+        "version": "6e1f778b4694f0ddaf9792c7fb0766230be87eb941491a21608fb28a1ff7f242",
+        "signature": "6888bdbae0009c5e212621247d28925213ed45a9fdec0e93327e807436349c96",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/uuid/index.d.ts": {
+        "version": "96b49a9de749afcf92b5bce1d8cc42cfae6816cdf5ea36584fd9256b8b2e5292",
+        "signature": "96b49a9de749afcf92b5bce1d8cc42cfae6816cdf5ea36584fd9256b8b2e5292",
+        "affectsGlobalScope": false
+      },
+      "./src/track.ts": {
+        "version": "2ef8f3e5db08d04fb12f0dfec05363440b9744d0cc87af6691553657d471a992",
+        "signature": "dc56e8b709b450756010f060c830d76b8cb70870a72850c1ff4dc97004f56276",
+        "affectsGlobalScope": false
+      },
+      "./src/clip.ts": {
+        "version": "ed0737a28b6b948fc918d5b79fb1c296d17fcb0c05ef699d9c10c297000164a0",
+        "signature": "a1fb98bb9f7ae9db791ba9919c1b6bbffac74547c4faf6e9ee48dfffd113494d",
+        "affectsGlobalScope": false
+      },
+      "./src/groupclip.ts": {
+        "version": "57cac01a361b7393fc5f4ca8a9f02684940e1657ade035d05e99b4bc33a54f84",
+        "signature": "a7c87be8551d451ef5a3ab794d186ef4c2c4b0b9eee3e3a75642813195ce900e",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue/types/vnode.d.ts": {
+        "version": "336721337da7deac683208a3089786c32cd834fd7e992cc2a9de5abd6100d8aa",
+        "signature": "336721337da7deac683208a3089786c32cd834fd7e992cc2a9de5abd6100d8aa",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue/types/options.d.ts": {
+        "version": "83e2325a245cc898ca63a68dcc0477efd47e97a3343c96547b26545d86a60cfb",
+        "signature": "83e2325a245cc898ca63a68dcc0477efd47e97a3343c96547b26545d86a60cfb",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue/types/plugin.d.ts": {
+        "version": "e8cc0280272ae461f8dc6eef59712323d9eea7abfd455a8d4861601f3c5a9a6f",
+        "signature": "e8cc0280272ae461f8dc6eef59712323d9eea7abfd455a8d4861601f3c5a9a6f",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue/types/vue.d.ts": {
+        "version": "c483036e3c3aea2c4b7d435120543bea042a68aa38e56b91344678384357eb27",
+        "signature": "c483036e3c3aea2c4b7d435120543bea042a68aa38e56b91344678384357eb27",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue/types/umd.d.ts": {
+        "version": "dc645f5824d760b61e34dff04adb5ee53b8efc3735a974c53d0ffb4e70d0f2d2",
+        "signature": "dc645f5824d760b61e34dff04adb5ee53b8efc3735a974c53d0ffb4e70d0f2d2",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue/types/index.d.ts": {
+        "version": "4a75e4b3cb109dcf5e977cb8ab1c8f9804073b37fa7f094785ee8014efdeabf4",
+        "signature": "4a75e4b3cb109dcf5e977cb8ab1c8f9804073b37fa7f094785ee8014efdeabf4",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/vue-observe-visibility/index.d.ts": {
+        "version": "a587861f45bb8a8ec4a1af663a97e6b51ecdf9d171e383495e587667258dfcdd",
+        "signature": "a587861f45bb8a8ec4a1af663a97e6b51ecdf9d171e383495e587667258dfcdd",
+        "affectsGlobalScope": false
+      },
+      "./src/main.ts": {
+        "version": "b85ae0a1565ffc60bf361cf9291b65cfa2663821bde25656082e238ceed8dd1d",
+        "signature": "8c7675eecbe4e6b95b2251f7f8753c460493b86da6db88406c342643d85f5ace",
+        "affectsGlobalScope": false
+      },
+      "./src/styles.ts": {
+        "version": "3c28909e688f9372a679671c619ebf74e2ce6a9743962f4a7fb0858efe4dd833",
+        "signature": "1a8c7ebce4d3eb514fae24d880b4da64a52888c4c30237530c5dd73bcae4837b",
+        "affectsGlobalScope": false
+      },
+      "./src/units.ts": {
+        "version": "0d3a23bcb9b9912a692e36bb375806073ba676e2dfa43ca7327d9994afa71a2a",
+        "signature": "6775b945ae6cb0da8ba714bf1df8e54856581ed6f4cb37b105339c1e0ec70bd9",
+        "affectsGlobalScope": false
+      },
+      "./src/waveform.ts": {
+        "version": "baf302169b69814248b88d69f47d5e27c42cf6693b1a09620b73221a8766af9f",
+        "signature": "8adc9467d8a625630757f1e8ba455a1078b24f8a1afb9b0bd5ca17ad52e71e2b",
+        "affectsGlobalScope": false
+      },
+      "./untypedmodules.d.ts": {
+        "version": "fbef380f1eed5814934bce548c85f77ee7121fadba18f6f27cd1de19513f8ca1",
+        "signature": "fbef380f1eed5814934bce548c85f77ee7121fadba18f6f27cd1de19513f8ca1",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/webpack-env/index.d.ts": {
+        "version": "1db2b55f2381ed9558f93cbf4068096d72e1c8d59bb3a66aafa0fc11c1f17530",
+        "signature": "1db2b55f2381ed9558f93cbf4068096d72e1c8d59bb3a66aafa0fc11c1f17530",
+        "affectsGlobalScope": true
+      }
+    },
+    "options": {
+      "target": 99,
+      "module": 1,
+      "strict": true,
+      "jsx": 1,
+      "incremental": true,
+      "importHelpers": true,
+      "moduleResolution": 2,
+      "experimentalDecorators": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "baseUrl": "./",
+      "types": [
+        "webpack-env"
+      ],
+      "paths": {
+        "@/*": [
+          "src/*"
+        ]
+      },
+      "lib": [
+        "lib.esnext.d.ts",
+        "lib.dom.d.ts",
+        "lib.dom.iterable.d.ts",
+        "lib.scripthost.d.ts"
+      ],
+      "configFilePath": "./tsconfig.json"
+    },
+    "referencedMap": {
+      "./node_modules/vue-observe-visibility/index.d.ts": [
+        "./node_modules/vue/types/index.d.ts",
+        "./node_modules/vue/types/options.d.ts"
+      ],
+      "./node_modules/vue/types/index.d.ts": [
+        "./node_modules/vue/types/options.d.ts",
+        "./node_modules/vue/types/plugin.d.ts",
+        "./node_modules/vue/types/umd.d.ts",
+        "./node_modules/vue/types/vnode.d.ts",
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/options.d.ts": [
+        "./node_modules/vue/types/vnode.d.ts",
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/plugin.d.ts": [
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/umd.d.ts": [
+        "./node_modules/vue/types/index.d.ts",
+        "./node_modules/vue/types/options.d.ts"
+      ],
+      "./node_modules/vue/types/vnode.d.ts": [
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/vue.d.ts": [
+        "./node_modules/vue/types/options.d.ts",
+        "./node_modules/vue/types/plugin.d.ts",
+        "./node_modules/vue/types/vnode.d.ts"
+      ],
+      "./src/audioengine.ts": [
+        "./node_modules/@virplugs/audioengine/audioengine.d.ts"
+      ],
+      "./src/clip.ts": [
+        "./node_modules/@types/uuid/index.d.ts",
+        "./src/audioengine.ts",
+        "./src/track.ts"
+      ],
+      "./src/groupclip.ts": [
+        "./node_modules/@types/uuid/index.d.ts",
+        "./src/audioengine.ts",
+        "./src/track.ts"
+      ],
+      "./src/main.ts": [
+        "./node_modules/vue-observe-visibility/index.d.ts",
+        "./node_modules/vue/types/index.d.ts"
+      ],
+      "./src/styles.ts": [
+        "./untypedmodules.d.ts"
+      ],
+      "./src/track.ts": [
+        "./node_modules/@types/uuid/index.d.ts",
+        "./src/audioengine.ts",
+        "./src/clip.ts"
+      ],
+      "./src/waveform.ts": [
+        "./src/audioengine.ts"
+      ]
+    },
+    "exportedModulesMap": {
+      "./node_modules/vue-observe-visibility/index.d.ts": [
+        "./node_modules/vue/types/index.d.ts",
+        "./node_modules/vue/types/options.d.ts"
+      ],
+      "./node_modules/vue/types/index.d.ts": [
+        "./node_modules/vue/types/options.d.ts",
+        "./node_modules/vue/types/plugin.d.ts",
+        "./node_modules/vue/types/umd.d.ts",
+        "./node_modules/vue/types/vnode.d.ts",
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/options.d.ts": [
+        "./node_modules/vue/types/vnode.d.ts",
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/plugin.d.ts": [
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/umd.d.ts": [
+        "./node_modules/vue/types/index.d.ts",
+        "./node_modules/vue/types/options.d.ts"
+      ],
+      "./node_modules/vue/types/vnode.d.ts": [
+        "./node_modules/vue/types/vue.d.ts"
+      ],
+      "./node_modules/vue/types/vue.d.ts": [
+        "./node_modules/vue/types/options.d.ts",
+        "./node_modules/vue/types/plugin.d.ts",
+        "./node_modules/vue/types/vnode.d.ts"
+      ],
+      "./src/audioengine.ts": [
+        "./node_modules/@virplugs/audioengine/audioengine.d.ts"
+      ],
+      "./src/clip.ts": [
+        "./src/audioengine.ts",
+        "./src/track.ts"
+      ],
+      "./src/groupclip.ts": [
+        "./src/track.ts"
+      ],
+      "./src/track.ts": [
+        "./src/audioengine.ts",
+        "./src/clip.ts"
+      ]
+    },
+    "semanticDiagnosticsPerFile": [
+      "./node_modules/@types/uuid/index.d.ts",
+      "./node_modules/@types/webpack-env/index.d.ts",
+      "./node_modules/@virplugs/audioengine/audioengine.d.ts",
+      "./node_modules/tslib/tslib.d.ts",
+      "./node_modules/typescript/lib/lib.dom.d.ts",
+      "./node_modules/typescript/lib/lib.dom.iterable.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "./node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+      "./node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+      "./node_modules/typescript/lib/lib.es2016.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.intl.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.object.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.string.d.ts",
+      "./node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.intl.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.promise.d.ts",
+      "./node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.array.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.object.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.string.d.ts",
+      "./node_modules/typescript/lib/lib.es2019.symbol.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.bigint.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.intl.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.promise.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.string.d.ts",
+      "./node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
+      "./node_modules/typescript/lib/lib.es5.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.promise.d.ts",
+      "./node_modules/typescript/lib/lib.esnext.string.d.ts",
+      "./node_modules/typescript/lib/lib.scripthost.d.ts",
+      "./node_modules/vue-observe-visibility/index.d.ts",
+      "./node_modules/vue/types/index.d.ts",
+      "./node_modules/vue/types/options.d.ts",
+      "./node_modules/vue/types/plugin.d.ts",
+      "./node_modules/vue/types/umd.d.ts",
+      "./node_modules/vue/types/vnode.d.ts",
+      "./node_modules/vue/types/vue.d.ts",
+      [
+        "./src/audioengine.ts",
+        [
+          {
+            "file": "./src/audioengine.ts",
+            "start": 384,
+            "length": 5,
+            "messageText": "Element implicitly has an 'any' type because index expression is not of type 'number'.",
+            "category": 1,
+            "code": 7015
+          },
+          {
+            "file": "./src/audioengine.ts",
+            "start": 696,
+            "length": 15,
+            "code": 7053,
+            "category": 1,
+            "messageText": {
+              "messageText": "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.",
+              "category": 1,
+              "code": 7053,
+              "next": [
+                {
+                  "messageText": "No index signature with a parameter of type 'string' was found on type '{}'.",
+                  "category": 1,
+                  "code": 7054
+                }
+              ]
+            }
+          },
+          {
+            "file": "./src/audioengine.ts",
+            "start": 730,
+            "length": 1,
+            "messageText": "Parameter 'd' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/audioengine.ts",
+            "start": 763,
+            "length": 15,
+            "code": 7053,
+            "category": 1,
+            "messageText": {
+              "messageText": "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.",
+              "category": 1,
+              "code": 7053,
+              "next": [
+                {
+                  "messageText": "No index signature with a parameter of type 'string' was found on type '{}'.",
+                  "category": 1,
+                  "code": 7054
+                }
+              ]
+            }
+          },
+          {
+            "file": "./src/audioengine.ts",
+            "start": 797,
+            "length": 1,
+            "messageText": "Parameter 'd' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          }
+        ]
+      ],
+      "./src/clip.ts",
+      "./src/groupclip.ts",
+      [
+        "./src/main.ts",
+        [
+          {
+            "file": "./src/main.ts",
+            "start": 99,
+            "length": 11,
+            "messageText": "Cannot find module '@/App.vue' or its corresponding type declarations.",
+            "category": 1,
+            "code": 2307
+          },
+          {
+            "file": "./src/main.ts",
+            "start": 241,
+            "length": 5,
+            "messageText": "Element implicitly has an 'any' type because index expression is not of type 'number'.",
+            "category": 1,
+            "code": 7015
+          },
+          {
+            "file": "./src/main.ts",
+            "start": 372,
+            "length": 9,
+            "messageText": "Element implicitly has an 'any' type because index expression is not of type 'number'.",
+            "category": 1,
+            "code": 7015
+          },
+          {
+            "file": "./src/main.ts",
+            "start": 460,
+            "length": 5,
+            "messageText": "Element implicitly has an 'any' type because index expression is not of type 'number'.",
+            "category": 1,
+            "code": 7015
+          },
+          {
+            "file": "./src/main.ts",
+            "start": 476,
+            "length": 9,
+            "messageText": "Element implicitly has an 'any' type because index expression is not of type 'number'.",
+            "category": 1,
+            "code": 7015
+          }
+        ]
+      ],
+      "./src/styles.ts",
+      "./src/track.ts",
+      "./src/units.ts",
+      [
+        "./src/waveform.ts",
+        [
+          {
+            "file": "./src/waveform.ts",
+            "start": 58,
+            "length": 4,
+            "messageText": "Cannot find module 'fs' or its corresponding type declarations.",
+            "category": 1,
+            "code": 2307
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 87,
+            "length": 6,
+            "messageText": "Cannot find module 'path' or its corresponding type declarations.",
+            "category": 1,
+            "code": 2307
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 121,
+            "length": 9,
+            "code": 7016,
+            "category": 1,
+            "messageText": {
+              "messageText": "Could not find a declaration file for module 'process'. 'D:/Projects/Virplugs/frontend/node_modules/process/index.js' implicitly has an 'any' type.",
+              "category": 1,
+              "code": 7016,
+              "next": [
+                {
+                  "messageText": "Try `npm install @types/process` if it exists or add a new declaration (.d.ts) file containing `declare module 'process';`",
+                  "category": 1,
+                  "code": 7035
+                }
+              ]
+            }
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 187,
+            "length": 4,
+            "messageText": "Parameter 'file' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 300,
+            "length": 4,
+            "messageText": "Parameter 'file' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 306,
+            "length": 6,
+            "messageText": "Parameter 'window' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 392,
+            "length": 13,
+            "code": 7053,
+            "category": 1,
+            "messageText": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'."
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 498,
+            "length": 13,
+            "code": 7053,
+            "category": 1,
+            "messageText": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'."
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 765,
+            "length": 19,
+            "code": 7053,
+            "category": 1,
+            "messageText": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'."
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 825,
+            "length": 13,
+            "code": 7053,
+            "category": 1,
+            "messageText": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'."
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 943,
+            "length": 4,
+            "messageText": "Parameter 'file' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 949,
+            "length": 6,
+            "messageText": "Parameter 'window' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1176,
+            "length": 19,
+            "code": 7053,
+            "category": 1,
+            "messageText": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'."
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1246,
+            "length": 19,
+            "code": 7053,
+            "category": 1,
+            "messageText": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'."
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1325,
+            "length": 3,
+            "messageText": "Parameter 'err' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1330,
+            "length": 5,
+            "messageText": "Parameter 'stats' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1381,
+            "length": 3,
+            "messageText": "Parameter 'err' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1386,
+            "length": 2,
+            "messageText": "Parameter 'fd' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1564,
+            "length": 6,
+            "messageText": "Cannot find name 'Buffer'. Did you mean 'buffer'?",
+            "category": 1,
+            "code": 2552,
+            "relatedInformation": [
+              {
+                "file": "./src/waveform.ts",
+                "start": 1551,
+                "length": 6,
+                "messageText": "'buffer' is declared here.",
+                "category": 3,
+                "code": 2728
+              }
+            ]
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1677,
+            "length": 5,
+            "messageText": "Parameter 'error' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1684,
+            "length": 9,
+            "messageText": "Parameter 'bytesRead' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          },
+          {
+            "file": "./src/waveform.ts",
+            "start": 1695,
+            "length": 6,
+            "messageText": "Parameter 'buffer' implicitly has an 'any' type.",
+            "category": 1,
+            "code": 7006
+          }
+        ]
+      ],
+      "./untypedmodules.d.ts"
+    ],
+    "affectedFilesPendingEmit": [
+      [
+        "./node_modules/@types/uuid/index.d.ts",
+        1
+      ],
+      [
+        "./node_modules/@types/webpack-env/index.d.ts",
+        1
+      ],
+      [
+        "./node_modules/@virplugs/audioengine/audioengine.d.ts",
+        1
+      ],
+      [
+        "./node_modules/tslib/tslib.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.es2015.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.es2016.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.es2017.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.es2018.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.es2019.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.es2020.d.ts",
+        1
+      ],
+      [
+        "./node_modules/typescript/lib/lib.esnext.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue-observe-visibility/index.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue/types/index.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue/types/options.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue/types/plugin.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue/types/umd.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue/types/vnode.d.ts",
+        1
+      ],
+      [
+        "./node_modules/vue/types/vue.d.ts",
+        1
+      ],
+      [
+        "./src/audioengine.ts",
+        1
+      ],
+      [
+        "./src/clip.ts",
+        1
+      ],
+      [
+        "./src/groupclip.ts",
+        1
+      ],
+      [
+        "./src/main.ts",
+        1
+      ],
+      [
+        "./src/styles.ts",
+        1
+      ],
+      [
+        "./src/track.ts",
+        1
+      ],
+      [
+        "./src/units.ts",
+        1
+      ],
+      [
+        "./src/waveform.ts",
+        1
+      ],
+      [
+        "./untypedmodules.d.ts",
+        1
+      ]
+    ]
+  },
+  "version": "4.0.2"
+}

@@ -103,7 +103,7 @@
 <script>
 import ResSplitPane from 'vue-resize-split-pane';
 import VirplugsFileTree from '@/components/browser/FileTree.vue';
-import * as preferences from '@/preferences.js';
+import * as preferences from '@/preferences';
 
 export default {
 	components: {

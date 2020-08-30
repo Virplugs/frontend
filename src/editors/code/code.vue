@@ -5,7 +5,7 @@
 <script>
 const fs = require('fs');
 import * as monaco from 'monaco-editor';
-import { palette } from '@/styles.js';
+import { palette } from '@/styles';
 
 export default {
 	name: 'VirplugsEditorCode',

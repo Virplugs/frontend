@@ -1,10 +1,6 @@
 <template>
-	<div class="clips" :class="{selected: selectedtracks.includes(track)}">
-		<div
-			class="clip"
-			v-for="(clip, index) in track.clips"
-			:key="clip ? clip.id : index"
-		>
+	<div class="clips" :class="{ selected: selectedtracks.includes(track) }">
+		<div class="clip" v-for="(clip, index) in track.clips" :key="clip ? clip.id : index">
 			<group-track-clip class="fill groupclip" :track="track" :clip="clip" :index="index" />
 		</div>
 	</div>
@@ -35,13 +31,11 @@ export default {
 	data: function () {
 		return { dragoverstate: {} };
 	},
-	methods: {
-	},
+	methods: {},
 };
 </script>
 
 <style scoped lang="less">
-
 .clips {
 	background: #5a5a5a;
 	display: flex;
@@ -60,7 +54,9 @@ export default {
 		display: flex;
 		position: relative;
 
-		.clip { z-index: 9; }
+		.clip {
+			z-index: 9;
+		}
 
 		&.dragover {
 			.empty .stop {
@@ -134,5 +130,4 @@ export default {
 		border-left: 1px solid #202020;
 	}
 }
-
 </style>

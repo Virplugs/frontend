@@ -50,118 +50,114 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
 import draggable from 'vuedraggable';
 
-export default {
-	name: 'VirplugsTabs',
+type Tab = {
+	component: Vue;
+	props: Record<string, any>;
+};
+
+@Component({
 	components: {
 		draggable,
 	},
-	props: {
-		tabs: {
-			type: Array,
-			default: () => [],
-		},
-		currentTab: {
-			type: Object,
-			default: () => null,
-		},
-	},
-	data: function () {
-		return {
-			prevTab: null,
-			hasFocus: false,
-			drag: false,
-		};
-	},
-	watch: {
-		currentTab: function (val, oldVal) {
-			//console.log('new: %s, old: %s', val, oldVal);
-			if (!val) {
-				return;
-			}
+})
+export default class Tabs extends Vue {
+	prevTab?: Tab | null = null;
+	myCurrentTab: Tab | null = null;
+	hasFocus = false;
+	drag = false;
+	dragOptions = {
+		animation: 200,
+		group: 'description',
+		disabled: false,
+		ghostClass: 'ghost',
+	};
 
-			this.$nextTick(() => {
-				this.$refs[val.props.key][0].scrollIntoView({
-					behavior: 'smooth',
-				});
-				this.$emit('tabChange', {
-					val,
-					comp: this.getCurrentTab(),
-				});
-				//console.log(this.$refs[val.props.key][0]);
+	@Prop({ default: [] }) tabs!: Tab[];
+	@Prop({ default: null }) currentTab!: Tab | null;
+
+	@Watch('currentTab')
+	onCurrentTabChanged(val: Tab) {
+		//console.log('new: %s, old: %s', val, oldVal);
+		if (!val) {
+			return;
+		}
+
+		this.$nextTick(() => {
+			((this.$refs[val.props.key] as any)[0] as Element).scrollIntoView({
+				behavior: 'smooth',
 			});
-		},
-	},
-	computed: {
-		dragOptions() {
-			return {
-				animation: 200,
-				group: 'description',
-				disabled: false,
-				ghostClass: 'ghost',
-			};
-		},
-	},
-	methods: {
-		selectTab(tab) {
-			this.prevTab = this.currentTab;
-			this.myCurrentTab = tab;
-			this.$emit('update:currentTab', tab);
-			this.$el.focus();
+			this.$emit('tabChange', {
+				val,
+				comp: this.getCurrentTab(),
+			});
+			//console.log(this.$refs[val.props.key][0]);
+		});
+	}
 
-			// this.$nextTick(() => {
-			// 	console.log("switching to ", this.$refs.editor[0]._props.filename);
-			// });
-		},
+	selectTab(tab: Tab) {
+		this.prevTab = this.currentTab;
+		this.myCurrentTab = tab;
+		this.$emit('update:currentTab', tab);
+		//this.$el.focus();
 
-		closeTab(tab) {
-			if (!tab.props.closable) {
-				return;
-			}
-			const index = this.tabs.indexOf(tab);
-			//this.tabs = this.tabs.filter(t => t !== tab);
-			this.$emit(
-				'update:tabs',
-				this.tabs.filter(t => t !== tab)
-			);
+		// this.$nextTick(() => {
+		// 	console.log("switching to ", this.$refs.editor[0]._props.filename);
+		// });
+	}
 
-			// If we weren't collapsed, select another tab
-			this.currentTab &&
-				this.$nextTick(() => {
-					if (this.tabs.includes(this.prevTab)) {
-						this.selectTab(this.prevTab);
-					} else {
-						this.selectTab(this.tabs[Math.min(index, this.tabs.length - 1)]);
-					}
-				});
-		},
+	closeTab(tab: Tab) {
+		if (!tab.props.closable) {
+			return;
+		}
+		const index = this.tabs.indexOf(tab);
+		//this.tabs = this.tabs.filter(t => t !== tab);
+		this.$emit(
+			'update:tabs',
+			this.tabs.filter(t => t !== tab)
+		);
 
-		getCurrentTab() {
-			return this.$refs.editor[0];
-		},
+		// If we weren't collapsed, select another tab
+		this.currentTab &&
+			this.$nextTick(() => {
+				if (this.prevTab && this.tabs.includes(this.prevTab)) {
+					this.selectTab(this.prevTab);
+				} else {
+					this.selectTab(this.tabs[Math.min(index, this.tabs.length - 1)]);
+				}
+			});
+	}
 
-		focusIn(event) {
-			this.hasFocus = true;
-		},
+	getCurrentTab() {
+		return (this.$refs.editor as any)[0] as Element;
+	}
 
-		focusOut(event) {
-			this.hasFocus = false;
-		},
-	},
-	mounted: function () {
+	focusIn(event: Event) {
+		this.hasFocus = true;
+	}
+
+	focusOut(event: Event) {
+		this.hasFocus = false;
+	}
+
+	mounted() {
 		// this.$el.addEventListener('wheel', (e) => {
 		// 	this.$refs.tabbarul.scrollLeft += e.deltaY;
 		// });
 		this.$el.addEventListener('focusin', this.focusIn);
 		this.$el.addEventListener('focusout', this.focusOut);
-	},
+	}
 	beforeDestroy() {
 		this.$el.removeEventListener('focusin', this.focusIn);
 		this.$el.removeEventListener('focusout', this.focusOut);
-	},
-};
+	}
+}
 </script>
 
 <style scoped lang="less">

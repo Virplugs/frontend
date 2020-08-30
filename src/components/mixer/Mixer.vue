@@ -37,7 +37,7 @@
 			/>
 			<div class="spacer">
 				<div class="dropbox">
-					<img src="@/assets/icons/packs.svg">
+					<img src="@/assets/icons/packs.svg" />
 					<span>Drop files and devices here</span>
 				</div>
 			</div>
@@ -93,14 +93,14 @@ export default {
 			required: true,
 		},
 	},
-	data: function() {
-return {
-		selectedTracks: [],
-		collapsedTracks: [],
-	};
-},
+	data: function () {
+		return {
+			selectedTracks: [],
+			collapsedTracks: [],
+		};
+	},
 	methods: {
-		selectTrack({track, $event}) {
+		selectTrack({ track, $event }) {
 			if (!$event.ctrlKey) {
 				this.selectedTracks = [];
 			}
@@ -115,7 +115,7 @@ return {
 			}
 		},
 		groupSelected() {
-			const groupTrack = new Track("Group #");
+			const groupTrack = new Track('Group #');
 			this.masterTrack.addSubTrack(groupTrack);
 			for (const track of this.selectedTracks) {
 				this.masterTrack.removeSubTrack(track);
@@ -151,8 +151,7 @@ return {
 			// add new
 			getProject(this).masterTrack.addSubTrack(track, index);
 		},
-
-	}
+	},
 };
 </script>
 
@@ -207,7 +206,7 @@ return {
 
 		&.dropleft {
 			&::before {
-				content: " ";
+				content: ' ';
 				display: block;
 				position: absolute;
 				left: -1px;

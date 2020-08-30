@@ -4,7 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import Track from '@/track';
 
 export default class Clip {
-	constructor(name, filename, /**@type {Track} */track) {
+	name: string;
+	filename: string;
+	nativeAudioEvent: audioEngine.NativeAudioEvent;
+	id: string;
+	track: Track;
+
+	constructor(name: string, filename: string, track: Track) {
 		this.name = name;
 		this.filename = filename;
 		this.nativeAudioEvent = new audioEngine.NativeAudioEvent(name, filename);
