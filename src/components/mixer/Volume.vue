@@ -49,6 +49,7 @@ export default class Volume extends Vue {
 	ctx!: CanvasRenderingContext2D;
 	meterHeight!: number;
 	noiseFloor = dBFS2sample(-72);
+	dpr = 1;
 
 	@Prop({ default: 1 }) value!: number;
 	@Prop({ required: true }) track!: Track;
@@ -267,6 +268,8 @@ export default class Volume extends Vue {
 	}
 
 	mounted() {
+		this.dpr = window.devicePixelRatio || 1;
+
 		this.ctx = this.$refs.canvas.getContext('2d')!;
 		/*self.resizeObserver = new ResizeObserver(entries => {
 			var parent = canvas.parentNode,
@@ -285,10 +288,11 @@ export default class Volume extends Vue {
 		const w = parseInt(styles.getPropertyValue('width'), 10);
 		const h = parseInt(styles.getPropertyValue('height'), 10);
 
-		this.$refs.canvas.width = w;
-		this.$refs.canvas.height = h;
+		this.$refs.canvas.width = w * this.dpr;
+		this.$refs.canvas.height = h * this.dpr;
+		this.ctx.scale(this.dpr, this.dpr);
 
-		this.meterHeight = this.$refs.canvas.height - 8;
+		this.meterHeight = this.$refs.canvas.height / this.dpr - 8;
 
 		document.addEventListener('pointerlockchange', this.pointerlockchange, false);
 		(document as any).fonts.ready.then(() => this.draw(false));
@@ -324,6 +328,11 @@ export default class Volume extends Vue {
 	overflow: hidden;
 	height: 100%;
 	display: flex;
+
+	canvas {
+		height: 237px;
+		width: 57px;
+	}
 
 	&:focus {
 		outline: none;
