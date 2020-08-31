@@ -69,20 +69,18 @@ export default {
 		return {
 			someValue: 30,
 			cueVolume: 1,
+			noiseFloor: dBFS2sample(-72),
 		};
 	},
 	watch: {
 		cueVolume(val) {
-			const currentVolume = getProject().cueTrack.nativeTrack.volume;
 			let newVal =
 				Math.max(this.noiseFloor, val) * Math.max(this.noiseFloor, Math.pow(val, 0.75));
 
 			getProject().cueTrack.nativeTrack.volume = newVal;
 		},
 	},
-	mounted() {
-		this.noiseFloor = dBFS2sample(-72);
-	},
+	mounted() {},
 	methods: {
 		sample2dBFS(v) {
 			if (v === 0) {

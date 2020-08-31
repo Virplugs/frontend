@@ -9,25 +9,38 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
+import Track from '@/track';
 import Clip from '@/clip';
-export default {
-	props: {
-		track: {
-			type: Object,
-			required: true,
-		},
-		clip: {
-			type: Clip,
-			required: true,
-		},
-	},
-	methods: {
-		play() {
+import { getProject } from '@/project';
+
+@Component
+export default class TrackClip extends Vue {
+	@Prop({ required: true }) track!: Track;
+	@Prop({ required: true }) clip!: Clip;
+
+	play() {
+		if (getProject(this).transport.isPlaying) {
+			const timingInfo = getProject(this).transport.timingInfo;
+			const nextBarInSeconds =
+				(1.0 -
+					(timingInfo.projectTimeMusicBars -
+						Math.floor(timingInfo.projectTimeMusicBars))) *
+				(60.0 / timingInfo.tempo) *
+				timingInfo.timeSigNumerator;
+			const nextBarInSamples = timingInfo.samplerate * nextBarInSeconds;
+			this.clip.play(timingInfo.projectTimeSamples + nextBarInSamples);
+		} else {
+			getProject(this).transport.setTimeInSamples(0);
 			this.clip.play();
-		},
-	},
-};
+			getProject(this).transport.start();
+		}
+	}
+}
 </script>
 
 <style scoped lang="less">

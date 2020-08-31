@@ -102,7 +102,7 @@ export default {
 			const track = getProject().masterTrack.findTrackByID(id);
 			const oldindex = track.parent.subTracks.indexOf(track);
 			let index = $event.offsetX < 73 ? this.index : this.index + 1;
-			if (track === droppedOnTrack) {
+			if (track === droppedOnTrack || track.hasSubTrack(droppedOnTrack)) {
 				return;
 			}
 			if (droppedOnTrack.subTracks.length > 0 && $event.offsetX >= 73) {

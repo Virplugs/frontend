@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #b5b2b1;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <circle id="overdub" class="cls-1" cx="9.5" cy="9.5" r="8.5"/>
+</svg>

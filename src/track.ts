@@ -25,11 +25,11 @@ export default class Track {
 		currentHue += 30;
 	}
 
-	playClip(clip: Clip) {
+	playClip(clip: Clip, time?: number) {
 		if (!this.clips.includes(clip)) {
 			console.warn("Track does not contain clip", this, clip);
 		}
-		this.nativeTrack.playAudioEvent(clip.nativeAudioEvent);
+		this.nativeTrack.playAudioEvent(clip.nativeAudioEvent, time);
 	}
 
 	addSubTrack(track: Track, index?: number) {
@@ -42,13 +42,30 @@ export default class Track {
 		track.parent = this;
 	}
 
-	removeSubTrack(track: Track) {
+	removeSubTrack(track: Track, removeIfGroupEmpty = false, removeSubTracks = false) {
 		this.nativeTrack.removeSubTrack(track.nativeTrack);
 		const index = this.subTracks.indexOf(track);
 		if (index !== -1) {
 			this.subTracks.splice(index, 1);
 		}
+		if (removeSubTracks) {
+			for (const subtrack of track.subTracks) {
+				track.removeSubTrack(subtrack, removeIfGroupEmpty, removeSubTracks);
+			}
+		}
 		track.parent = null;
+		if (removeIfGroupEmpty && this.subTracks.length === 0) {
+			this.parent?.removeSubTrack(this, removeIfGroupEmpty, removeSubTracks);
+		}
+	}
+
+	hasSubTrack(track: Track): boolean {
+		if (this.subTracks.length === 0) return false;
+		if (this.subTracks.some(t => t === track)) {
+			return true;
+		} else {
+			return this.subTracks.some(t => t.hasSubTrack(track));
+		}
 	}
 
 	findTrackByID(id: string): Track | null {

@@ -8,15 +8,15 @@
 	</section>
 </template>
 
-<script>
-export default {
-	props: {
-		title: {
-			type: String,
-			default: '',
-		},
-	},
-};
+<script lang="ts">
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
+@Component
+export default class Header extends Vue {
+	@Prop({ default: '' }) title!: string;
+}
 </script>
 
 <style scoped lang="less">

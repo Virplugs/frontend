@@ -20,6 +20,7 @@ module.exports = {
 			'@virplugs/audioengine': 'commonjs @virplugs/audioengine',
 			path: 'commonjs path',
 			fs: 'commonjs fs',
+			os: 'commonjs os',
 			process: 'commonjs process',
 			fswin: 'commonjs fswin',
 			electron: 'commonjs electron',
@@ -27,7 +28,7 @@ module.exports = {
 		devtool: 'source-map',
 		output: {
 			devtoolModuleFilenameTemplate: info =>
-				info.resourcePath.match(/^\.\/\S*?\.vue$/)
+				info.resourcePath.match(/\.vue$/) && !info.identifier.match(/type=script/)
 					? `webpack-generated:///${info.resourcePath}?${info.hash}`
 					: `app:///${info.resourcePath.replace(/^\.\//, '')}`,
 

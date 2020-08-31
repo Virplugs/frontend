@@ -302,15 +302,13 @@ export default class Volume extends Vue {
 				return;
 			}
 			setTimeout(() => {
-				this.draw(true);
+				if (document.pointerLockElement !== this.$el) {
+					this.draw(true);
+				}
 				window.requestAnimationFrame(animFrameFn);
 			}, 1000 / 33);
 		};
 		window.requestAnimationFrame(animFrameFn);
-
-		// setTimeout(() => {
-		// 		this.draw(false);
-		// 	}, 100);
 	}
 
 	isDestroyed = false;

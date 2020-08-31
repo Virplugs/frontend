@@ -18,8 +18,8 @@ export default class Clip {
 		this.track = track;
 	}
 
-	play() {
+	play(time?: number) {
 		console.log('play');
-		this.track.playClip(this);
+		this.track.playClip(this, time);
 	}
 }

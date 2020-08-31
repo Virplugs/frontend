@@ -1,16 +1,6 @@
 <template>
 	<div id="app" :class="['platform-' + platform]">
-		<virplugs-header>
-			<virplugs-header-section title="Tempo">
-				<virplugs-header-section-item>LINK</virplugs-header-section-item>
-				<virplugs-header-section-item>TAP</virplugs-header-section-item>
-			</virplugs-header-section>
-
-			<virplugs-header-section title="Transport">
-				<virplugs-header-section-item>LINK</virplugs-header-section-item>
-				<virplugs-header-section-item>TAP</virplugs-header-section-item>
-			</virplugs-header-section>
-		</virplugs-header>
+		<virplugs-header />
 
 		<virplugs-tabs :tabs.sync="tabs" :current-tab.sync="currentTab" ref="tabs" />
 
@@ -36,8 +26,6 @@ import VirplugsTabs from '@/components/Tabs.vue';
 import VirplugsProject from '@/components/Project.vue';
 
 import VirplugsHeader from '@/components/header/Header.vue';
-import VirplugsHeaderSection from '@/components/header/HeaderSection.vue';
-import VirplugsHeaderSectionItem from '@/components/header/HeaderSectionItem.vue';
 
 import VirplugsDialogWindow from '@/components/DialogWindow.vue';
 import Preferences from '@/dialogs/preferences/Preferences.vue';
@@ -52,11 +40,7 @@ const process: NodeJS.Process = electron.remote.require('process');
 @Component({
 	components: {
 		VirplugsTabs,
-
 		VirplugsHeader,
-		VirplugsHeaderSection,
-		VirplugsHeaderSectionItem,
-
 		VirplugsDialogWindow,
 		Preferences,
 	},

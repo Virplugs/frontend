@@ -12,7 +12,7 @@ export async function init() {
 	deviceinfo = audioEngine.getDeviceInfo();
 	console.dir(deviceinfo);
 	audioEngine.setEventsCallback((eventName: string, data: any) => {
-		console.info('Event', eventName, data);
+		//console.info('Event', eventName, data);
 		(window as any).app.$root.$emit(eventName, data);
 	});
 

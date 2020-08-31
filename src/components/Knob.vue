@@ -35,7 +35,7 @@
 			/>
 		</svg>
 		<div class="value" v-if="showValue">
-			{{ valueDisplayFunction(value) }}
+			{{ displayedValue }}
 		</div>
 	</div>
 </template>
@@ -49,6 +49,7 @@ import 'vue-class-component/hooks';
 export default class Knob extends Vue {
 	circumference = 0;
 	circumferenceMinusOpening = 0;
+	displayedValue = '';
 
 	@Prop({ required: true }) value!: number;
 	@Prop({ default: 100 }) max!: number;
@@ -95,6 +96,7 @@ export default class Knob extends Vue {
 				((val - this.min) / (this.max - this.min)) * this.circumferenceMinusOpening;
 			this.$refs.progress.style.strokeDashoffset = offset.toString();
 		}
+		this.displayedValue = this.valueDisplayFunction(val);
 	}
 
 	lastmousedown = 0;

@@ -1,0 +1,21 @@
+<svg id="Follow" xmlns="http://www.w3.org/2000/svg" width="22" height="17" viewBox="0 0 22 17">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #b5b2b1;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" width="22" height="3"/>
+  <rect class="cls-1" x="10" width="2" height="17"/>
+  <g id="tracks">
+    <rect class="cls-1" y="7" width="2" height="2"/>
+    <rect class="cls-1" x="5" y="7" width="2" height="2"/>
+    <rect class="cls-1" y="13" width="2" height="2"/>
+    <rect class="cls-1" x="5" y="13" width="2" height="2"/>
+    <rect class="cls-1" x="15" y="7" width="2" height="2"/>
+    <rect class="cls-1" x="20" y="7" width="2" height="2"/>
+    <rect class="cls-1" x="15" y="13" width="2" height="2"/>
+    <rect class="cls-1" x="20" y="13" width="2" height="2"/>
+  </g>
+</svg>

@@ -71,7 +71,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import TrackHeader from './TrackHeader.vue';
 import TrackClips from './TrackClips.vue';
 import GroupTrackClips from './GroupTrackClips.vue';
@@ -79,7 +79,12 @@ import TrackControls from './TrackControls.vue';
 import MasterTrackControls from './MasterTrackControls.vue';
 import Track from '@/track';
 import { getProject } from '@/project';
-export default {
+
+import 'reflect-metadata';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import 'vue-class-component/hooks';
+
+@Component({
 	components: {
 		TrackHeader,
 		TrackClips,
@@ -87,72 +92,83 @@ export default {
 		GroupTrackClips,
 		MasterTrackControls,
 	},
-	props: {
-		masterTrack: {
-			type: Track,
-			required: true,
-		},
-	},
-	data: function () {
-		return {
-			selectedTracks: [],
-			collapsedTracks: [],
-		};
-	},
-	methods: {
-		selectTrack({ track, $event }) {
-			if (!$event.ctrlKey) {
-				this.selectedTracks = [];
-			}
-			if (!this.selectedTracks.includes(track)) {
-				this.selectedTracks.push(track);
-			}
-		},
-		removeTrackFromSelection(track) {
-			const index = this.selectedTracks.indexOf(track);
-			if (index !== -1) {
-				this.selectedTracks.splice(index, 1);
-			}
-		},
-		groupSelected() {
-			const groupTrack = new Track('Group #');
-			this.masterTrack.addSubTrack(groupTrack);
-			for (const track of this.selectedTracks) {
-				this.masterTrack.removeSubTrack(track);
-				groupTrack.addSubTrack(track);
-			}
-		},
-		deleteSelected() {
-			for (const track of this.selectedTracks) {
-				track.parent.removeSubTrack(track);
-			}
+})
+export default class Mixer extends Vue {
+	@Prop({ required: true }) masterTrack!: Track;
+
+	selectedTracks: Track[] = [];
+	collapsedTracks: Track[] = [];
+
+	selectTrack({ track, $event }: { track: Track; $event: MouseEvent }) {
+		if (!$event.ctrlKey) {
 			this.selectedTracks = [];
-		},
-		onheaderspacerdragover($event) {
-			if ($event.dataTransfer.types.includes('text/virplugs-track')) {
-				$event.preventDefault();
-				$event.currentTarget.classList.add('dropleft');
-			}
-		},
-		onheaderspacerdragleave($event) {
-			$event.currentTarget.classList.remove('dropleft');
-		},
-		onheaderspacerdrop($event) {
-			$event.currentTarget.classList.remove('dropleft');
-			const id = $event.dataTransfer.getData('text/virplugs-track');
-			const track = getProject(this).masterTrack.findTrackByID(id);
-			const oldindex = track.parent.subTracks.indexOf(track);
-			let index = getProject(this).masterTrack.subTracks.length - 1;
-			if (index === oldindex) {
-				return;
-			}
-			// delete old
-			track.parent.removeSubTrack(track);
-			// add new
-			getProject(this).masterTrack.addSubTrack(track, index);
-		},
-	},
-};
+		}
+		if (!this.selectedTracks.includes(track)) {
+			this.selectedTracks.push(track);
+		}
+	}
+
+	removeTrackFromSelection(track: Track) {
+		const index = this.selectedTracks.indexOf(track);
+		if (index !== -1) {
+			this.selectedTracks.splice(index, 1);
+		}
+	}
+
+	groupSelected() {
+		const groupTrack = new Track('Group #');
+		const parent = this.selectedTracks[0].parent;
+		if (!parent) {
+			return;
+		}
+		const index = parent.subTracks.indexOf(this.selectedTracks[0]);
+		if (index === -1) {
+			return;
+		}
+		for (const track of this.selectedTracks) {
+			track.parent?.removeSubTrack(track);
+			groupTrack.addSubTrack(track);
+		}
+		parent.addSubTrack(groupTrack, index);
+	}
+
+	deleteSelected() {
+		for (const track of this.selectedTracks) {
+			track.parent?.removeSubTrack(track, true, true);
+		}
+		this.selectedTracks = [];
+	}
+
+	onheaderspacerdragover($event: DragEvent) {
+		if ($event.dataTransfer?.types.includes('text/virplugs-track')) {
+			$event.preventDefault();
+			($event.currentTarget as HTMLElement).classList.add('dropleft');
+		}
+	}
+	onheaderspacerdragleave($event: DragEvent) {
+		($event.currentTarget as HTMLElement).classList.remove('dropleft');
+	}
+	onheaderspacerdrop($event: DragEvent) {
+		($event.currentTarget as HTMLElement).classList.remove('dropleft');
+		const id = $event.dataTransfer?.getData('text/virplugs-track');
+		if (!id) {
+			return;
+		}
+		const track = getProject(this).masterTrack.findTrackByID(id);
+		if (!track) {
+			return;
+		}
+		const oldindex = track.parent?.subTracks.indexOf(track);
+		let index = getProject(this).masterTrack.subTracks.length - 1;
+		if (index === oldindex) {
+			return;
+		}
+		// delete old
+		track.parent?.removeSubTrack(track);
+		// add new
+		getProject(this).masterTrack.addSubTrack(track, index);
+	}
+}
 </script>
 
 <style lang="less" scoped>

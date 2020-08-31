@@ -45,10 +45,18 @@ export default class MiniPlayer extends Vue {
 	};
 
 	@Watch('file') onFileChanged(file: string) {
+		this.playhead = 0;
 		this.openFile(file);
 	}
+
 	@Watch('playhead') onPlayheadChanged(val: number) {
 		this.draw();
+	}
+
+	@Watch('autoplay') onAutplayChanged(val: boolean) {
+		if (val) {
+			this.play(this.file);
+		}
 	}
 
 	draw() {
@@ -111,10 +119,12 @@ export default class MiniPlayer extends Vue {
 			if (this.waveformData === null) {
 				throw new Error('no waveform loaded');
 			}
-			const slice: audioEngine.WaveformOverview = this.waveformData[0].slice(
-				Math.floor(i * scale),
-				Math.floor(i * scale + scale)
-			);
+			let slice: audioEngine.WaveformOverview = [];
+			this.waveformData.forEach(channel => {
+				slice = slice.concat(
+					channel.slice(Math.floor(i * scale), Math.floor(i * scale + scale))
+				);
+			});
 			const val = slice.reduce(
 				(acc, cur) => {
 					return {
@@ -191,7 +201,10 @@ export default class MiniPlayer extends Vue {
 		}
 		const project = getProject(this);
 		this.audioEvent = new audioEngine.NativeAudioEvent('cue', file);
-		project.cueTrack.nativeTrack.playAudioEvent(this.audioEvent);
+		project.cueTrack.nativeTrack.playAudioEvent(
+			this.audioEvent,
+			project.transport.totalRuntimeSamples
+		);
 
 		this.playheadTimer = setInterval(() => {
 			if (this.audioEvent) {
