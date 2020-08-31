@@ -1,10 +1,10 @@
 {
-  "name": "virplugs-frontend",
+  "name": "@virplugs/virplugs",
   "version": "1.0.0",
   "description": "Virplugs DAW",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Virplugs/frontend.git"
+    "url": "https://github.com/Virplugs/Virplugs.git"
   },
   "main": "dist/electron.js",
   "scripts": {
