@@ -29,12 +29,10 @@ jobs:
     - name: Build
       run: npm run build:ci
     - name: ESLint
-      uses: Krizzu/eslint-check-action@v1.1.0
+      uses: a-b-r-o-w-n/eslint-action@v1.2.0
       with:
-        ghToken: ${{ secrets.GITHUB_TOKEN }}
-        eslintFiles: "src"
-        eslintConfig: ".eslintrc.json"
-        eslintExt: "js, vue, ts, tsx"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        files: src/**/*
     - name: Stylelint
       run: npm run lint:stylelint
 
