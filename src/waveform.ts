@@ -6,9 +6,9 @@ import process = require('process');
 
 type WaveformCache = Record<number, audioEngine.WaveformOverview[]>;
 type CachedWaveform = {
-	file: string,
-	waveformData: audioEngine.WaveformOverview[] | null,
-	waveformWindow: number,
+	file: string;
+	waveformData: audioEngine.WaveformOverview[] | null;
+	waveformWindow: number;
 };
 
 const internalCache: Record<string, WaveformCache> = {};
@@ -17,7 +17,11 @@ function getCacheFilename(file: string) {
 	return path.join(path.dirname(file), `._${path.basename(file)}.vpm`);
 }
 
-async function processWaveform(file: string, window: number, cache: WaveformCache = {}): Promise<CachedWaveform> {
+async function processWaveform(
+	file: string,
+	window: number,
+	cache: WaveformCache = {}
+): Promise<CachedWaveform> {
 	let waveformData: audioEngine.WaveformOverview[];
 
 	if (!cache[window]) {

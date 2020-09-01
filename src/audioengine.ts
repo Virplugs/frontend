@@ -25,7 +25,13 @@ export function getDeviceInfo() {
 	return deviceinfo;
 }
 
-export function start(api: string, deviceNameIn: string, deviceNameOut: string, sampleRate: number, bufferSize: number) {
+export function start(
+	api: string,
+	deviceNameIn: string,
+	deviceNameOut: string,
+	sampleRate: number,
+	bufferSize: number
+) {
 	audioEngine.startAudioEngine(
 		api,
 		deviceinfo[api].devices.findIndex(d => d.name === deviceNameIn),
@@ -62,7 +68,10 @@ export function readAudioFileInfo(filename: string): Promise<audioEngine.FileInf
 	});
 }
 
-export function readAudioFileWaveform(filename: string, window: number): Promise<audioEngine.WaveformOverview[]> {
+export function readAudioFileWaveform(
+	filename: string,
+	window: number
+): Promise<audioEngine.WaveformOverview[]> {
 	return new Promise(function (resolve, reject) {
 		audioEngine.readAudioFileWaveform(filename, window, (err, cache) => {
 			//console.log(err);

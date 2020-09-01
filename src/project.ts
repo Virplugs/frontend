@@ -7,13 +7,12 @@ export default class Project {
 	cueTrack: Track;
 	masterTrack: Track;
 
-
 	constructor() {
 		this.transport = new audioEngine.NativeTransport();
-		this.cueTrack = new Track("Cue");
+		this.cueTrack = new Track('Cue');
 		this.transport.cueTrack = this.cueTrack.nativeTrack;
-		this.masterTrack = new Track("Master");
-		this.masterTrack.color = "#B5B2B1";
+		this.masterTrack = new Track('Master');
+		this.masterTrack.color = '#B5B2B1';
 		this.transport.masterTrack = this.masterTrack.nativeTrack;
 	}
 

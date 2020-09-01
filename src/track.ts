@@ -27,7 +27,7 @@ export default class Track {
 
 	playClip(clip: Clip, time?: number) {
 		if (!this.clips.includes(clip)) {
-			console.warn("Track does not contain clip", this, clip);
+			console.warn('Track does not contain clip', this, clip);
 		}
 		this.nativeTrack.playAudioEvent(clip.nativeAudioEvent, time);
 	}
@@ -60,7 +60,9 @@ export default class Track {
 	}
 
 	hasSubTrack(track: Track): boolean {
-		if (this.subTracks.length === 0) return false;
+		if (this.subTracks.length === 0) {
+			return false;
+		}
 		if (this.subTracks.some(t => t === track)) {
 			return true;
 		} else {
@@ -76,7 +78,9 @@ export default class Track {
 		}
 		for (const track of this.subTracks) {
 			const found = track.findTrackByID(id);
-			if (found) {return found;}
+			if (found) {
+				return found;
+			}
 		}
 		return null;
 	}

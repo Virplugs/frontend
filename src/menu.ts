@@ -9,7 +9,7 @@ const isMac = process.platform === 'darwin';
 const isDeveloper = !app.isPackaged;
 
 export const template: Electron.MenuItemConstructorOptions[] = [
-	...(isMac
+	...((isMac
 		? [
 				{
 					label: app.name,
@@ -33,8 +33,8 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 						{ role: 'quit' },
 					],
 				},
-		]
-		: []) as Electron.MenuItemConstructorOptions[],
+		  ]
+		: []) as Electron.MenuItemConstructorOptions[]),
 
 	{
 		label: 'File',
@@ -74,7 +74,7 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 							accelerator: 'CmdOrCtrl+,',
 							click: () => (window as any).app.openPreferences(),
 						},
-				]
+				  ]
 				: []),
 			{ type: 'separator' },
 			isMac ? { role: 'close' } : { role: 'quit' },
@@ -91,7 +91,7 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 			{ role: 'cut' },
 			{ role: 'copy' },
 			{ role: 'paste' },
-			...(isMac
+			...((isMac
 				? [
 						{ role: 'pasteAndMatchStyle' },
 						{ role: 'delete' },
@@ -101,8 +101,12 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 							label: 'Speech',
 							submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
 						},
-				]
-				: [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]) as Electron.MenuItemConstructorOptions[],
+				  ]
+				: [
+						{ role: 'delete' },
+						{ type: 'separator' },
+						{ role: 'selectAll' },
+				  ]) as Electron.MenuItemConstructorOptions[]),
 			{ type: 'separator' },
 			{
 				label: 'Delete Selected',
@@ -142,7 +146,7 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 		],
 	},
 
-	...(isDeveloper
+	...((isDeveloper
 		? [
 				{
 					label: 'Developer',
@@ -160,8 +164,8 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 						},
 					],
 				},
-		]
-		: []) as Electron.MenuItemConstructorOptions[],
+		  ]
+		: []) as Electron.MenuItemConstructorOptions[]),
 
 	{
 		label: 'Window',
@@ -169,14 +173,14 @@ export const template: Electron.MenuItemConstructorOptions[] = [
 		submenu: [
 			{ role: 'minimize' },
 			{ role: 'zoom' },
-			...(isMac
+			...((isMac
 				? [
 						{ type: 'separator' },
 						{ role: 'front' },
 						{ type: 'separator' },
 						{ role: 'window' },
-				]
-				: [{ role: 'close' }]) as Electron.MenuItemConstructorOptions[],
+				  ]
+				: [{ role: 'close' }]) as Electron.MenuItemConstructorOptions[]),
 		],
 	},
 

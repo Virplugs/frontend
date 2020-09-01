@@ -334,8 +334,7 @@ export default class Volume extends Vue {
 
 	&:focus {
 		outline: none;
-		background:
-			linear-gradient(to right, rgba(0, 0, 0, 0.4) 1px, transparent 1px) 0 0,
+		background: linear-gradient(to right, rgba(0, 0, 0, 0.4) 1px, transparent 1px) 0 0,
 			linear-gradient(to right, rgba(0, 0, 0, 0.4) 1px, transparent 1px) 0 100%,
 			linear-gradient(to left, rgba(0, 0, 0, 0.4) 1px, transparent 1px) 100% 0,
 			linear-gradient(to left, rgba(0, 0, 0, 0.4) 1px, transparent 1px) 100% 100%,

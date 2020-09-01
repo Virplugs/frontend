@@ -4,7 +4,9 @@ import { clearInterval } from 'timers';
 function getCPUUsage(cpus: os.CpuInfo[]) {
 	let usages = [];
 	for (var i = 0, len = cpus.length; i < len; i++) {
-		var cpu = cpus[i], total = 0, idle = 0;
+		var cpu = cpus[i],
+			total = 0,
+			idle = 0;
 
 		total += cpu.times['user'];
 		total += cpu.times['nice'];
@@ -22,7 +24,10 @@ function getCPUUsage(cpus: os.CpuInfo[]) {
 	return usages;
 }
 
-export function requestCPUUpdates(callback: (avg: { total: number; idle: number; average: number }[]) => boolean, interval = 1000) {
+export function requestCPUUpdates(
+	callback: (avg: { total: number; idle: number; average: number }[]) => boolean,
+	interval = 1000
+) {
 	let prev = getCPUUsage(os.cpus());
 	const handle = setInterval(() => {
 		let cur = getCPUUsage(os.cpus());
@@ -32,7 +37,7 @@ export function requestCPUUpdates(callback: (avg: { total: number; idle: number;
 			res[i] = {
 				total: cur[i].total - prev[i].total,
 				idle: cur[i].idle - prev[i].idle,
-				average: 0
+				average: 0,
 			};
 			res[i].average = 1.0 - res[i].idle / res[i].total;
 		}
