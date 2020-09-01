@@ -8,7 +8,6 @@
 
 <script>
 import GroupTrackClip from './GroupTrackClip.vue';
-import Clip from '@/clip';
 
 export default {
 	components: {

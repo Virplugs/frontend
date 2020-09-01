@@ -81,7 +81,7 @@ import Track from '@/track';
 import { getProject } from '@/project';
 
 import 'reflect-metadata';
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import 'vue-class-component/hooks';
 
 @Component({
