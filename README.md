@@ -1,7 +1,7 @@
 # Virplugs Studio
 
-![Studio CI](https://github.com/Virplugs/Virplugs/workflows/Studio%20CI/badge.svg)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Virplugs-Studio&metric=alert_status)](https://sonarcloud.io/dashboard?id=Virplugs-Studio)
+![Node.js CI](https://github.com/Virplugs/Virplugs/workflows/Node.js%20CI/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Virplugs_Virplugs&metric=alert_status)](https://sonarcloud.io/dashboard?id=Virplugs_Virplugs)
 
 ## Project setup
 ```
