@@ -47,7 +47,8 @@ module.exports = {
 				ignoreStrings: true,
 			},
 		],
-		'no-unused-vars': [
+		'no-unused-vars': 0,
+		'@typescript-eslint/no-unused-vars': [
 			'warn',
 			{
 				vars: 'all',
