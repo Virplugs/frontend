@@ -24,7 +24,18 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci --no-progress
-    - run: npm run build:ci
-    - run: npm run lint
+    - name: npm ci
+      run: npm ci --no-progress
+    - name: Build
+      run: npm run build:ci
+    - name: ESLint
+      uses: Krizzu/eslint-check-action@v1.1.0
+      with:
+        ghToken: ${{ secrets.GITHUB_TOKEN }}
+        eslintFiles: "src"
+        eslintConfig: ".eslintrc.json"
+        eslintExt: "js, vue, ts, tsx"
+    - name: Stylelint
+      run: npm run lint:stylelint
+
 
