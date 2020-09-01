@@ -26,8 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm ci
       run: npm ci --no-progress
-    - name: Build
-      run: npm run build:ci
     - name: ESLint
       uses: a-b-r-o-w-n/eslint-action@v1.2.0
       with:
@@ -35,5 +33,7 @@ jobs:
         files: src/**/*
     - name: Stylelint
       run: npm run lint:stylelint
+    - name: Build
+      run: npm run build:ci
 
 
