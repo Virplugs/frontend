@@ -2,7 +2,8 @@
 	<div class="clip group">
 		<div
 			class="color"
-			:style="`background: repeating-linear-gradient(0deg,transparent,transparent 4px,${track.color},4px,${track.color} 8px);`"
+			:style="`background: repeating-linear-gradient(\
+				0deg,transparent,transparent 4px,${track.color},4px,${track.color} 8px);`"
 		/>
 		<img src="@/assets/icons/play.svg" class="play" @mousedown="play(track)" />
 
