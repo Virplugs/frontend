@@ -46,7 +46,7 @@
     "fswin": "^3.19.908"
   },
   "devDependencies": {
-    "@types/node": "^14.6.3",
+    "@types/node": "^14.6.4",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
