@@ -1,6 +1,6 @@
 import audioEngine from '@/audioengine';
 import { v4 as uuidv4 } from 'uuid';
-import Clip from '@/clip';
+import Clip, { AudioClip } from '@/clip';
 
 let currentHue = 46;
 
@@ -17,7 +17,7 @@ export default class Track {
 		this.nativeTrack = new audioEngine.NativeTrack(name, [0], [0]);
 		this.color = `hsl(${currentHue % 360}, 65%, 47%)`;
 		this.name = name;
-		this.clips = Array(8);
+		this.clips = Array(8).fill(0).map(() => new Clip("", this));
 		this.id = uuidv4();
 		this.subTracks = [];
 		this.parent = parent;
@@ -29,7 +29,9 @@ export default class Track {
 		if (!this.clips.includes(clip)) {
 			console.warn('Track does not contain clip', this, clip);
 		}
-		this.nativeTrack.playAudioEvent(clip.nativeAudioEvent, time);
+		if (clip instanceof AudioClip) {
+			this.nativeTrack.playAudioEvent(clip.nativeAudioEvent, time);
+		}
 	}
 
 	addSubTrack(track: Track, index?: number) {

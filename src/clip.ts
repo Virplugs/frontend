@@ -5,21 +5,39 @@ import Track from '@/track';
 
 export default class Clip {
 	name: string;
-	filename: string;
-	nativeAudioEvent: audioEngine.NativeAudioEvent;
 	id: string;
 	track: Track;
+	color: string;
 
-	constructor(name: string, filename: string, track: Track) {
+	constructor(name: string,  track: Track) {
 		this.name = name;
-		this.filename = filename;
-		this.nativeAudioEvent = new audioEngine.NativeAudioEvent(name, filename);
 		this.id = uuidv4();
 		this.track = track;
+		this.color = track.color;
+	}
+
+	play(time?: number) {
+	}
+}
+export class AudioClip extends Clip {
+	filename: string;
+	nativeAudioEvent: audioEngine.NativeAudioEvent;
+
+	constructor(name: string, filename: string, track: Track) {
+		super(name, track);
+		this.filename = filename;
+		this.nativeAudioEvent = new audioEngine.NativeAudioEvent(name, filename);
 	}
 
 	play(time?: number) {
 		console.log('play');
 		this.track.playClip(this, time);
+	}
+}
+
+export class GroupClip extends Clip {
+
+	play() {
+		console.log('play gorup');
 	}
 }

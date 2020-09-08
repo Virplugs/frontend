@@ -37,6 +37,19 @@ button {
 
 input {
 	font-family: Ubuntu, sans-serif;
+	background: rgba(0, 0, 0, 0.4);
+	color: #b5b2b1;
+	border: none;
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+	}
+
+	&::selection {
+		background: white;
+		color: #353535;
+	}
 }
 
 select {

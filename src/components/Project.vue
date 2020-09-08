@@ -7,6 +7,7 @@
 			:size="250"
 			resizer-color="#202020"
 			:resizer-thickness="1"
+			:min-size="40"
 		>
 			<rs-panes
 				:allow-resize="true"
@@ -19,10 +20,13 @@
 			>
 				<virplugs-browser slot="firstPane" />
 				<div class="main" slot="secondPane">
-					<Mixer ref="mixer" :master-track="project.masterTrack" />
+					<Mixer ref="mixer" :master-track="project.masterTrack" @select="select" />
 				</div>
 			</rs-panes>
-			<div slot="secondPane">BOTTOM</div>
+			<div slot="secondPane" class="bottom">
+				<clip-editor ref="clipEditor" v-if="isClip(selectedItem)" :clip="selectedItem" />
+				<status-bar />
+			</div>
 		</rs-panes>
 	</div>
 </template>
@@ -34,20 +38,33 @@ import 'vue-class-component/hooks';
 import ResSplitPane from 'vue-resize-split-pane';
 import VirplugsBrowser from '@/components/browser/Browser.vue';
 import Mixer from '@/components/mixer/Mixer.vue';
+import StatusBar from '@/components/StatusBar.vue';
+import ClipEditor from '@/components/inspector/ClipEditor.vue';
 
 import _Project from '@/project';
 import Track from '@/track';
+import Clip, { AudioClip } from '@/clip';
 
 @Component({
 	components: {
 		'rs-panes': ResSplitPane,
 		VirplugsBrowser,
 		Mixer,
+		StatusBar,
+		ClipEditor,
 	},
 })
 export default class Project extends Vue {
 	project: _Project = new _Project();
 	FLAG__isRootProject = true;
+
+	selectedType: object | null = null;
+	selectedItem: object | null = null;
+
+	public $refs!: {
+		mixer: Mixer;
+		clipEditor: ClipEditor;
+	};
 
 	created() {
 		this.project.masterTrack.addSubTrack(new Track('EL GUITAR'));
@@ -56,10 +73,28 @@ export default class Project extends Vue {
 	}
 
 	groupSelected() {
-		(this.$refs.mixer as any).groupSelected();
+		this.$refs.mixer.groupSelected();
 	}
+
 	deleteSelected() {
-		(this.$refs.mixer as any).deleteSelected();
+		this.$refs.mixer.deleteSelected();
+	}
+
+	select(type: object, item: object, allSelected: Array<object>) {
+		this.selectedType = type;
+		this.selectedItem = item;
+	}
+
+	isClip(clip: object) {
+		return clip instanceof Clip;
+	}
+
+	isAudioClip(clip: Clip) {
+		return clip instanceof AudioClip;
+	}
+
+	isTrack(track: object) {
+		return track instanceof Track;
 	}
 }
 </script>
@@ -75,6 +110,13 @@ export default class Project extends Vue {
 	.main {
 		display: flex;
 		height: 100%;
+	}
+
+	.bottom {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		user-select: none;
 	}
 }
 </style>

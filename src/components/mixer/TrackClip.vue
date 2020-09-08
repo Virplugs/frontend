@@ -1,6 +1,6 @@
 <template>
-	<div class="clip">
-		<div class="color" :style="`background-color: ${track.color};`" />
+	<div class="clip" :style="`--color: ${clip.color}`">
+		<div class="color" />
 		<img src="@/assets/icons/play.svg" class="play" @mousedown="play" />
 
 		<div class="title">
@@ -51,12 +51,17 @@ export default class TrackClip extends Vue {
 	width: 100%;
 	font-size: 14px;
 
-	.selected & {
+	.trackSelected & {
 		background: #454545;
+	}
+
+	.selected & {
+		box-shadow: inset 0 0 0 1px var(--color);
 	}
 
 	.color {
 		flex-basis: 5px;
+		background-color: var(--color);
 	}
 
 	.play {

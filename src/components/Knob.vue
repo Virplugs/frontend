@@ -44,12 +44,15 @@
 import 'reflect-metadata';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import 'vue-class-component/hooks';
+import { dBFS2sample, sample2dBFS } from '@/units';
 
 @Component
 export default class Knob extends Vue {
 	circumference = 0;
 	circumferenceMinusOpening = 0;
 	displayedValue = '';
+
+	intermediateValue = 0;
 
 	@Prop({ required: true }) value!: number;
 	@Prop({ default: 100 }) max!: number;
@@ -63,14 +66,20 @@ export default class Knob extends Vue {
 	@Prop({ default: true }) showValue!: boolean;
 	@Prop({ default: (v: number) => v }) valueDisplayFunction!: (value: number) => any;
 	@Prop({ default: false }) isOffset!: boolean;
+	@Prop({ default: false }) isLogarithmic!: boolean;
 	@Prop({ default: 0 }) defaultValue!: number;
+
+	noiseFloor = dBFS2sample(-72);
 
 	public $refs!: {
 		track: SVGCircleElement;
 		progress: SVGCircleElement;
 	};
 
-	@Watch('value') onValueChanged(val: number) {
+	@Watch('value') onValueChanged(val: number, oldVal: number) {
+		if (val !== oldVal) {
+			this.intermediateValue = val;
+		}
 		this.setValue(val);
 	}
 
@@ -79,6 +88,10 @@ export default class Knob extends Vue {
 	}
 
 	setValue(val: number) {
+		if (this.valueDisplayFunction) {
+			this.displayedValue = this.valueDisplayFunction(val);
+		}
+
 		if (this.isOffset) {
 			const offset =
 				this.circumference -
@@ -96,7 +109,6 @@ export default class Knob extends Vue {
 				((val - this.min) / (this.max - this.min)) * this.circumferenceMinusOpening;
 			this.$refs.progress.style.strokeDashoffset = offset.toString();
 		}
-		this.displayedValue = this.valueDisplayFunction(val);
 	}
 
 	lastmousedown = 0;
@@ -144,6 +156,10 @@ export default class Knob extends Vue {
 		document.exitPointerLock();
 	}
 
+	roundToStep(number: number, increment: number, offset: number) {
+		return Math.round((number - offset) / increment) * increment + offset;
+	}
+
 	updatePosition(e: MouseEvent) {
 		if (
 			e.movementY != 0 &&
@@ -151,16 +167,32 @@ export default class Knob extends Vue {
 			(e.movementY > 0 || this.value < this.max)
 		) {
 			const precisionAcceleration = e.shiftKey ? 0.1 : 1;
-			let newVal = Math.max(
-				this.min,
-				Math.min(
-					this.max,
-					this.value - e.movementY * this.relativeAcceleration * precisionAcceleration
-				)
-			);
-			if (this.stepSize) {
-				newVal = newVal - (newVal % this.stepSize);
+			let newVal = 0;
+			if (!this.isLogarithmic) {
+				newVal = Math.max(
+					this.min,
+					Math.min(
+						this.max,
+						this.intermediateValue -
+							e.movementY * this.relativeAcceleration * precisionAcceleration
+					)
+				);
+			} else {
+				newVal =
+					Math.max(this.noiseFloor, this.intermediateValue) -
+					e.movementY *
+						Math.max(this.noiseFloor, Math.pow(this.intermediateValue, 0.75)) *
+						this.acceleration *
+						precisionAcceleration;
+				newVal = Math.max(this.min, Math.min(this.max, newVal));
 			}
+
+			this.intermediateValue = newVal;
+
+			if (this.stepSize) {
+				newVal = this.roundToStep(newVal, this.stepSize, this.defaultValue);
+			}
+
 			if (newVal !== this.value) {
 				this.$emit('input', newVal);
 				this.setValue(newVal);
@@ -188,6 +220,7 @@ export default class Knob extends Vue {
 	}
 	setDefaultValue() {
 		this.$emit('input', this.defaultValue);
+		this.intermediateValue = this.defaultValue;
 		this.setValue(this.defaultValue);
 	}
 
@@ -215,6 +248,7 @@ export default class Knob extends Vue {
 			progress.style.transform = `rotate(${90 + opening / 2}deg)`;
 		}
 
+		this.intermediateValue = this.value;
 		this.setValue(this.value);
 
 		document.addEventListener('pointerlockchange', this.pointerlockchange, false);

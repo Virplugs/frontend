@@ -17,7 +17,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import 'vue-class-component/hooks';
 
-import GroupClip from '@/groupclip';
+import GroupClip from '@/clip';
 export default Vue.extend({
 	props: {
 		track: {

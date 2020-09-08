@@ -22,6 +22,10 @@ export default {
 			type: Array,
 			required: true,
 		},
+		selectedclips: {
+			type: Array,
+			required: true,
+		},
 		collapsedtracks: {
 			type: Array,
 			default: () => {},

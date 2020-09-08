@@ -5,6 +5,7 @@
 				class="track-header"
 				:collapsedtracks="collapsedTracks"
 				:selectedtracks="selectedTracks"
+				:lastselected="lastSelected"
 				v-for="(track, index) in masterTrack.subTracks"
 				:key="track.id"
 				:track="track"
@@ -21,6 +22,7 @@
 				class="track-header master"
 				:collapsedtracks="collapsedTracks"
 				:selectedtracks="selectedTracks"
+				:lastselected="lastSelected"
 				:track="masterTrack"
 				:show-subtracks="false"
 				@select="selectTrack($event)"
@@ -31,9 +33,12 @@
 				class="track-clips"
 				:collapsedtracks="collapsedTracks"
 				:selectedtracks="selectedTracks"
+				:selectedclips="selectedClips"
+				:lastselected="lastSelected"
 				v-for="track in masterTrack.subTracks"
 				:key="track.id"
 				:track="track"
+				@select="selectClip($event)"
 			/>
 			<div class="spacer">
 				<div class="dropbox">
@@ -46,8 +51,11 @@
 				class="track-clips group master"
 				:collapsedtracks="collapsedTracks"
 				:selectedtracks="selectedTracks"
+				:selectedclips="selectedClips"
+				:lastselected="lastSelected"
 				:show-subtracks="false"
 				:track="masterTrack"
+				@select="selectClip($event)"
 			/>
 		</div>
 		<div class="tracks-controls">
@@ -55,6 +63,7 @@
 				class="track-controls"
 				:collapsedtracks="collapsedTracks"
 				:selectedtracks="selectedTracks"
+				:lastselected="lastSelected"
 				v-for="(track, index) in masterTrack.subTracks"
 				:key="track.id"
 				:track="track"
@@ -64,6 +73,7 @@
 			<master-track-controls
 				class="track-controls master"
 				:selectedtracks="selectedTracks"
+				:lastselected="lastSelected"
 				:collapsedtracks="collapsedTracks"
 				:track="masterTrack"
 			/>
@@ -83,6 +93,7 @@ import { getProject } from '@/project';
 import 'reflect-metadata';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import 'vue-class-component/hooks';
+import Clip from '@/clip';
 
 @Component({
 	components: {
@@ -97,15 +108,27 @@ export default class Mixer extends Vue {
 	@Prop({ required: true }) masterTrack!: Track;
 
 	selectedTracks: Track[] = [];
+	selectedClips: Clip[] = [];
 	collapsedTracks: Track[] = [];
 
+	lastSelected: {
+		type: object | null;
+		item: object | null;
+	} = {
+		type: null,
+		item: null,
+	};
+
 	selectTrack({ track, $event }: { track: Track; $event: MouseEvent }) {
+		this.selectedClips = [];
 		if (!$event.ctrlKey) {
 			this.selectedTracks = [];
 		}
 		if (!this.selectedTracks.includes(track)) {
 			this.selectedTracks.push(track);
 		}
+		this.lastSelected = { type: Track, item: track };
+		this.$emit('select', Track, track, this.selectedTracks);
 	}
 
 	removeTrackFromSelection(track: Track) {
@@ -113,6 +136,18 @@ export default class Mixer extends Vue {
 		if (index !== -1) {
 			this.selectedTracks.splice(index, 1);
 		}
+	}
+
+	selectClip({ clip, index, $event }: { clip: Clip; index: number; $event: MouseEvent }) {
+		this.selectedTracks = [];
+		if (!$event.ctrlKey) {
+			this.selectedClips = [];
+		}
+		if (!this.selectedClips.includes(clip)) {
+			this.selectedClips.push(clip);
+		}
+		this.lastSelected = { type: Clip, item: clip };
+		this.$emit('select', Clip, clip, this.selectedClips);
 	}
 
 	groupSelected() {
